@@ -5,7 +5,7 @@ using System.Text;
 
 namespace HashTag
 {
-    class Hour
+    public class Hour
     {
         List<Airplane> airplaneList;
         public int thisHour;

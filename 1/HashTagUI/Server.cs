@@ -8,12 +8,16 @@ namespace HashTag
     public class Server
     {
         public Day[] week;
-        Dictionary<String, Account> userInfo;
+        //Dictionary<String, Account> userInfo;
         public Server()
         {
             week = new Day[7];
+            for (int i = 0; i < week.Length; i++)
+            {
+                week[i] = new Day();
+            }
         }
-        public bool login(String insertID, String insertPW)
+        /*public bool login(String insertID, String insertPW)
         {
             if (userInfo.ContainsKey(insertID))
             {
@@ -21,7 +25,7 @@ namespace HashTag
                     return true;
             }
             return false;
-        }
+        }*/
         /*public List<String> getDestList()
         {
 

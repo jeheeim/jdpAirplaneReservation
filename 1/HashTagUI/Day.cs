@@ -5,16 +5,16 @@ using System.Text;
 
 namespace HashTag
 {
-    class Day
+    public class Day
     {
         public Hour[] hours;
         public Day()
         {
             hours = new Hour[24];
             int i = 0;
-            for (i = 1; i <= 24; i++)
+            for (i = 0; i <= 23; i++)
             {
-                hours[i-1].thisHour = i;
+                hours[i] = new Hour(i);
             }
         }
     }
