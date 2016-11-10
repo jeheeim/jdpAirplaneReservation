@@ -32,7 +32,6 @@ namespace HashTagUI
                 currentUser = null;
                 btnLogin.Text = "log in";
                 lblLoginText.Text = "로그아웃상태입니다";
-                
             }
 		}
 
