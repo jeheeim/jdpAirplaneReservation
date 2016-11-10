@@ -60,7 +60,7 @@ namespace HashTagUI
 			string line,id,pw,name;
 
 			// Read the file and display it line by line.
-            System.IO.StreamReader file = new System.IO.StreamReader(@"C:\Users\정현오\Documents\주디 데이터\account.txt");
+			System.IO.StreamReader file = new System.IO.StreamReader(@"C:\Users\jay\Documents\account.txt");
 			while ((line = file.ReadLine()) != null)
 			{
                 id = line.Substring(0, line.IndexOf(','));

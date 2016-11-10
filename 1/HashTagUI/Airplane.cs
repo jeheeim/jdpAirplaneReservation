@@ -5,7 +5,7 @@ using System.Text;
 
 namespace HashTagUI
 {
-	class Airplane
+	public class Airplane
 	{
 		int[] seatSize;
 		public Seat[,] seats;

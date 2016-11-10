@@ -5,7 +5,7 @@ using System.Text;
 
 namespace HashTagUI
 {
-	class Seat
+	public class Seat
 	{
 		public int seatClass;
 		public bool isReserved;
