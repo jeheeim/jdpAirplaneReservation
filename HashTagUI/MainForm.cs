@@ -34,7 +34,6 @@ namespace HashTagUI
         {
             Form searchForm = new BookingSearchForm();
             searchForm.ShowDialog();
-
         }
 
         private void btnCheckTicket_Click(object sender, EventArgs e)
