@@ -9,23 +9,23 @@ using System.Windows.Forms;
 
 namespace HashTagUI
 {
-    public partial class CheckTicketForm : Form
-    {
-        public CheckTicketForm()
-        {
-            InitializeComponent();
-        }
+	public partial class CheckTicketForm : Form
+	{
+		public CheckTicketForm()
+		{
+			InitializeComponent();
+		}
 
-        private void btnBackToMain_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("확인");
-            this.Close();
-        }
+		private void btnBackToMain_Click(object sender, EventArgs e)
+		{
+			MessageBox.Show("확인");
+			this.Close();
+		}
 
-        private void btnCancelTicket_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("확인");
-            this.Close();
-        }
-    }
+		private void btnCancelTicket_Click(object sender, EventArgs e)
+		{
+			MessageBox.Show("확인");
+			this.Close();
+		}
+	}
 }

@@ -9,11 +9,11 @@ using System.Windows.Forms;
 
 namespace HashTagUI
 {
-    public partial class NewUserForm : Form
-    {
-        public NewUserForm()
-        {
-            InitializeComponent();
-        }
-    }
+	public partial class NewUserForm : Form
+	{
+		public NewUserForm()
+		{
+			InitializeComponent();
+		}
+	}
 }

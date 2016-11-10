@@ -9,18 +9,18 @@ using System.Windows.Forms;
 
 namespace HashTagUI
 {
-    public partial class BookingSearchForm : Form
-    {
-        public BookingSearchForm()
-        {
-            InitializeComponent();
-        }
+	public partial class BookingSearchForm : Form
+	{
+		public BookingSearchForm()
+		{
+			InitializeComponent();
+		}
 
-        private void btnSearch_Click(object sender, EventArgs e)
-        {
-            Form searchResult = new BookingSearchResultForm();
-            this.Hide();
-            searchResult.ShowDialog();
-        }
-    }
+		private void btnSearch_Click(object sender, EventArgs e)
+		{
+			Form searchResult = new BookingSearchResultForm();
+			this.Hide();
+			searchResult.ShowDialog();
+		}
+	}
 }
