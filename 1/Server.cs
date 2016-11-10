@@ -5,9 +5,9 @@ using System.Text;
 
 namespace HashTag
 {
-    class Server
+    public class Server
     {
-        Day[] week;
+        public Day[] week;
         Dictionary<String, Account> userInfo;
         public Server()
         {

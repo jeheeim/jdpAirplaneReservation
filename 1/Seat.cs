@@ -11,12 +11,10 @@ namespace HashTag
         public bool isReserved;
         public char row;
         public int column;
-
         public Seat()
         {
         }
-        
-		public Seat(int seatClass, char row, int column)
+        public Seat(int seatClass, char row, int column)
         {
             this.column = column;
             this.row = row;
