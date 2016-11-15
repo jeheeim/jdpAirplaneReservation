@@ -11,9 +11,19 @@ namespace HashTagUI
 {
 	public partial class BookingSearchResultForm : Form
 	{
-		public BookingSearchResultForm()
+		Account currentUser;
+		string dest; string departDay; string departTime;
+
+		public BookingSearchResultForm(Account currentUser, string dest, string departDay, string departTime)
 		{
 			InitializeComponent();
+
+			this.currentUser = currentUser;
+			this.dest = dest;
+			this.departDay = departDay;
+			this.departTime = departTime;
+
+			label1.Text = label1.Text.Replace("%s", dest);
 		}
 
 		private void button1_Click(object sender, EventArgs e)

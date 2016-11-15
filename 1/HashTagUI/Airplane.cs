@@ -7,11 +7,11 @@ namespace HashTagUI
 {
 	public class Airplane
 	{
-		int[] seatSize;
+		public int[] seatSize;
 		public Seat[,] seats;
-		String destination;
-		String airplaneName;
-		int startTime;
+		public String destination;
+		public String airplaneName;
+		public int startTime;
 
 		public Airplane(int first, int business, int economy, String destination, String airplaneName, int startTime, int row, int column)
 		{
