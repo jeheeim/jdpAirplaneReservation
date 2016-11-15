@@ -12,6 +12,8 @@ namespace HashTagUI
 		String destination;
 		String airplaneName;
 		int startTime;
+       	 	public int row;
+        	public int col;
 
 		public Airplane(int first, int business, int economy, String destination, String airplaneName, int startTime, int row, int column)
 		{
@@ -21,6 +23,8 @@ namespace HashTagUI
 			this.destination = destination;
 			this.airplaneName = airplaneName;
 			this.startTime = startTime;
+            		this.row = row;
+            		this.col = col;
 
 			int cnt = 0;
 			int classFactor = 0;
