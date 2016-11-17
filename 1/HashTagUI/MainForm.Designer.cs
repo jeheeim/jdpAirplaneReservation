@@ -38,27 +38,26 @@
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(14, 32);
+			this.label1.Location = new System.Drawing.Point(12, 26);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(0, 15);
+			this.label1.Size = new System.Drawing.Size(0, 12);
 			this.label1.TabIndex = 0;
 			// 
 			// lblLoginText
 			// 
 			this.lblLoginText.AutoSize = true;
-			this.lblLoginText.Location = new System.Drawing.Point(14, 20);
+			this.lblLoginText.Location = new System.Drawing.Point(12, 16);
 			this.lblLoginText.Name = "lblLoginText";
-			this.lblLoginText.Size = new System.Drawing.Size(152, 15);
+			this.lblLoginText.Size = new System.Drawing.Size(121, 12);
 			this.lblLoginText.TabIndex = 1;
 			this.lblLoginText.Text = "로그아웃 상태입니다.";
 			this.lblLoginText.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
 			// btnLogin
 			// 
-			this.btnLogin.Location = new System.Drawing.Point(184, 13);
-			this.btnLogin.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+			this.btnLogin.Location = new System.Drawing.Point(161, 10);
 			this.btnLogin.Name = "btnLogin";
-			this.btnLogin.Size = new System.Drawing.Size(86, 29);
+			this.btnLogin.Size = new System.Drawing.Size(75, 23);
 			this.btnLogin.TabIndex = 2;
 			this.btnLogin.Text = "Log In";
 			this.btnLogin.UseVisualStyleBackColor = true;
@@ -66,10 +65,9 @@
 			// 
 			// btnBooking
 			// 
-			this.btnBooking.Location = new System.Drawing.Point(12, 112);
-			this.btnBooking.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+			this.btnBooking.Location = new System.Drawing.Point(10, 90);
 			this.btnBooking.Name = "btnBooking";
-			this.btnBooking.Size = new System.Drawing.Size(120, 119);
+			this.btnBooking.Size = new System.Drawing.Size(105, 95);
 			this.btnBooking.TabIndex = 3;
 			this.btnBooking.Text = "예약";
 			this.btnBooking.UseVisualStyleBackColor = true;
@@ -77,10 +75,9 @@
 			// 
 			// btnCheckTicket
 			// 
-			this.btnCheckTicket.Location = new System.Drawing.Point(150, 112);
-			this.btnCheckTicket.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+			this.btnCheckTicket.Location = new System.Drawing.Point(131, 90);
 			this.btnCheckTicket.Name = "btnCheckTicket";
-			this.btnCheckTicket.Size = new System.Drawing.Size(120, 119);
+			this.btnCheckTicket.Size = new System.Drawing.Size(105, 95);
 			this.btnCheckTicket.TabIndex = 4;
 			this.btnCheckTicket.Text = "조회";
 			this.btnCheckTicket.UseVisualStyleBackColor = true;
@@ -88,16 +85,17 @@
 			// 
 			// MainForm
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(282, 253);
+			this.ClientSize = new System.Drawing.Size(247, 202);
 			this.Controls.Add(this.btnCheckTicket);
 			this.Controls.Add(this.btnBooking);
 			this.Controls.Add(this.btnLogin);
 			this.Controls.Add(this.lblLoginText);
 			this.Controls.Add(this.label1);
+			this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.Name = "MainForm";
-			this.Text = "Airplane Reservation Manager";
+			this.Text = "6";
 			this.Load += new System.EventHandler(this.MainForm_Load);
 			this.ResumeLayout(false);
 			this.PerformLayout();
