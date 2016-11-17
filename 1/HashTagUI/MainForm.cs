@@ -12,7 +12,7 @@ namespace HashTagUI
 {
 	public partial class MainForm : Form
 	{
-        public Account currentUser;
+		public Account currentUser;
 		public static Server server;
 		public MainForm()
 		{
@@ -21,24 +21,24 @@ namespace HashTagUI
 
 		private void btnLogin_Click(object sender, EventArgs e)
 		{
-            if (currentUser == null)
-            {
-                Form loginForm = new LoginForm(this);
-                loginForm.ShowDialog();
-            }
-            else
-            {
-                MessageBox.Show("로그아웃 성공");
-                currentUser = null;
-                btnLogin.Text = "log in";
-                lblLoginText.Text = "로그아웃상태입니다";
-            }
+			if (currentUser == null)
+			{
+				Form loginForm = new LoginForm(this);
+				loginForm.ShowDialog();
+			}
+			else
+			{
+				MessageBox.Show("로그아웃 성공");
+				currentUser = null;
+				btnLogin.Text = "log in";
+				lblLoginText.Text = "로그아웃상태입니다";
+			}
 		}
 
 		private void MainForm_Load(object sender, EventArgs e)
 		{
 			server = new Server();
-            makeServerAccount();
+			makeServerAccount();
 			Form loginForm = new LoginForm(this);
 			loginForm.ShowDialog();
 		}
@@ -56,19 +56,19 @@ namespace HashTagUI
 		}
 		public void makeServerAccount()
 		{
-			string line,id,pw,name;
+			string line, id, pw, name;
 
 			// Read the file and display it line by line.
 			System.IO.StreamReader file = new System.IO.StreamReader(@"C:\Users\jay\Documents\account.txt");
 			while ((line = file.ReadLine()) != null)
 			{
-                id = line.Substring(0, line.IndexOf(','));
-                line = line.Substring(line.IndexOf(',') + 1);
-                pw = line.Substring(0, line.IndexOf(','));
-                line = line.Substring(line.IndexOf(',') + 1);
-                name = line;
-                Account temp=new Account(id,pw,name);
-                server.userInfo.Add(id,temp);
+				id = line.Substring(0, line.IndexOf(','));
+				line = line.Substring(line.IndexOf(',') + 1);
+				pw = line.Substring(0, line.IndexOf(','));
+				line = line.Substring(line.IndexOf(',') + 1);
+				name = line;
+				Account temp = new Account(id, pw, name);
+				server.userInfo.Add(id, temp);
 			}
 
 			file.Close();

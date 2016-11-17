@@ -106,11 +106,11 @@
 
 		#endregion
 
-        private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Button btnBooking;
 		private System.Windows.Forms.Button btnCheckTicket;
-        public System.Windows.Forms.Label lblLoginText;
-        public System.Windows.Forms.Button btnLogin;
+		public System.Windows.Forms.Label lblLoginText;
+		public System.Windows.Forms.Button btnLogin;
 
 	}
 }

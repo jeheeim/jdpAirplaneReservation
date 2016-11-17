@@ -18,22 +18,22 @@ namespace HashTagUI
 			{
 				week[i] = new Day();
 			}
-            userInfo = new Dictionary<String,Account>();
-			
+			userInfo = new Dictionary<String, Account>();
+
 			airplaneList = new List<Airplane>();
 
 			addAirplaneList();
 		}
 
 		public Account login(String insertID, String insertPW)
-        {
-            if (userInfo.ContainsKey(insertID))
-            {
-                if (userInfo[insertID].pw == insertPW)
-                    return userInfo[insertID];
-            }
-            return null;
-        }
+		{
+			if (userInfo.ContainsKey(insertID))
+			{
+				if (userInfo[insertID].pw == insertPW)
+					return userInfo[insertID];
+			}
+			return null;
+		}
 
 		public void addAirplaneList()
 		{

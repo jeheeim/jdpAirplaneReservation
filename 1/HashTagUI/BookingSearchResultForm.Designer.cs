@@ -48,9 +48,9 @@
 			// lvSearchResult
 			// 
 			this.lvSearchResult.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.chAirplane,
-            this.chDepartTime,
-            this.chSeatInfo});
+this.chAirplane,
+this.chDepartTime,
+this.chSeatInfo});
 			this.lvSearchResult.GridLines = true;
 			this.lvSearchResult.Location = new System.Drawing.Point(12, 55);
 			this.lvSearchResult.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);

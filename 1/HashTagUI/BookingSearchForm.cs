@@ -13,7 +13,7 @@ namespace HashTagUI
 	public partial class BookingSearchForm : Form
 	{
 		public Account currentUser;
-		
+
 		string dest;
 		string departDay;
 		string departTime;
@@ -28,19 +28,19 @@ namespace HashTagUI
 
 			StreamReader region = new StreamReader(@"C:\Users\jay\Documents\GitHub\jdpAirplaneReservation\Data\Region.txt");
 
-			while((readResult = region.ReadLine()) != null)
+			while ((readResult = region.ReadLine()) != null)
 			{
 				cbRegion.Items.Add(readResult);
 			}
 
-			for(int i=0;i<24;i++)
+			for (int i = 0; i < 24; i++)
 			{
 				cbDepartTime.Items.Add(i);
 			}
 
 			DateTime[] day = new DateTime[7];
 
-			for (double i=0;i<7;i++)
+			for (double i = 0; i < 7; i++)
 			{
 				day[(int)i] = DateTime.Today.AddDays(i);
 
@@ -69,10 +69,10 @@ namespace HashTagUI
 		private void cboxRegion_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			string readResult;
-			string regionSelected = @"C:\Users\jay\Documents\GitHub\jdpAirplaneReservation\Data\" + cbRegion.SelectedItem + ".txt" ;
+			string regionSelected = @"C:\Users\jay\Documents\GitHub\jdpAirplaneReservation\Data\" + cbRegion.SelectedItem + ".txt";
 			StreamReader country = new StreamReader(regionSelected);
-			
-			while((readResult = country.ReadLine()) != null)
+
+			while ((readResult = country.ReadLine()) != null)
 			{
 				cbCountry.Items.Add(readResult);
 			}
