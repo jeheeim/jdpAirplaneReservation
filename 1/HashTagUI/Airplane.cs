@@ -9,29 +9,29 @@ namespace HashTagUI
 	{
 		public int[] seatSize;
 		public Seat[,] seats;
-		public String destination;
-		public String airplaneName;
+		public string destination;
+		public string airplaneName;
 		public int startTime;
-		public int row;
-		public int col;
+       	public int row;
+        public int col;
 
-		public Airplane(int first, int business, int economy, String destination, String airplaneName, int startTime, int row, int column)
+		public Airplane(int first, int business, int economy, String destination, String airplaneName, int startTime, int row, int col)
 		{
 			seatSize = new int[3] { first, business, economy };
-			seats = new Seat[row, column];
+			seats = new Seat[row, col];
 
 			this.destination = destination;
 			this.airplaneName = airplaneName;
 			this.startTime = startTime;
-			this.row = row;
-			this.col = col;
+            this.row = row;
+            this.col = col;
 
 			int cnt = 0;
 			int classFactor = 0;
 
 			for (int i = 0; i < row; i++)
 			{
-				for (int j = 0; j < column; j++)
+				for (int j = 0; j < col; j++)
 				{
 					if (cnt == seatSize[0])
 					{
@@ -45,8 +45,6 @@ namespace HashTagUI
 					cnt++;
 				}
 			}
-
 		}
-
 	}
 }
