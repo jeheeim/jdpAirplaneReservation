@@ -7,44 +7,54 @@ namespace HashTagUI
 {
 	public class Airplane
 	{
-		public int[] seatSize;
-		public Seat[,] seats;
-		public string destination;
-		public string airplaneName;
-		public int startTime;
-       	public int row;
-        public int col;
+		//public int[] seatSize;
+		//public Seat[,] seats;
+        private string str_id;
+        private string str_destCountry;
+        private string str_destApt;
+        private string str_departApt;
+        private string str_departDate;
+        private string str_departTime;
+        private int n_leftSeats = 0;
+        private int n_cost;
+        //private int n_SeatsCount = 0;
+        Dictionary<string, bool> dic_seats = new Dictionary<string, bool>();
 
-		public Airplane(int first, int business, int economy, String destination, String airplaneName, int startTime, int row, int col)
+        public string ID { get { return str_id; } }
+        public string Country { get { return str_destCountry; } }
+        public string DestApt { get { return str_destApt; } }
+        public string DepartApt { get { return str_departApt; } }
+        public string Date { get { return str_departDate; } }
+        public string Time { get { return str_departTime; } }
+        public int LeftSeats { get { return n_leftSeats; } set { n_leftSeats = value; } }
+        public int Cost { get { return n_cost; } }
+        //private int SeatsCount { get { return n_SeatsCount; } }
+        public Dictionary<string, bool> Seats { get { return dic_seats; } }
+
+        //A좌석 -> FirstClass B좌석 -> Business 그 외 Economy
+        public Airplane(string id, string destCountry, string departApt, string destApt, string date, string time, int cost, string seats)
 		{
-			seatSize = new int[3] { first, business, economy };
-			seats = new Seat[row, col];
+            this.str_id = id;
+            this.str_destCountry = destCountry;
+            this.str_destApt = destApt;
+            this.str_departApt = departApt;
+            this.str_departDate = date;
+            this.str_departTime = time;
+            this.n_cost = cost;
 
-			this.destination = destination;
-			this.airplaneName = airplaneName;
-			this.startTime = startTime;
-            this.row = row;
-            this.col = col;
-
-			int cnt = 0;
-			int classFactor = 0;
-
-			for (int i = 0; i < row; i++)
-			{
-				for (int j = 0; j < col; j++)
-				{
-					if (cnt == seatSize[0])
-					{
-						classFactor++;
-					}
-					else if (cnt == seatSize[0] + seatSize[1])
-					{
-						classFactor++;
-					}
-					seats[i, j] = new Seat(classFactor, (char)('A' + i), j);
-					cnt++;
-				}
-			}
+            string[] splitSeats = seats.Split(',');
+ 
+            for(int i = 0; i < splitSeats.Length; i++)
+            {
+                string nowSeat = splitSeats[i];
+                if (nowSeat[0] == 'R')
+                    dic_seats.Add(splitSeats[i].Substring(1), true);
+                else
+                {
+                    dic_seats.Add(splitSeats[i], false);
+                    n_leftSeats++;
+                }
+            }
 		}
 	}
 }

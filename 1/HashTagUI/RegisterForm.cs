@@ -93,8 +93,8 @@ namespace HashTagUI
                 Account temp=new Account(tbID.Text,tbPW.Text,tbUserName.Text,tbEmail.Text,false);
                 MainForm.server.userInfo.Add(tbID.Text, temp);//StreamWriter sw = File.AppendText(path)
                 //System.IO.StreamWriter file = new System.IO.StreamWriter(@"C:\Users\정현오\Documents\My Web Sites\a.txt");
-                System.IO.StreamWriter file = File.AppendText(Server.prePath + @"\Data\account.txt");
-				String a = tbID.Text + "," + tbPW.Text + "," + tbUserName.Text + "," + tbEmail.Text + "," + false.ToString();
+                System.IO.StreamWriter file = File.AppendText(Server.prePath + "\\Data\\account.txt");
+                String a = tbID.Text + "," + tbPW.Text + "," + tbUserName.Text + "," + tbEmail.Text + ",0"  ;
                 file.WriteLine(a);
                 file.Flush();
             }

@@ -10,34 +10,41 @@ namespace HashTagUI
     
 	public class Server
 	{
-		//public Day[] week;
-        private Dictionary<string, Dictionary<string, List<Airplane>>> dic_airplaneSchedules;
-        private Dictionary<String, Account> dic_userInfo;
+        private Dictionary<string, Dictionary<string, List<string>>> dic_airplaneSchedules;
+        private Dictionary<string, Account> dic_userInfo;
+        private Dictionary<string, Dictionary<string, List<string>>> dic_airplaneDest;
 
-        private List<Airplane> list_airplaneList;
-        private Dictionary<string, List<Destination>> dic_Destinations;
-        public Dictionary<string, Dictionary<string, List<Airplane>>> airplaneSchedules { get { return dic_airplaneSchedules; } } // Date, Hour
-        public Dictionary<String, Account> userInfo { get { return dic_userInfo; } }
-        public List<Airplane> airplaneList { get { return list_airplaneList; } }
-        public Dictionary<string, List<Destination>> Destinations { get { return dic_Destinations; } }
+        private Dictionary<string,Airplane> dic_airplaneList;
+        private Dictionary<string, List<string>> dic_Destinations;
+
+        //Date, Time
+        public Dictionary<string, Dictionary<string, List<string>>> airplaneSchedules { get { return dic_airplaneSchedules; } }
+        // id
+        public Dictionary<string, Account> userInfo { get { return dic_userInfo; } }
+        //All Lists/ id
+        public Dictionary<string, Airplane> airplaneList { get { return dic_airplaneList; } }
+        // 대륙, 국가
+        public Dictionary<string, List<string>> Destinations { get { return dic_Destinations; } }
+        // 국가, 목적지 공항
+        public Dictionary<string, Dictionary<string, List<string>>> airplaneDest { get { return dic_airplaneDest; } }
         public static readonly string exePath = Application.StartupPath;
         public static readonly string prePath = System.IO.Directory.GetParent(Application.StartupPath).ToString();
 
 		public Server()
 		{
-            dic_airplaneSchedules = new Dictionary<string, Dictionary<string, List<Airplane>>>();
             /*week = new Day[7];
 			for (int i = 0; i < week.Length; i++)
 			{
 				week[i] = new Day();
 			}*/
             dic_userInfo = new Dictionary<String,Account>();
-            list_airplaneList = new List<Airplane>();
-            dic_Destinations = new Dictionary<string, List<Destination>>();
+            dic_airplaneList = new Dictionary<string,Airplane>();
+            dic_Destinations = new Dictionary<string, List<string>>();
+            dic_airplaneDest = new Dictionary<string, Dictionary<string, List<string>>>();
+            dic_airplaneSchedules = new Dictionary<string, Dictionary<string, List<string>>>();
 
             addAirplaneList();
             makeServerAccount();
-
         }
 
 		public Account login(String insertID, String insertPW)
@@ -59,17 +66,7 @@ namespace HashTagUI
         }*/
         public int getLeftSeats(Airplane target)
         {
-            int col = target.col;
-            int row = target.row;
             int cnt = 0;
-            for(int i = 0; i < row; i++)
-            {
-                for(int j = 0; j < col; j++)
-                {
-                    if (target.seats[i, j].isReserved == false)
-                        cnt++;
-                }
-            }
             return cnt;
         }
 		public void addAirplaneList()
@@ -77,59 +74,59 @@ namespace HashTagUI
 			string line;
 			string[] splitResult;
             //@"C:\Users\jay\Documents\test.txt"
-			System.IO.StreamReader file = new System.IO.StreamReader(prePath + @"\Data\Airplane.txt",Encoding.UTF8);
-			int firstclassSize, businessclasSize, economyclassSize;
-			string dest, apName, departDate, departTime, country, region;
-			int startTime, row, col;
+			System.IO.StreamReader file = new System.IO.StreamReader(prePath + "\\Data\\Airplane.txt",Encoding.UTF8);
+            //string id, region, country, depApt, destApt, date, time, cost, seats;
 
 			while ((line = file.ReadLine()) != null)
 			{
 				splitResult = line.Split(' ');
+                //airplane_id,region,country,d_airport,a_airport,date,time,cost,seat_info
+                Airplane newAp = new Airplane(splitResult[0], splitResult[2], splitResult[3], splitResult[4], splitResult[5], splitResult[6], Convert.ToInt32(splitResult[7]), splitResult[8]);
 
-				firstclassSize = int.Parse(splitResult[0]);
-				businessclasSize = int.Parse(splitResult[1]);
-				economyclassSize = int.Parse(splitResult[2]);
-
-                region = splitResult[3];
-                country = splitResult[4];
-				dest = splitResult[5];
-				apName = splitResult[6];
-                departDate = splitResult[7];
-                departTime = splitResult[8];
-				row = int.Parse(splitResult[9]);
-				col = int.Parse(splitResult[10]);
-
-				Airplane newAp = new Airplane(firstclassSize, businessclasSize, economyclassSize, dest, apName, int.Parse(departTime), row, col);
-				airplaneList.Add(newAp);
-                addAirplaneInDictionary(departDate, departTime, newAp);
-                addDestionationInDictionary(region, country);
+				
+				airplaneList.Add(splitResult[0],newAp);
+                //date , time
+                addToAirplaneSearchDic(splitResult[5], splitResult[6], splitResult[0], dic_airplaneSchedules);
+                //country, a_airport
+                addToAirplaneSearchDic(splitResult[2], splitResult[4], splitResult[0], dic_airplaneDest);
+                //region, country
+                addToDestionationDic(splitResult[1], splitResult[2]);
             }
 			file.Close();
 		}
-        public void addAirplaneInDictionary(string departDate, string departTime, Airplane newAp)
+        public void addToAirplaneSearchDic(string key, string valuekey, string newApId, Dictionary<string,Dictionary<string,List<string>>> targetDic)
         {
-            if (airplaneSchedules.ContainsKey(departDate))
+            if (targetDic.ContainsKey(key))
             {
-                if (airplaneSchedules[departDate].ContainsKey(departTime))
-                    airplaneSchedules[departDate][departTime].Add(newAp);
+                if (targetDic[key].ContainsKey(valuekey))
+                    targetDic[key][valuekey].Add(newApId);
                 else
                 {
-                    List<Airplane> newList = new List<Airplane>();
-                    newList.Add(newAp);
-                    airplaneSchedules[departDate].Add(departTime, newList);
+                    List<string> newList = new List<string>();
+                    newList.Add(newApId);
+                    targetDic[key].Add(valuekey, newList);
                 }
             }
             else
             {
-                Dictionary<string, List<Airplane>> newDic = new Dictionary<string, List<Airplane>>();
-                airplaneSchedules.Add(departDate, newDic);
-                List<Airplane> newList = new List<Airplane>();
-                airplaneSchedules[departDate].Add(departTime, newList);
+                Dictionary<string, List<string>> newDic = new Dictionary<string, List<string>>();
+                targetDic.Add(key, newDic);
+                List<string> newList = new List<string>();
+                newList.Add(newApId);
+                targetDic[key].Add(valuekey, newList);
             }
         }
-        public void addDestionationInDictionary(string region, string country)
+        public void addToDestionationDic(string region, string country)
         {
-
+            if(dic_Destinations.ContainsKey(region))
+            {
+                if (!dic_Destinations[region].Contains(country))
+                    dic_Destinations[region].Add(country);
+                return;
+            }
+            List<string> newList = new List<string>();
+            newList.Add(country);
+            dic_Destinations.Add(region, newList);
         }
         private void makeServerAccount()
         {
@@ -137,7 +134,7 @@ namespace HashTagUI
 
             // Read the file and display it line by line.
             //@"C:\Users\jay\Documents\account.txt"
-            System.IO.StreamReader file = new System.IO.StreamReader(Server.prePath + @"\Data\account.txt");
+            System.IO.StreamReader file = new System.IO.StreamReader(Server.prePath + "\\Data\\account.txt");
             while ((line = file.ReadLine()) != null)
             {
                 string[] accountArr = line.Split(',');
@@ -151,6 +148,43 @@ namespace HashTagUI
             }
 
             file.Close();
+        }
+        public void ApplyAirplaneInfoToDB()
+        {
+            System.IO.StreamWriter file = new System.IO.StreamWriter(prePath + "\\Data\\Airplane.txt");
+            foreach (KeyValuePair<string, Airplane> targetPair in dic_airplaneList)
+            {
+                string region = getRegionFromCountry(targetPair.Value.Country);
+                string seatsInDBform = ConvertSeatInDBForm(targetPair.Value.Seats);
+                String a = targetPair.Value.ID + " " + region + " " + targetPair.Value.Country + " " + targetPair.Value.DepartApt + " " + targetPair.Value.DestApt + " " + targetPair.Value.Date + " " + targetPair.Value.Time + " " + seatsInDBform;
+                file.WriteLine(a);
+                
+            }
+            file.Close();
+        }
+        private string ConvertSeatInDBForm(Dictionary<string,bool> targetDic)
+        {
+            string str = "";
+            foreach(KeyValuePair<string,bool> target in targetDic)
+            {
+                string concatStr = target.Key;
+                if (target.Value == true)
+                {
+                    concatStr = "R" + target.Key;
+                }
+                str += concatStr + ",";
+            }
+            str = str.Substring(0, str.Length - 1);
+            return str;
+        }
+        private string getRegionFromCountry(string country)
+        {
+            foreach(KeyValuePair<string,List<string>> target in dic_Destinations)
+            {
+                if (target.Value.Contains(country))
+                    return target.Key;
+            }
+            return "";
         }
     }
 }

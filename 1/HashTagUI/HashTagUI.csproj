@@ -54,17 +54,11 @@
     <Compile Include="BookingAirplaneSeatForm.Designer.cs">
       <DependentUpon>BookingAirplaneSeatForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="BookingSearchForm.cs">
+    <Compile Include="BookingSearchForm1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="BookingSearchForm.Designer.cs">
-      <DependentUpon>BookingSearchForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="BookingSearchResultForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="BookingSearchResultForm.Designer.cs">
-      <DependentUpon>BookingSearchResultForm.cs</DependentUpon>
+    <Compile Include="BookingSearchForm1.Designer.cs">
+      <DependentUpon>BookingSearchForm1.cs</DependentUpon>
     </Compile>
     <Compile Include="CheckTicketForm.cs">
       <SubType>Form</SubType>
@@ -72,18 +66,23 @@
     <Compile Include="CheckTicketForm.Designer.cs">
       <DependentUpon>CheckTicketForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Destination.cs" />
-    <Compile Include="FindInfoForm.cs">
+    <Compile Include="FastBookingSearchForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FindInfoForm.Designer.cs">
-      <DependentUpon>FindInfoForm.cs</DependentUpon>
+    <Compile Include="FastBookingSearchForm.Designer.cs">
+      <DependentUpon>FastBookingSearchForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="LoginForm.cs">
+    <Compile Include="FindIdForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="LoginForm.Designer.cs">
-      <DependentUpon>LoginForm.cs</DependentUpon>
+    <Compile Include="FindIdForm.Designer.cs">
+      <DependentUpon>FindIdForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FindPwForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FindPwForm.Designer.cs">
+      <DependentUpon>FindPwForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -105,23 +104,22 @@
       <DependentUpon>BookingAirplaneSeatForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="BookingSearchForm.resx">
-      <DependentUpon>BookingSearchForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="BookingSearchResultForm.resx">
-      <DependentUpon>BookingSearchResultForm.cs</DependentUpon>
+    <EmbeddedResource Include="BookingSearchForm1.resx">
+      <DependentUpon>BookingSearchForm1.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="CheckTicketForm.resx">
       <DependentUpon>CheckTicketForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="FindInfoForm.resx">
-      <DependentUpon>FindInfoForm.cs</DependentUpon>
+    <EmbeddedResource Include="FastBookingSearchForm.resx">
+      <DependentUpon>FastBookingSearchForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="LoginForm.resx">
-      <DependentUpon>LoginForm.cs</DependentUpon>
+    <EmbeddedResource Include="FindIdForm.resx">
+      <DependentUpon>FindIdForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FindPwForm.resx">
+      <DependentUpon>FindPwForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

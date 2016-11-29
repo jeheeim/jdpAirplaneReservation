@@ -14,82 +14,99 @@ namespace HashTagUI
 	{
 		    Airplane nowAirplane;
             Account currentUser;
-        	public BookingAirplaneSeatForm(Account currentUser,Airplane nowAirplane)
+            int bookingSeatCnt = 0;
+        int totCost = 0;
+            List<string> clickedSeats = new List<string>();
+        	public BookingAirplaneSeatForm(Account currentUser,string nowAirplane)
         	{
             		InitializeComponent();
-            		//nowAirplane = new Airplane(10, 10, 20, "미국", "AC130", 10, 10, 10);
-                    this.nowAirplane = nowAirplane;
+                    this.nowAirplane = MainForm.server.airplaneList[nowAirplane];
                     this.currentUser = currentUser;
         	}
-
+            private void btnSeat_Click(object sender, EventArgs e)
+            {
+                Button btncast = sender as Button;
+                string seatNum = btncast.Text;
+                if(clickedSeats.Contains(seatNum))
+                {
+                    clickedSeats.Remove(seatNum);
+                    btncast.BackColor = System.Drawing.SystemColors.ActiveCaption;
+                totCost -= nowAirplane.Cost;
+                this.lblTotCost.Text = "선택하신 좌석의 가격은 : " + totCost + "원 입니다.";
+                bookingSeatCnt--;
+                    return;
+                }
+                btncast.BackColor = System.Drawing.SystemColors.Highlight;
+                totCost += nowAirplane.Cost;
+            this.lblTotCost.Text = "선택하신 좌석의 가격은 : " + totCost + "원 입니다.";
+                clickedSeats.Add(seatNum);
+                bookingSeatCnt++;
+            }
         	private void btnReserveSeat_Click(object sender, EventArgs e)
         	{
-            	Button btncast = sender as Button;
-                string seatNum = btncast.Text;
-                int row, col;
-                row = seatNum[0] - 'A';
-                col = Convert.ToInt32(seatNum.Substring(1));
-                nowAirplane.seats[row, col].isReserved = true;
+                /*
                 string seatClass = "";
-                if (nowAirplane.seats[row, col].seatClass == 0)
+                if (seatNum[0] == 'A')
                     seatClass = "First";
-                else if (nowAirplane.seats[row, col].seatClass == 1)
+                else if (seatNum[0] == 'B')
                     seatClass = "Business";
                 else
-                    seatClass = "Economy";
-                currentUser.accAirplaneInfo.Add(new AccountAirplaneInfo(nowAirplane, seatNum, seatClass));
-                currentUser.existAirplane = true;
-	            MessageBox.Show("예매되었습니다");
-                this.Close();
+                    seatClass = "Economy";*/
+                DialogResult result = MessageBox.Show("정말로 예매하시겠습니까?", "예약하기", MessageBoxButtons.OKCancel);
+                if (result == DialogResult.OK)
+                {
+                    currentUser.addToBook(nowAirplane.ID, clickedSeats);
+                    nowAirplane.LeftSeats -= bookingSeatCnt;
+                    MessageBox.Show("예매되었습니다");
+                    this.Close();
+                }
         	}
 
-        	private void BookingAirplaneSeatForm_Load(object sender, EventArgs e)
-        	{
-            		int row = nowAirplane.row;
-            		int col = nowAirplane.col;
-            		int colSize = col * 29 + 150 * Convert.ToInt32((0.3 * Convert.ToDouble(col)));
-            		int rowSize = row * 30 + 100 * Convert.ToInt32((0.3 * Convert.ToDouble(row)));
-            		this.Size = new Size((col+1) * 30 + 100, (row+1) * 35 + 100);
-            		//row * 30 + 125 * (0.1 * row)
-            		//this.btnReserveSeat.Location = new Point(row * 67 - 100, col * 35 - 70);
-            		Seat[,] nowSeats = nowAirplane.seats;
-            for (int i = 0; i < row;i ++)
+            private void BookingAirplaneSeatForm_Load(object sender, EventArgs e)
             {
+                Dictionary<string, bool> seats = nowAirplane.Seats;
+                char nowSeat;
+                char preSeat = ' ';
+                Point loc = new Point(12, 25);
                 TableLayoutPanel thisTable = new TableLayoutPanel();
-                Point loc = new Point(12, 25 + i * 32);
-                if (i >= row / 2)
-                    loc.Y += 30;
-                for(int j = 0; j < col; j++)
+                foreach (KeyValuePair<string, bool> targetSeat in seats)
                 {
-                    thisTable.Location = loc;
-                    thisTable.Size = new Size(30, col * 29); //new Size(493, 272);
-                    thisTable.ColumnCount = col;
-                    thisTable.RowCount = row;
-                    thisTable.AutoSize = true;
-                    thisTable.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-                    Seat nowSeat = nowSeats[i,j];
-                    string name = nowSeat.row.ToString() + nowSeat.column.ToString();
-                    Button seatButton = new Button() { Text = name, Size = new Size(30, 29),
-                        FlatStyle = System.Windows.Forms.FlatStyle.Flat, Font = new System.Drawing.Font("굴림", 8F) };
-                    if (!nowSeat.isReserved)
+                    nowSeat = (targetSeat.Key[0] == 'R') ? targetSeat.Key[1] : targetSeat.Key[0];
+                    string name = (targetSeat.Key[0] == 'R') ? targetSeat.Key.Substring(1) : targetSeat.Key;
+                    if (nowSeat != preSeat)
+                    {
+                        thisTable = new TableLayoutPanel();
+                        loc.Y += 35;
+                        loc.X = 12;
+                        thisTable.Location = loc;
+                        thisTable.Size = new Size(30, 10 * 29); //new Size(493, 272);
+                        thisTable.ColumnCount = 10;
+                        thisTable.RowCount = 5;
+                        thisTable.AutoSize = true;
+                        thisTable.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+                        this.Controls.Add(thisTable);
+                    }
+                    Button seatButton = new Button()
+                    {
+                        Text = name,
+                        Size = new Size(30, 29),
+                        FlatStyle = System.Windows.Forms.FlatStyle.Flat,
+                        Font = new System.Drawing.Font("굴림", 8F)
+                    };
+                    if (!targetSeat.Value)
                     {
                         seatButton.BackColor = System.Drawing.SystemColors.ActiveCaption;
-                        seatButton.Click += new System.EventHandler(this.btnReserveSeat_Click);
+                        seatButton.Click += new System.EventHandler(this.btnSeat_Click);
                     }
                     else
                         seatButton.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+                    preSeat = nowSeat;
+                    loc.X += 30;
                     thisTable.Controls.Add(seatButton);
                 }
+
                 this.Controls.Add(thisTable);
             }
 
-		}
-
-		private void button3_Click(object sender, EventArgs e)
-		{
-			MessageBox.Show("확인");
-			this.Close();
-
-		}
 	}
 }

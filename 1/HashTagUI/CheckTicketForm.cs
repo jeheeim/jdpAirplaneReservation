@@ -32,35 +32,47 @@ namespace HashTagUI
                 return;
             }
 			MessageBox.Show("취소 되었습니다!");
-            int row, col;
-            int index = Convert.ToInt32(this.lvTicketInfo.SelectedItems[0].SubItems[0].Text);
-            row = currentUser.accAirplaneInfo[index-1].seatNum[0] - 'A';
-            col = Convert.ToInt32(currentUser.accAirplaneInfo[index - 1].seatNum.Substring(1));
-            currentUser.accAirplaneInfo[index - 1].bookedAirplane.seats[row, col].isReserved = false;
-            currentUser.accAirplaneInfo.RemoveAt(index - 1);
-            if (currentUser.accAirplaneInfo.Count == 0)
-                currentUser.existAirplane = false;
-            for(int i = index; i < this.lvTicketInfo.Items.Count;i++)
-            {
-                this.lvTicketInfo.Items[i].SubItems[0].Text = i.ToString();
-            }
-            this.lvTicketInfo.Items[index - 1].Remove();
+            string seatNum = this.lvTicketInfo.SelectedItems[0].SubItems[3].Text;
+            string apName = this.lvTicketInfo.SelectedItems[0].SubItems[0].Text;
+            MainForm.server.airplaneList[apName].Seats[seatNum] = false;
+            currentUser.BookedSeats[apName].Remove(seatNum);
+            this.lvTicketInfo.Items.Remove(this.lvTicketInfo.SelectedItems[0]);
 		}
 
         private void CheckTicketForm_Load(object sender, EventArgs e)
         {
             this.label1.Text = currentUser.name + "님의 티켓 예매 정보입니다.";
-            if(!currentUser.existAirplane)
+            foreach(KeyValuePair<string,List<string>> targetList in currentUser.BookedSeats)
             {
-                MessageBox.Show("예매된 비행기가 없습니다!");
-                return;
-            }
-            for (int i = 0; i < currentUser.accAirplaneInfo.Count; i++)
-            {
-                Airplane targetAirplane = currentUser.accAirplaneInfo[i].bookedAirplane;
-                string[] arrInfo = new string[6] { (i + 1).ToString(), targetAirplane.airplaneName, targetAirplane.destination, currentUser.accAirplaneInfo[i].seatNum, currentUser.accAirplaneInfo[i].seatClass, targetAirplane.startTime.ToString() };
-                ListViewItem lvItem = new ListViewItem(arrInfo);
-                this.lvTicketInfo.Items.Add(lvItem);
+                string apname = targetList.Key;
+                Airplane nowAp = MainForm.server.airplaneList[apname];
+                string dest = nowAp.DestApt;
+                string departAP = nowAp.DepartApt;
+                string seatClass;
+                string startDate = nowAp.Date + "월/일" + nowAp.Time + "시";
+                int price;
+                for(int i = 0; i < targetList.Value.Count; i++)
+                {
+                    if (targetList.Value[i][0] == 'A')
+                    {
+                        seatClass = "First Class";
+                        price = nowAp.Cost * 3;
+                    }
+                    else if (targetList.Value[i][0] == 'b')
+                    {
+                        seatClass = "Business";
+                        price = nowAp.Cost * 2;
+                    }
+                    else
+                    {
+                        seatClass = "Economy";
+                        price = nowAp.Cost;
+                    }
+                    ListViewItem lvItem = new ListViewItem(new string[7] { apname, departAP, dest, targetList.Value[i], seatClass, startDate, price.ToString() });
+                    this.lvTicketInfo.Items.Add(lvItem);
+                }
+                /*ListViewItem lvItem = new ListViewItem(new string[3] { target.airplaneName, target.startTime.ToString(), leftSeats.ToString() });
+                this.lvSearchResult.Items.Add(lvItem);*/
             }
 
         }
