@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HashTagUI", "HashTagUI\HashTagUI.csproj", "{4024E810-2127-4DBA-B78E-026EAF7B58A3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HashTagManagerUI", "HashTagManagerUI\HashTagManagerUI.csproj", "{7AC4F953-01D1-4AAA-A98F-004078C5E8C3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -13,6 +15,10 @@ Global
 		{4024E810-2127-4DBA-B78E-026EAF7B58A3}.Debug|x86.Build.0 = Debug|x86
 		{4024E810-2127-4DBA-B78E-026EAF7B58A3}.Release|x86.ActiveCfg = Release|x86
 		{4024E810-2127-4DBA-B78E-026EAF7B58A3}.Release|x86.Build.0 = Release|x86
+		{7AC4F953-01D1-4AAA-A98F-004078C5E8C3}.Debug|x86.ActiveCfg = Debug|x86
+		{7AC4F953-01D1-4AAA-A98F-004078C5E8C3}.Debug|x86.Build.0 = Debug|x86
+		{7AC4F953-01D1-4AAA-A98F-004078C5E8C3}.Release|x86.ActiveCfg = Release|x86
+		{7AC4F953-01D1-4AAA-A98F-004078C5E8C3}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

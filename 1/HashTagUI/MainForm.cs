@@ -23,7 +23,7 @@ namespace HashTagUI
 		{
 			InitializeComponent();
 		}
-
+        /* 11.29 수정*/
 		private void btnLogin_Click(object sender, EventArgs e)
 		{
             if (currentUser == null)
@@ -38,7 +38,11 @@ namespace HashTagUI
                     btnFindId.Visible = false;
                     btnFindPw.Visible = false;
                     lblLoginText.Text = currentUser.name + "님 환영합니다.";
+                    label2.Visible = false;
+                    label3.Visible = false;
                     btnLoginout.Text = "로그아웃";
+                    label11.Visible = true;
+                    label11.Text = currentUser.id + "님을 위한 추천 항공편";
                     MessageBox.Show("로그인 성공");
                 }
                 else
@@ -55,17 +59,16 @@ namespace HashTagUI
 
                 label2.Visible = true;
                 label3.Visible = true;
-                btnAdmAirManager.Visible = false;
-                btnAdminSchedule.Visible = false;
-                btnCheckTicket.Visible = true;
-                btnBooking.Visible = true;
 				btnFindId.Visible = true;
                 btnFindPw.Visible = true;
                 textBox1.Visible = true;
                 textBox2.Visible = true;
+                label2.Visible = true;
+                label3.Visible = true;
+                label11.Visible = false;
             }
 		}
-
+        /* 11.29 수정*/
 		private void MainForm_Load(object sender, EventArgs e)
 		{
             server = new Server();
@@ -73,8 +76,13 @@ namespace HashTagUI
             {
                 cbStart.Items.Add(temp.Value.DepartApt);
             }
+            cbArrive.Enabled = false;
+            cbDest.Enabled = false;
+            cbDepart.Enabled = false;
+            label11.Visible = false;
+            
         }
-
+        /* 11.29 수정*/
 		private void btnBooking_Click(object sender, EventArgs e)
 		{
             if (currentUser == null)
@@ -85,7 +93,7 @@ namespace HashTagUI
 			Form searchForm = new BookingSearchForm1(currentUser);
 			searchForm.ShowDialog();
 		}
-
+        /* 11.29 수정*/
 		private void btnCheckTicket_Click(object sender, EventArgs e)
 		{
             if (currentUser == null)
@@ -96,73 +104,96 @@ namespace HashTagUI
             Form CheckTicket = new CheckTicketForm(currentUser);
 			CheckTicket.ShowDialog();
 		}
-        private void MainForm_Activated(object sender, EventArgs e)
-        {
-            if (currentUser == null)
-            {
-                label2.Visible = true;
-                label3.Visible = true;
-                btnAdmAirManager.Visible = false;
-                btnAdminSchedule.Visible = false;
-                btnBooking.Visible = true;
-                btnCheckTicket.Visible = true;
-            }
-            else
-            {
-                label2.Visible = false;
-                label3.Visible = false;
-                btnFindId.Visible = false;
-                if (currentUser.isAdmin)
-                {
-                    btnAdmAirManager.Visible = true;
-                    btnAdminSchedule.Visible = true;
-                    btnBooking.Visible = false;
-                    btnCheckTicket.Visible = false;
-                }
-                else
-                {
-                    btnAdmAirManager.Visible = false;
-                    btnAdminSchedule.Visible = false;
-                    btnBooking.Visible = true;
-                    btnCheckTicket.Visible = true;
-                }
-            }
-        }
-
+        /* 11.29 수정*/
         private void label3_Click(object sender, EventArgs e)
         {
             Form f = new RegisterForm();
             f.ShowDialog();
         }
-
+        /* 11.29 J 수정*/
         private void btnFindAcc_Click(object sender, EventArgs e)
         {
             Form f = new FindIdForm(this);
             f.ShowDialog();
         }
-
-        private void button1_Click(object sender, EventArgs e)
+        /* 11.29 수정*/
+        private void btnFindPw_Click(object sender, EventArgs e)
         {
             Form f = new FindPwForm(this);
             f.ShowDialog();
         }
-
-        private void button1_Click_1(object sender, EventArgs e)
+        /* 11.29 수정*/
+        private void button1_Click(object sender, EventArgs e)
         {
-            Form f = new FastBookingSearchForm(this);
-            f.ShowDialog();
+            if (cbArrive.SelectedIndex != -1 && textPerson.Text != "")
+            {
+                Form f = new FastBookingSearchForm(this);
+                f.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("정보를 다 입력하세요");
+            }
         }
-
-        private void cbDest_Click(object sender, EventArgs e)
+        /* 11.29 수정*/
+        private void cbStart_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cbStart.SelectedIndex == -1)
             {
-                cbDest.Enabled = false;
-                MessageBox.Show("출발지를 선택해주세요");
-                
+                cbArrive.SelectedIndex = cbDepart.SelectedIndex = cbDest.SelectedIndex = -1;
+                cbArrive.Enabled = cbDepart.Enabled = cbDest.Enabled = false;
+            }
+            else
+            {
+                cbDest.Enabled = true;
+                foreach (KeyValuePair<string, Airplane> temp in server.airplaneList)
+                {
+                    if(temp.Value.DepartApt.Equals(cbStart.SelectedItem.ToString()))
+                    {
+                        cbDest.Items.Add(temp.Value.DestApt);
+                    }
+                }
             }
         }
-
-        
+        /* 11.29 수정*/
+        private void cbDest_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbDest.SelectedIndex == -1)
+            {
+                cbArrive.SelectedIndex = cbDepart.SelectedIndex =  -1;
+                cbArrive.Enabled = cbDepart.Enabled = false;
+            }
+            else
+            {
+                cbDepart.Enabled = true;
+                foreach (KeyValuePair<string, Airplane> temp in server.airplaneList)
+                {
+                    if (temp.Value.DepartApt.Equals(cbStart.SelectedItem.ToString()) && temp.Value.DestApt.Equals(cbDest.SelectedItem.ToString()))
+                    {
+                        cbDepart.Items.Add(temp.Value.Date);
+                    }
+                }
+            }
+        }
+        /* 11.29 수정*/
+        private void cbDepart_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbDepart.SelectedIndex == -1)
+            {
+                cbArrive.SelectedIndex = -1;
+                cbArrive.Enabled = false;
+            }
+            else
+            {
+                cbArrive.Enabled = true;
+                foreach (KeyValuePair<string, Airplane> temp in server.airplaneList)
+                {
+                    if (temp.Value.DestApt.Equals(cbStart.SelectedItem.ToString()) && temp.Value.DepartApt.Equals(cbDest.SelectedItem.ToString()) && !temp.Value.Date.Equals(cbDepart.SelectedItem.ToString()))
+                    {
+                        cbArrive.Items.Add(temp.Value.Date);
+                    }
+                }
+            }
+        }
 	}
 }

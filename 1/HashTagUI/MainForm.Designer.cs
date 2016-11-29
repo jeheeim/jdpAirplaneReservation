@@ -31,8 +31,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.btnFindId = new System.Windows.Forms.Button();
-            this.btnAdminSchedule = new System.Windows.Forms.Button();
-            this.btnAdmAirManager = new System.Windows.Forms.Button();
             this.btnCheckTicket = new System.Windows.Forms.Button();
             this.btnBooking = new System.Windows.Forms.Button();
             this.btnLoginout = new System.Windows.Forms.Button();
@@ -55,6 +53,8 @@
             this.label6 = new System.Windows.Forms.Label();
             this.cbDepart = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -89,29 +89,9 @@
             this.btnFindId.UseVisualStyleBackColor = true;
             this.btnFindId.Click += new System.EventHandler(this.btnFindAcc_Click);
             // 
-            // btnAdminSchedule
-            // 
-            this.btnAdminSchedule.Location = new System.Drawing.Point(234, 502);
-            this.btnAdminSchedule.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btnAdminSchedule.Name = "btnAdminSchedule";
-            this.btnAdminSchedule.Size = new System.Drawing.Size(174, 119);
-            this.btnAdminSchedule.TabIndex = 16;
-            this.btnAdminSchedule.Text = "일정관리";
-            this.btnAdminSchedule.UseVisualStyleBackColor = true;
-            // 
-            // btnAdmAirManager
-            // 
-            this.btnAdmAirManager.Location = new System.Drawing.Point(32, 502);
-            this.btnAdmAirManager.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btnAdmAirManager.Name = "btnAdmAirManager";
-            this.btnAdmAirManager.Size = new System.Drawing.Size(174, 119);
-            this.btnAdmAirManager.TabIndex = 15;
-            this.btnAdmAirManager.Text = "비행기관리";
-            this.btnAdmAirManager.UseVisualStyleBackColor = true;
-            // 
             // btnCheckTicket
             // 
-            this.btnCheckTicket.Location = new System.Drawing.Point(447, 502);
+            this.btnCheckTicket.Location = new System.Drawing.Point(174, 502);
             this.btnCheckTicket.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnCheckTicket.Name = "btnCheckTicket";
             this.btnCheckTicket.Size = new System.Drawing.Size(174, 119);
@@ -122,7 +102,7 @@
             // 
             // btnBooking
             // 
-            this.btnBooking.Location = new System.Drawing.Point(651, 502);
+            this.btnBooking.Location = new System.Drawing.Point(569, 502);
             this.btnBooking.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnBooking.Name = "btnBooking";
             this.btnBooking.Size = new System.Drawing.Size(174, 119);
@@ -182,7 +162,7 @@
             this.btnFindPw.TabIndex = 22;
             this.btnFindPw.Text = "PW찾기";
             this.btnFindPw.UseVisualStyleBackColor = true;
-            this.btnFindPw.Click += new System.EventHandler(this.button1_Click);
+            this.btnFindPw.Click += new System.EventHandler(this.btnFindPw_Click);
             // 
             // label4
             // 
@@ -208,9 +188,9 @@
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.cbDepart);
             this.groupBox1.Controls.Add(this.label5);
-            this.groupBox1.Location = new System.Drawing.Point(32, 289);
+            this.groupBox1.Location = new System.Drawing.Point(32, 356);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(834, 119);
+            this.groupBox1.Size = new System.Drawing.Size(834, 113);
             this.groupBox1.TabIndex = 24;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "빠른 예약";
@@ -223,7 +203,7 @@
             this.button1.TabIndex = 31;
             this.button1.Text = "예약";
             this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // label10
             // 
@@ -267,7 +247,7 @@
             this.cbDest.Name = "cbDest";
             this.cbDest.Size = new System.Drawing.Size(86, 23);
             this.cbDest.TabIndex = 26;
-            this.cbDest.Click += new System.EventHandler(this.cbDest_Click);
+            this.cbDest.SelectedIndexChanged += new System.EventHandler(this.cbDest_SelectedIndexChanged);
             // 
             // label7
             // 
@@ -286,6 +266,7 @@
             this.cbStart.Name = "cbStart";
             this.cbStart.Size = new System.Drawing.Size(87, 23);
             this.cbStart.TabIndex = 25;
+            this.cbStart.SelectedIndexChanged += new System.EventHandler(this.cbStart_SelectedIndexChanged);
             // 
             // cbArrive
             // 
@@ -313,6 +294,7 @@
             this.cbDepart.Name = "cbDepart";
             this.cbDepart.Size = new System.Drawing.Size(123, 23);
             this.cbDepart.TabIndex = 2;
+            this.cbDepart.SelectedIndexChanged += new System.EventHandler(this.cbDepart_SelectedIndexChanged);
             // 
             // label5
             // 
@@ -323,11 +305,30 @@
             this.label5.TabIndex = 0;
             this.label5.Text = "출발일 : ";
             // 
+            // textBox3
+            // 
+            this.textBox3.Location = new System.Drawing.Point(40, 181);
+            this.textBox3.Multiline = true;
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(826, 128);
+            this.textBox3.TabIndex = 25;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(46, 150);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(53, 15);
+            this.label11.TabIndex = 26;
+            this.label11.Text = "label11";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(891, 653);
+            this.Controls.Add(this.label11);
+            this.Controls.Add(this.textBox3);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.btnFindPw);
@@ -336,8 +337,6 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.btnFindId);
-            this.Controls.Add(this.btnAdminSchedule);
-            this.Controls.Add(this.btnAdmAirManager);
             this.Controls.Add(this.btnCheckTicket);
             this.Controls.Add(this.btnBooking);
             this.Controls.Add(this.btnLoginout);
@@ -346,7 +345,6 @@
             this.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.Name = "MainForm";
             this.Text = "비행기예약";
-            this.Activated += new System.EventHandler(this.MainForm_Activated);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -360,8 +358,6 @@
         public System.Windows.Forms.Label label3;
         public System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnFindId;
-        public System.Windows.Forms.Button btnAdminSchedule;
-        public System.Windows.Forms.Button btnAdmAirManager;
         public System.Windows.Forms.Button btnCheckTicket;
         public System.Windows.Forms.Button btnBooking;
         public System.Windows.Forms.Button btnLoginout;
@@ -384,6 +380,8 @@
         public System.Windows.Forms.ComboBox cbDest;
         public System.Windows.Forms.ComboBox cbStart;
         public System.Windows.Forms.TextBox textPerson;
+        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.Label label11;
 
     }
 }

@@ -9,6 +9,7 @@ using System.Windows.Forms;
 
 namespace HashTagUI
 {
+    /* 11.29 수정*/
     public partial class FindIdForm : Form
     {
         MainForm mainForm;
