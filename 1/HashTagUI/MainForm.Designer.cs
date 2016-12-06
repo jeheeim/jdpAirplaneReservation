@@ -41,9 +41,9 @@
             this.btnFindPw = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.button1 = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
-            this.textPerson = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.cbDest = new System.Windows.Forms.ComboBox();
@@ -176,9 +176,9 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.comboBox1);
             this.groupBox1.Controls.Add(this.button1);
             this.groupBox1.Controls.Add(this.label10);
-            this.groupBox1.Controls.Add(this.textPerson);
             this.groupBox1.Controls.Add(this.label9);
             this.groupBox1.Controls.Add(this.label8);
             this.groupBox1.Controls.Add(this.cbDest);
@@ -194,6 +194,15 @@
             this.groupBox1.TabIndex = 24;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "빠른 예약";
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(655, 30);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(59, 23);
+            this.comboBox1.TabIndex = 32;
+            this.comboBox1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.comboBox1_KeyPress);
             // 
             // button1
             // 
@@ -213,13 +222,6 @@
             this.label10.Size = new System.Drawing.Size(22, 15);
             this.label10.TabIndex = 30;
             this.label10.Text = "명";
-            // 
-            // textPerson
-            // 
-            this.textPerson.Location = new System.Drawing.Point(655, 30);
-            this.textPerson.Name = "textPerson";
-            this.textPerson.Size = new System.Drawing.Size(56, 25);
-            this.textPerson.TabIndex = 29;
             // 
             // label9
             // 
@@ -379,9 +381,9 @@
         public System.Windows.Forms.ComboBox cbArrive;
         public System.Windows.Forms.ComboBox cbDest;
         public System.Windows.Forms.ComboBox cbStart;
-        public System.Windows.Forms.TextBox textPerson;
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Label label11;
+        public System.Windows.Forms.ComboBox comboBox1;
 
     }
 }

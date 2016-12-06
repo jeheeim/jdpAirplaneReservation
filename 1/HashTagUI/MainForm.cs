@@ -12,18 +12,20 @@ namespace HashTagUI
 {
 	public partial class MainForm : Form
 	{
-        //6, 1
         public static readonly Size MainFormSize = new Size(265, 265);
         public static readonly Point GroupBoxLoc = new Point(6, 1);
         public static readonly Point GroupBoxOutOfRange = new Point(200, 300);
         private Account acc_currnetUser;
         public Account currentUser { get { return acc_currnetUser; } set { acc_currnetUser = value; } }
 		public static Server server;
+
 		public MainForm()
 		{
 			InitializeComponent();
 		}
-        /* 11.29 수정*/
+
+		// 로그인 / 로그아웃 버튼을 클릭했을때.
+		// 현재 사용자의 유뮤를 바탕으로 결정한다.
 		private void btnLogin_Click(object sender, EventArgs e)
 		{
             if (currentUser == null)
@@ -125,10 +127,14 @@ namespace HashTagUI
         /* 11.29 수정*/
         private void button1_Click(object sender, EventArgs e)
         {
-            if (cbArrive.SelectedIndex != -1 && textPerson.Text != "")
+            if (cbArrive.SelectedIndex != -1 && comboBox1.SelectedIndex!=-1 && currentUser!=null)
             {
                 Form f = new FastBookingSearchForm(this);
                 f.ShowDialog();
+            }
+            else if (currentUser == null)
+            {
+                MessageBox.Show("로그인을 하세요");
             }
             else
             {
@@ -178,6 +184,7 @@ namespace HashTagUI
         /* 11.29 수정*/
         private void cbDepart_SelectedIndexChanged(object sender, EventArgs e)
         {
+            int maxSeat = 0;
             if (cbDepart.SelectedIndex == -1)
             {
                 cbArrive.SelectedIndex = -1;
@@ -191,8 +198,28 @@ namespace HashTagUI
                     if (temp.Value.DestApt.Equals(cbStart.SelectedItem.ToString()) && temp.Value.DepartApt.Equals(cbDest.SelectedItem.ToString()) && !temp.Value.Date.Equals(cbDepart.SelectedItem.ToString()))
                     {
                         cbArrive.Items.Add(temp.Value.Date);
+                        if (maxSeat > temp.Value.LeftSeats)
+                        {
+                            maxSeat = temp.Value.LeftSeats;
+                        }
+                        else if (maxSeat == 0)
+                        {
+                            maxSeat = temp.Value.LeftSeats;
+                        }
                     }
                 }
+                for (int i = 1; i <= maxSeat; i++)
+                {
+                    comboBox1.Items.Add(i);
+                }
+            }
+        }
+
+        private void comboBox1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if ((!Char.IsDigit(e.KeyChar) && e.KeyChar != 8))
+            {
+                e.Handled = true;
             }
         }
 	}

@@ -16,9 +16,13 @@ namespace HashTagUI
         public string id { get { return str_id; } }
         public string pw { get { return str_pw; } }
         public string name { get { return str_name; } }
+		// 없애도 됨
         public bool isAdmin { get { return b_isAdmin; } }
         public string email { get { return str_email; } }
         public Dictionary<string, List<string>> BookedSeats { get { return dic_bookedSeats; } }
+
+		// 원하는 여행지
+		public string placeToGo;
 
         //bookedAirplane -> 구분자 ',' // bookedSeats -> 구분자 ',' : Seats단위 '|' : Airplane단위
         public Account(string id, string pw, string name, string email, bool isAdmin, string bookedAirplane="", string bookedSeats="")
@@ -42,6 +46,15 @@ namespace HashTagUI
                 dic_bookedSeats[airplaneID].Add(seatNum[i]);
                 MainForm.server.airplaneList[airplaneID].Seats[seatNum[i]] = true;
             }
+        }
+        public void addToBook(string airplaneID, int seatSize)
+        {
+            if (!dic_bookedSeats.ContainsKey(airplaneID))
+            {
+                List<string> newlist = new List<string>();
+                dic_bookedSeats.Add(airplaneID, newlist);
+            }
+            dic_bookedSeats[airplaneID].Add(seatSize.ToString());
         }
 	}
 }

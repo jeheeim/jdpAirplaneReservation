@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace HashTagUI
+namespace HashTagManager
 {
     
 	public class Server
@@ -73,9 +73,7 @@ namespace HashTagUI
 		{
 			string line;
 			string[] splitResult;
-            //@"C:\Users\jay\Documents\test.txt"
-			System.IO.StreamReader file = new System.IO.StreamReader(prePath + "\\Data\\Airplane.txt",Encoding.UTF8);
-            //string id, region, country, depApt, destApt, date, time, cost, seats;
+			System.IO.StreamReader file = new System.IO.StreamReader(prePath + "\\Data\\airplane.txt",Encoding.UTF8);
 
 			while ((line = file.ReadLine()) != null)
 			{
@@ -143,7 +141,7 @@ namespace HashTagUI
                 name = accountArr[2];
                 email = accountArr[3];
                 admin = accountArr[4];
-                Account temp = new Account(id, pw, name, email, (admin == "1")?true:false);
+                Account temp = new Account(id, pw, name, email);
                 dic_userInfo.Add(id, temp);
             }
 
@@ -151,7 +149,7 @@ namespace HashTagUI
         }
         public void ApplyAirplaneInfoToDB()
         {
-            System.IO.StreamWriter file = new System.IO.StreamWriter(prePath + "\\Data\\Airplane.txt");
+            System.IO.StreamWriter file = new System.IO.StreamWriter(prePath + "\\Data\\airplane.txt");
             foreach (KeyValuePair<string, Airplane> targetPair in dic_airplaneList)
             {
                 string region = getRegionFromCountry(targetPair.Value.Country);

@@ -3,25 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace HashTagUI
+namespace HashTagManager
 {
 	public class Airplane
 	{
-		//public int[] seatSize;
-		//public Seat[,] seats;
-        private string str_id;
-        private string str_destCountry;
-        private string str_destApt;
-        private string str_departApt;
-        private string str_departDate;
-        private string str_departTime;
-        private int n_leftSeats = 0;
-        private int n_cost;
-        //private int n_SeatsCount = 0;
+        string str_id;
+        string str_destCountry;
+        string str_destApt;
+        string str_departApt;
+        string str_departDate;
+        string str_departTime;
+        int n_leftSeats = 0;
+        int n_cost;
         Dictionary<string, bool> dic_seats = new Dictionary<string, bool>();
 
-		// 임제희 id를 제외한 프로퍼티에 set 값 추가
-        public string ID { get { return str_id; } }
+		// id를 제외한 프로퍼티에 set 값 추가
+		public string ID { get { return str_id; } set { str_id = value; } }
 		public string Country { get { return str_destCountry; } set { str_destCountry = value; } }
 		public string DestApt { get { return str_destApt; } set { str_destApt = value; } }
 		public string DepartApt { get { return str_departApt; } set { str_departApt = value; } }

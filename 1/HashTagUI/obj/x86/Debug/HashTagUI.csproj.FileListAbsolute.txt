@@ -15,12 +15,8 @@ C:\Users\정현오\Documents\Visual Studio 2010\Projects\1\HashTagUI\obj\x86\Deb
 C:\Users\jay\Documents\GitHub\jdpAirplaneReservation\1\HashTagUI\bin\Debug\HashTagUI.exe
 C:\Users\jay\Documents\GitHub\jdpAirplaneReservation\1\HashTagUI\bin\Debug\HashTagUI.pdb
 C:\Users\jay\Documents\GitHub\jdpAirplaneReservation\1\HashTagUI\obj\x86\Debug\HashTagUI.BookingAirplaneSeatForm.resources
-C:\Users\jay\Documents\GitHub\jdpAirplaneReservation\1\HashTagUI\obj\x86\Debug\HashTagUI.BookingSearchForm.resources
-C:\Users\jay\Documents\GitHub\jdpAirplaneReservation\1\HashTagUI\obj\x86\Debug\HashTagUI.BookingSearchResultForm.resources
 C:\Users\jay\Documents\GitHub\jdpAirplaneReservation\1\HashTagUI\obj\x86\Debug\HashTagUI.CheckTicketForm.resources
-C:\Users\jay\Documents\GitHub\jdpAirplaneReservation\1\HashTagUI\obj\x86\Debug\HashTagUI.LoginForm.resources
 C:\Users\jay\Documents\GitHub\jdpAirplaneReservation\1\HashTagUI\obj\x86\Debug\HashTagUI.MainForm.resources
-C:\Users\jay\Documents\GitHub\jdpAirplaneReservation\1\HashTagUI\obj\x86\Debug\HashTagUI.NewUserForm.resources
 C:\Users\jay\Documents\GitHub\jdpAirplaneReservation\1\HashTagUI\obj\x86\Debug\HashTagUI.Properties.Resources.resources
 C:\Users\jay\Documents\GitHub\jdpAirplaneReservation\1\HashTagUI\obj\x86\Debug\HashTagUI.csproj.GenerateResource.Cache
 C:\Users\jay\Documents\GitHub\jdpAirplaneReservation\1\HashTagUI\obj\x86\Debug\HashTagUI.exe
@@ -142,3 +138,9 @@ C:\Users\정현오\Documents\Visual Studio 2010\Projects\jdpAirplaneReservation�
 C:\Users\정현오\Documents\Visual Studio 2010\Projects\jdpAirplaneReservation중간최종\jdpAirplaneReservation중간최종\jdpAirplaneReservation중간\1\HashTagUI\obj\x86\Debug\HashTagUI.FastBookingSearchForm.resources
 C:\Users\정현오\Documents\Visual Studio 2010\Projects\jdpAirplaneReservation중간최종\jdpAirplaneReservation중간최종\jdpAirplaneReservation중간\1\HashTagUI\obj\x86\Debug\HashTagUI.FindIdForm.resources
 C:\Users\정현오\Documents\Visual Studio 2010\Projects\jdpAirplaneReservation중간최종\jdpAirplaneReservation중간최종\jdpAirplaneReservation중간\1\HashTagUI\obj\x86\Debug\HashTagUI.FindPwForm.resources
+C:\Users\jay\Documents\GitHub\jdpAirplaneReservation\1\HashTagUI\obj\x86\Debug\HashTagUI.BookingSearchForm1.resources
+C:\Users\jay\Documents\GitHub\jdpAirplaneReservation\1\HashTagUI\obj\x86\Debug\HashTagUI.FastBookingSearchForm.resources
+C:\Users\jay\Documents\GitHub\jdpAirplaneReservation\1\HashTagUI\obj\x86\Debug\HashTagUI.FindIdForm.resources
+C:\Users\jay\Documents\GitHub\jdpAirplaneReservation\1\HashTagUI\obj\x86\Debug\HashTagUI.FindPwForm.resources
+C:\Users\jay\Documents\GitHub\jdpAirplaneReservation\1\HashTagUI\obj\x86\Debug\HashTagUI.ManagerForm.resources
+C:\Users\jay\Documents\GitHub\jdpAirplaneReservation\1\HashTagUI\obj\x86\Debug\HashTagUI.RegisterForm.resources

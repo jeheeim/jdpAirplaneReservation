@@ -2,12 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using HashTagUI;
 
-
-namespace HashTagUI
+namespace HashTagManager
 {
-
 	static class Program
 	{
 		/// <summary>
@@ -18,7 +15,7 @@ namespace HashTagUI
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-			Application.Run(new MainForm());
+			Application.Run(new ManagerForm());
 		}
 	}
 }
