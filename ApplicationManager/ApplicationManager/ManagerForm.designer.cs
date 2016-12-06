@@ -1,4 +1,4 @@
-﻿namespace HashTagManager
+﻿namespace ApplicationManager
 {
 	partial class ManagerForm
 	{
