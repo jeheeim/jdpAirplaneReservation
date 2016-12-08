@@ -35,13 +35,13 @@ namespace HashTagUI
             }
             else
             {
-                if (MainForm.server.userInfo.ContainsKey(textBox1.Text))
+                if (MainForm.clientSocket.userInfo.ContainsKey(textBox1.Text))
                 {
-                    if (MainForm.server.userInfo[textBox1.Text].name.Equals(textBox2.Text))
+                    if (MainForm.clientSocket.userInfo[textBox1.Text].name.Equals(textBox2.Text))
                     {
-                        if (MainForm.server.userInfo[textBox1.Text].email.Equals(textBox3.Text))
+                        if (MainForm.clientSocket.userInfo[textBox1.Text].email.Equals(textBox3.Text))
                         {
-                            MessageBox.Show("PW는 " + MainForm.server.userInfo[textBox1.Text].pw + "입니다");
+                            MessageBox.Show("PW는 " + MainForm.clientSocket.userInfo[textBox1.Text].pw + "입니다");
                         }
                         else
                         {

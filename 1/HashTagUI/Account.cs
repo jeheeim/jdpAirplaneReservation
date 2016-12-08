@@ -5,24 +5,29 @@ namespace HashTagUI
 {
 	public class Account
 	{
-		// 클래스 멤버
+		/* 클래스 멤버
+		 * str_id : 사용자 아이디
+		 * str_pw : 사용자 패스워드
+		 * str_name : 사용자 이름
+		 * str_email : 사용자 이메일
+		 * interest : 가고싶어하는 여행지
+		 */
         string str_id;
         string str_pw;
         string str_name;
         string str_email;
-        
+		string interest;
+
 		// 프로퍼티
-        public string id { get { return str_id; } }
-        public string pw { get { return str_pw; } }
-        public string name { get { return str_name; } }
-        public string email { get { return str_email; } }
+		public string id { get { return str_id; } }
+        public string pw { get { return str_pw; } set { str_pw = value; } }
+        public string name { get { return str_name; } set { str_name = value; } }
+        public string email { get { return str_email; } set { str_email = value; } }
+		public string Interest { get { return interest; } set { interest = value; } }
 
 		// 예약된 좌석
 		private Dictionary<string, List<string>> dic_bookedSeats;
 		public Dictionary<string, List<string>> BookedSeats { get { return dic_bookedSeats; } }
-
-		// 원하는 여행지
-		public string placeToGo;
 
         //bookedAirplane -> 구분자 ',' // bookedSeats -> 구분자 ',' : Seats단위 '|' : Airplane단위
 		// isadmin 생성자 패러미터에서 삭제. 예약된 좌석 비행기 관련 내용 패러미터에서 삭제
@@ -45,6 +50,15 @@ namespace HashTagUI
 			str_pw = info[1];
 			str_name = info[2];
 			str_email = info[3];
+			
+			if(info.Length == 5)
+			{
+				interest = info[4];
+			}
+			else
+			{
+				interest = "";
+			}
 
 			dic_bookedSeats = new Dictionary<string, List<string>>();
 		}
@@ -63,26 +77,36 @@ namespace HashTagUI
             for (int i = 0; i < seatNum.Count; i++)
             {
                 dic_bookedSeats[airplaneID].Add(seatNum[i]);
-                MainForm.server.airplaneList[airplaneID].Seats[seatNum[i]] = true;
+                MainForm.clientSocket.airplaneList[airplaneID].Seats[seatNum[i]] = true;
             }
         }
 
 		// 좌석을 지정하지않고 예약한 경우
 		// dic_bookedSeats 객체에 항공편ID과 아무런 값이 없는 문자열 리스트 객체를 더한다.
-        public void addToBook(string airplaneID, int seatSize)
-        {
-            if (!dic_bookedSeats.ContainsKey(airplaneID))
-            {
-                List<string> newlist = new List<string>();
-                dic_bookedSeats.Add(airplaneID, newlist);
-            }
-            dic_bookedSeats[airplaneID].Add(seatSize.ToString());
-        }
+		public void addToBook(string airplaneID, int seatSize)
+		{
+			if (!dic_bookedSeats.ContainsKey(airplaneID))
+			{
+				List<string> newlist = new List<string>();
+				dic_bookedSeats.Add(airplaneID, newlist);
+			}
+			foreach (KeyValuePair<string, bool> targetSeat in MainForm.clientSocket.airplaneList[airplaneID].Seats)
+			{
+				if (!targetSeat.Value)
+				{
+					dic_bookedSeats[airplaneID].Add(targetSeat.Key);
+					seatSize--;
+					MainForm.clientSocket.airplaneList[airplaneID].Seats[targetSeat.Key] = true;
+				}
+				if (seatSize == 0)
+					break;
+			}
+		}
 
 		// 고객등록할때 저장하는 방식
 		public override string ToString()
 		{
-			string result = str_id + ',' + str_pw + ',' + str_name + ',' + str_email;
+			string result = str_id + ',' + str_pw + ',' + str_name + ',' + str_email + ',' + interest;
 
 			return result;
 		}

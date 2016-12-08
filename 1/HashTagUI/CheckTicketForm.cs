@@ -34,7 +34,7 @@ namespace HashTagUI
 			MessageBox.Show("취소 되었습니다!");
             string seatNum = this.lvTicketInfo.SelectedItems[0].SubItems[3].Text;
             string apName = this.lvTicketInfo.SelectedItems[0].SubItems[0].Text;
-            MainForm.server.airplaneList[apName].Seats[seatNum] = false;
+            MainForm.clientSocket.airplaneList[apName].Seats[seatNum] = false;
             currentUser.BookedSeats[apName].Remove(seatNum);
             this.lvTicketInfo.Items.Remove(this.lvTicketInfo.SelectedItems[0]);
 		}
@@ -45,7 +45,7 @@ namespace HashTagUI
             foreach(KeyValuePair<string,List<string>> targetList in currentUser.BookedSeats)
             {
                 string apname = targetList.Key;
-                Airplane nowAp = MainForm.server.airplaneList[apname];
+                Airplane nowAp = MainForm.clientSocket.airplaneList[apname];
                 string dest = nowAp.DestApt;
                 string departAP = nowAp.DepartApt;
                 string seatClass;

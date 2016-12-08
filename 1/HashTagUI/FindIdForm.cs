@@ -32,7 +32,7 @@ namespace HashTagUI
             }
             else
             {
-                foreach (KeyValuePair<String, Account> temp in MainForm.server.userInfo)
+                foreach (KeyValuePair<String, Account> temp in MainForm.clientSocket.userInfo)
                 {
                     if (temp.Value.name.Equals(textBox1.Text) && temp.Value.email.Equals(textBox2.Text))
                     {

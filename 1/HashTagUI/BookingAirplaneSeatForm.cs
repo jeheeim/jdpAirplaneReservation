@@ -20,7 +20,7 @@ namespace HashTagUI
         	public BookingAirplaneSeatForm(Account currentUser,string nowAirplane)
         	{
             		InitializeComponent();
-                    this.nowAirplane = MainForm.server.airplaneList[nowAirplane];
+                    this.nowAirplane = MainForm.clientSocket.airplaneList[nowAirplane];
                     this.currentUser = currentUser;
         	}
             private void btnSeat_Click(object sender, EventArgs e)

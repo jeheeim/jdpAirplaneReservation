@@ -1,4 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 using System.IO;
 
@@ -8,26 +14,20 @@ namespace HashTagUI
     {
         bool idCheck = false;
         bool pwCheck = false;
-
-		public static string prePath = Directory.GetParent(Application.StartupPath).ToString();
-
-		MainForm mainForm;
-
-		public RegisterForm(MainForm mainForm)
+        
+        public RegisterForm()
         {
             InitializeComponent();
-
-			this.mainForm = mainForm;
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            if (tbID.Text.Length <8)
+            if (tbID.Text.Length <4)
             {
-                label6.Text = "8~15자를 입력해주세요";
+                label6.Text = "4~15자를 입력해주세요";
                 button1.Enabled = false;
             }
-            else if (tbID.Text.Length >= 8 && tbID.Text.Length <= 15)
+            else if (tbID.Text.Length >= 4 && tbID.Text.Length <= 15)
             {
                 label6.Text = "중복확인을 해주세요";
                 button1.Enabled = true;
@@ -41,7 +41,7 @@ namespace HashTagUI
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (MainForm.server.userInfo.ContainsKey(tbID.Text))
+            if (MainForm.clientSocket.userInfo.ContainsKey(tbID.Text))
             {
                 MessageBox.Show("중복됩니다");
             }
@@ -55,11 +55,16 @@ namespace HashTagUI
         private void RegisterForm_Load(object sender, EventArgs e)
         {
             button1.Enabled = false;
+            foreach(KeyValuePair<string, List<string>> targetCountries in MainForm.clientSocket.Destinations)
+            {
+                foreach (string eachContury in targetCountries.Value)
+                    cbCountries.Items.Add(eachContury); // 이부분 수정
+            }
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            if (tbID.Text.Length<8)
+            if (tbID.Text.Length<4)
             {
                 MessageBox.Show("ID를 입력해주세요");
             }
@@ -89,16 +94,19 @@ namespace HashTagUI
             }
             else
             {
-                Account temp = new Account(tbID.Text,tbPW.Text,tbUserName.Text,tbEmail.Text);
+                
+				Account temp=new Account(tbID.Text,tbPW.Text,tbUserName.Text,tbEmail.Text);
 
-				if (MainForm.server.RegiserUser(temp))
-				{
-					MessageBox.Show("등록 성공했습니다!");
-				}
-                else
-				{
-					MessageBox.Show("등록 실패!");
-				}
+				if (cbCountries.SelectedItem != null) { temp.Interest = cbCountries.Text;}
+				else { temp.Interest = ""; }
+
+				MainForm.clientSocket.userInfo.Add(tbID.Text, temp);
+
+				StreamWriter file = File.AppendText(ClientSocket.prePath + "\\Data\\account.txt");
+                file.WriteLine(temp.ToString());
+                file.Flush();
+
+				MessageBox.Show("회원가입이 완료되었습니다");
 			}
 		}
 
