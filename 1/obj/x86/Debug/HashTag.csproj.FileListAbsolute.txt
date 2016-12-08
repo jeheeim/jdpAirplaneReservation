@@ -1,5 +1,0 @@
-c:\users\정현오\documents\visual studio 2010\Projects\1\1\bin\Debug\1.exe
-c:\users\정현오\documents\visual studio 2010\Projects\1\1\bin\Debug\1.pdb
-c:\users\정현오\documents\visual studio 2010\Projects\1\1\obj\x86\Debug\1.exe
-c:\users\정현오\documents\visual studio 2010\Projects\1\1\obj\x86\Debug\1.pdb
-C:\Users\정현오\Documents\Visual Studio 2010\Projects\1\1\obj\x86\Debug\HashTag.csprojResolveAssemblyReference.cache
