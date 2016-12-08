@@ -11,17 +11,17 @@ namespace HashTagUI
 {
 	public partial class ManagerForm : Form
 	{
-		ClientSocket server;
+		ClientSocket clientSocket;
 		MainForm mainForm;
 
-		public ManagerForm(ClientSocket server, MainForm mainForm)
+		public ManagerForm(ClientSocket clientSocket, MainForm mainForm)
 		{
 			InitializeComponent();
 
-			this.server = server;
+			this.clientSocket = clientSocket;
 			this.mainForm = mainForm;
 
-			foreach (KeyValuePair<string, Airplane> kv in server.airplaneList)
+			foreach (KeyValuePair<string, Airplane> kv in clientSocket.airplaneList)
 			{
 				listBox1.Items.Add(kv.Value);
 			}
@@ -29,11 +29,11 @@ namespace HashTagUI
 
 		private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			tboxAirplaneID.Text = server.airplaneList[listBox1.SelectedItem.ToString()].ID;
-			tboxDepartApt.Text = server.airplaneList[listBox1.SelectedItem.ToString()].DepartApt;
+			tboxAirplaneID.Text = clientSocket.airplaneList[listBox1.SelectedItem.ToString()].ID;
+			tboxDepartApt.Text = clientSocket.airplaneList[listBox1.SelectedItem.ToString()].DepartApt;
 
-			string[] split = server.airplaneList[listBox1.SelectedItem.ToString()].Date.Split('.');
-			int hour = int.Parse(server.airplaneList[listBox1.SelectedItem.ToString()].Time);
+			string[] split = clientSocket.airplaneList[listBox1.SelectedItem.ToString()].Date.Split('.');
+			int hour = int.Parse(clientSocket.airplaneList[listBox1.SelectedItem.ToString()].Time);
 
 			DateTime departDateTime = new DateTime(2016, int.Parse(split[0]), int.Parse(split[1]));
 			departDateTime = departDateTime.AddHours(hour);
@@ -42,17 +42,17 @@ namespace HashTagUI
 			dtpDepartDate.Value = departDateTime;
 			dtpDepartTime.Value = departDateTime;
 
-			tboxDestCountry.Text = server.airplaneList[listBox1.SelectedItem.ToString()].Country;
-			tboxDestApt.Text = server.airplaneList[listBox1.SelectedItem.ToString()].DestApt;
-			tboxNumOfSeat.Text = server.airplaneList[listBox1.SelectedItem.ToString()].LeftSeats.ToString();
-			tboxCost.Text = server.airplaneList[listBox1.SelectedItem.ToString()].Cost.ToString();
+			tboxDestCountry.Text = clientSocket.airplaneList[listBox1.SelectedItem.ToString()].Country;
+			tboxDestApt.Text = clientSocket.airplaneList[listBox1.SelectedItem.ToString()].DestApt;
+			tboxNumOfSeat.Text = clientSocket.airplaneList[listBox1.SelectedItem.ToString()].LeftSeats.ToString();
+			tboxCost.Text = clientSocket.airplaneList[listBox1.SelectedItem.ToString()].Cost.ToString();
 		}
 
 		private void btnAdd_Click(object sender, EventArgs e)
 		{
 			Airplane newAirplane = ConversionIntoAirplane();
 
-			server.addToAirplaneList(tboxContinent.Text, newAirplane);
+			clientSocket.addToAirplaneList(tboxContinent.Text, newAirplane);
 		}
 
 		private Airplane ConversionIntoAirplane()
@@ -75,13 +75,13 @@ namespace HashTagUI
 		{
 			Airplane newAp = ConversionIntoAirplane();
 
-			server.airplaneList[newAp.ID].Cost = newAp.Cost;
-			server.airplaneList[newAp.ID].Country = newAp.Country;
-			server.airplaneList[newAp.ID].Date = newAp.Date;
-			server.airplaneList[newAp.ID].DepartApt = newAp.DepartApt;
-			server.airplaneList[newAp.ID].DestApt = newAp.DestApt;
-			server.airplaneList[newAp.ID].LeftSeats = newAp.LeftSeats;
-			server.airplaneList[newAp.ID].Time = newAp.Time;
+			clientSocket.airplaneList[newAp.ID].Cost = newAp.Cost;
+			clientSocket.airplaneList[newAp.ID].Country = newAp.Country;
+			clientSocket.airplaneList[newAp.ID].Date = newAp.Date;
+			clientSocket.airplaneList[newAp.ID].DepartApt = newAp.DepartApt;
+			clientSocket.airplaneList[newAp.ID].DestApt = newAp.DestApt;
+			clientSocket.airplaneList[newAp.ID].LeftSeats = newAp.LeftSeats;
+			clientSocket.airplaneList[newAp.ID].Time = newAp.Time;
 		}
 
 		private void btnCancel_Click(object sender, EventArgs e)

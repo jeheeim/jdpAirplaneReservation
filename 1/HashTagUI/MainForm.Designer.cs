@@ -64,6 +64,7 @@
 			this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.lblMarqRec = new System.Windows.Forms.Label();
 			this.TimerMQ = new System.Windows.Forms.Timer(this.components);
+			this.btnModifyInfo = new System.Windows.Forms.Button();
 			this.groupBox1.SuspendLayout();
 			this.gbRecommend.SuspendLayout();
 			this.SuspendLayout();
@@ -419,11 +420,25 @@
 			this.TimerMQ.Interval = 50;
 			this.TimerMQ.Tick += new System.EventHandler(this.TimerMQ_Tick);
 			// 
+			// btnModifyInfo
+			// 
+			this.btnModifyInfo.Enabled = false;
+			this.btnModifyInfo.Font = new System.Drawing.Font("굴림", 7F);
+			this.btnModifyInfo.Location = new System.Drawing.Point(768, 85);
+			this.btnModifyInfo.Name = "btnModifyInfo";
+			this.btnModifyInfo.Size = new System.Drawing.Size(99, 29);
+			this.btnModifyInfo.TabIndex = 29;
+			this.btnModifyInfo.Text = "개인정보 수정";
+			this.btnModifyInfo.UseVisualStyleBackColor = true;
+			this.btnModifyInfo.Visible = false;
+			this.btnModifyInfo.Click += new System.EventHandler(this.btnModifyInfo_Click);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(892, 653);
+			this.Controls.Add(this.btnModifyInfo);
 			this.Controls.Add(this.lblMarqRec);
 			this.Controls.Add(this.gbRecommend);
 			this.Controls.Add(this.groupBox1);
@@ -487,6 +502,7 @@
         private System.Windows.Forms.ColumnHeader columnHeader6;
         private System.Windows.Forms.Label lblMarqRec;
         private System.Windows.Forms.Timer TimerMQ;
-    }
+		private System.Windows.Forms.Button btnModifyInfo;
+	}
 }
 

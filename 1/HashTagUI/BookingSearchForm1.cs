@@ -46,7 +46,7 @@ namespace HashTagUI
             cbCountry.Items.Clear();
             cbDest.Items.Clear();
             this.lvSearchResult.Items.Clear();
-            foreach (KeyValuePair<string, List<string>> targetPair in MainForm.server.Destinations)
+            foreach (KeyValuePair<string, List<string>> targetPair in MainForm.clientSocket.Destinations)
             {
                 this.cbRegion.Items.Add(targetPair.Key);/*
                 for (int i = 0; i < targetPair.Value.Count; i++)
@@ -54,7 +54,7 @@ namespace HashTagUI
                     this.cbCountry.Items.Add(targetPair.Value[i]);
                 }*/
             }
-            foreach (KeyValuePair<string, Dictionary<string, List<string>>> targetPair in MainForm.server.airplaneSchedules)
+            foreach (KeyValuePair<string, Dictionary<string, List<string>>> targetPair in MainForm.clientSocket.airplaneSchedules)
             {
                 this.cbDepartDay.Items.Add(targetPair.Key);
             }
@@ -66,10 +66,10 @@ namespace HashTagUI
             this.lblSearchText.Text = dest + "로 가는 비행기 리스트 입니다.";
             if(dest != "" && country != "" && departDay != "" && departTime != "")
             {
-                List<string> targetID = MainForm.server.airplaneSchedules[departDay][departTime];
+                List<string> targetID = MainForm.clientSocket.airplaneSchedules[departDay][departTime];
                 for (int i = 0; i < targetID.Count; i++)
                 {
-                    Airplane targetApt = MainForm.server.airplaneList[targetID[i]];
+                    Airplane targetApt = MainForm.clientSocket.airplaneList[targetID[i]];
                     if (targetApt.DestApt == dest && targetApt.Country == country)
                     {
                         ListViewItem lvItem = new ListViewItem(new string[6] { targetApt.ID, targetApt.DepartApt, targetApt.DestApt, targetApt.Date, targetApt.Time, targetApt.LeftSeats.ToString() });
@@ -80,10 +80,10 @@ namespace HashTagUI
             }
             if (dest != "" && country != "" && departDay != "" && departTime == "")
             {
-                List<string> targetID = MainForm.server.airplaneDest[country][dest];
+                List<string> targetID = MainForm.clientSocket.airplaneDest[country][dest];
                 for (int i = 0; i < targetID.Count; i++)
                 {
-                    Airplane targetApt = MainForm.server.airplaneList[targetID[i]];
+                    Airplane targetApt = MainForm.clientSocket.airplaneList[targetID[i]];
                     if (targetApt.Date == departDay)
                     {
                         ListViewItem lvItem = new ListViewItem(new string[6] { targetApt.ID, targetApt.DepartApt, targetApt.DestApt, targetApt.Date, targetApt.Time, targetApt.LeftSeats.ToString() });
@@ -94,10 +94,10 @@ namespace HashTagUI
             }
             if (dest != "" && country != "" && departDay == "")
             {
-                List<string> targetID = MainForm.server.airplaneDest[country][dest];
+                List<string> targetID = MainForm.clientSocket.airplaneDest[country][dest];
                 for (int i = 0; i < targetID.Count; i++)
                 {
-                    Airplane targetApt = MainForm.server.airplaneList[targetID[i]];
+                    Airplane targetApt = MainForm.clientSocket.airplaneList[targetID[i]];
                     ListViewItem lvItem = new ListViewItem(new string[6] { targetApt.ID, targetApt.DepartApt, targetApt.DestApt, targetApt.Date, targetApt.Time, targetApt.LeftSeats.ToString() });
                     this.lvSearchResult.Items.Add(lvItem);
                 }
@@ -105,10 +105,10 @@ namespace HashTagUI
             }
             if (departDay != "" && departTime != "" && country == "")
             {
-                List<string> targetID = MainForm.server.airplaneSchedules[departDay][departTime];
+                List<string> targetID = MainForm.clientSocket.airplaneSchedules[departDay][departTime];
                 for (int i = 0; i < targetID.Count; i++)
                 {
-                    Airplane targetApt = MainForm.server.airplaneList[targetID[i]];
+                    Airplane targetApt = MainForm.clientSocket.airplaneList[targetID[i]];
                     ListViewItem lvItem = new ListViewItem(new string[6] { targetApt.ID, targetApt.DepartApt, targetApt.DestApt, targetApt.Date, targetApt.Time, targetApt.LeftSeats.ToString() });
                     this.lvSearchResult.Items.Add(lvItem);
                 }
@@ -133,11 +133,11 @@ namespace HashTagUI
             //@"C:\Users\jay\Documents\GitHub\jdpAirplaneReservation
             this.cbCountry.Items.Clear();
             string seletedRegion = this.cbRegion.SelectedItem.ToString();
-            if(MainForm.server.Destinations.ContainsKey(seletedRegion))
+            if(MainForm.clientSocket.Destinations.ContainsKey(seletedRegion))
             {
-                for(int i = 0; i < MainForm.server.Destinations[seletedRegion].Count; i++)
+                for(int i = 0; i < MainForm.clientSocket.Destinations[seletedRegion].Count; i++)
                 {
-                    cbCountry.Items.Add(MainForm.server.Destinations[seletedRegion][i]);
+                    cbCountry.Items.Add(MainForm.clientSocket.Destinations[seletedRegion][i]);
                 }
             }
 		}
@@ -148,11 +148,11 @@ namespace HashTagUI
             cbDest.Text = "";
             dest = "";
             country = this.cbCountry.SelectedItem.ToString();
-            if (MainForm.server.airplaneDest.ContainsKey(country))
+            if (MainForm.clientSocket.airplaneDest.ContainsKey(country))
             {
-                for (int i = 0; i < MainForm.server.airplaneDest[country].Count; i++)
+                for (int i = 0; i < MainForm.clientSocket.airplaneDest[country].Count; i++)
                 {
-                    foreach (KeyValuePair<string, List<string>> target in MainForm.server.airplaneDest[country])
+                    foreach (KeyValuePair<string, List<string>> target in MainForm.clientSocket.airplaneDest[country])
                         cbDest.Items.Add(target.Key);
                 }
             }
@@ -170,10 +170,10 @@ namespace HashTagUI
             if (country != "" && dest != "")
             {
                 string nowDate="", preDate="";
-                List<string> targetID = MainForm.server.airplaneDest[country][dest];
+                List<string> targetID = MainForm.clientSocket.airplaneDest[country][dest];
                 for (int i = 0; i < targetID.Count; i++)
                 {
-                    nowDate = MainForm.server.airplaneList[targetID[i]].Date;
+                    nowDate = MainForm.clientSocket.airplaneList[targetID[i]].Date;
                     if(nowDate != preDate)
                         cbDepartDay.Items.Add(nowDate);
                     preDate = nowDate;
@@ -191,17 +191,17 @@ namespace HashTagUI
             departDay = cbDepartDay.SelectedItem.ToString();
             if(country != "" && departDay != "" && dest != "")
             {
-                List<string> targetID = MainForm.server.airplaneDest[country][dest];
+                List<string> targetID = MainForm.clientSocket.airplaneDest[country][dest];
                 for (int i = 0; i < targetID.Count; i++)
                 {
-                    if (MainForm.server.airplaneList[targetID[i]].Date == departDay)
-                        cbDepartTime.Items.Add(MainForm.server.airplaneList[targetID[i]].Time);
+                    if (MainForm.clientSocket.airplaneList[targetID[i]].Date == departDay)
+                        cbDepartTime.Items.Add(MainForm.clientSocket.airplaneList[targetID[i]].Time);
                 }
                 return;
             }
-            if (MainForm.server.airplaneSchedules.ContainsKey(departDay))
+            if (MainForm.clientSocket.airplaneSchedules.ContainsKey(departDay))
             {
-                foreach (KeyValuePair<string, List<string>> target in MainForm.server.airplaneSchedules[departDay])
+                foreach (KeyValuePair<string, List<string>> target in MainForm.clientSocket.airplaneSchedules[departDay])
                     cbDepartTime.Items.Add(target.Key);
             }
 		}

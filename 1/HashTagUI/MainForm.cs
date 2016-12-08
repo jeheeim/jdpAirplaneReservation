@@ -14,7 +14,7 @@ namespace HashTagUI
         private Account acc_currnetUser;
         public Account currentUser { get { return acc_currnetUser; } set { acc_currnetUser = value; } }
 		public static ClientSocket clientSocket;
-
+		
 		public MainForm()
 		{
 			InitializeComponent();
@@ -25,11 +25,14 @@ namespace HashTagUI
 			}
 		}
         /* 11.29 수정*/
+		// 로그인 함수
 		private void btnLogin_Click(object sender, EventArgs e)
 		{
             if (currentUser == null)
             {
+				// clientSocket 클래스의 login실행
                 currentUser = clientSocket.login(textBox1.Text, textBox2.Text);
+
                 if (currentUser != null)
                 {
                     textBox1.Visible = false;
@@ -46,7 +49,11 @@ namespace HashTagUI
                     btnLoginout.Text = "로그아웃";
                     gbRecommend.Text = currentUser.id + "님을 위한 추천 항공편";
                     gbRecommend.Visible = true;
-                    MessageBox.Show("로그인 성공");
+					btnModifyInfo.Visible = true;
+					btnModifyInfo.Enabled = true;
+					InputRecommendToUsers();
+
+					MessageBox.Show("로그인 성공");
                 }
                 else
                 {
@@ -55,7 +62,6 @@ namespace HashTagUI
             }
             else
             {
-                MessageBox.Show("로그아웃 성공");
                 currentUser = null;
                 btnLoginout.Text = "로그인";
                 lblLoginText.Visible = false;
@@ -70,59 +76,94 @@ namespace HashTagUI
                 label3.Visible = true;
                 gbRecommend.Text = "추천 항공편";
                 gbRecommend.Visible = false;
-            }
+				btnModifyInfo.Visible = false;
+				btnModifyInfo.Enabled = false;
+
+				MessageBox.Show("로그아웃 성공");
+			}
 		}
-        /* 11.29 수정*/
+
+		// 메소드 추가
+		private void InputRecommendToUsers()
+		{
+			Dictionary<int, Airplane> dicMinCosts = new Dictionary<int, Airplane>();
+			string userInterest = "NULL";
+			this.lvSearchResult1.Items.Clear();
+			if (currentUser != null)
+				userInterest = currentUser.Interest;
+			if (userInterest == "")
+			{
+				foreach (KeyValuePair<string, Airplane> temp in MainForm.clientSocket.airplaneList)
+				{
+					putValueInMinCost(temp.Value, dicMinCosts);
+				}
+			}
+			else
+			{
+				foreach (KeyValuePair<string, List<string>> targetValue in clientSocket.airplaneDest[userInterest])
+				{
+					foreach (string targetKey in targetValue.Value)
+					{
+						putValueInMinCost(clientSocket.airplaneList[targetKey], dicMinCosts);
+					}
+				}
+			}
+			for (int i = 0; i < 3; i++)
+			{
+				ListViewItem lvItem = new ListViewItem(new string[6] { dicMinCosts[i].ID, dicMinCosts[i].DepartApt, dicMinCosts[i].DestApt, dicMinCosts[i].Date, dicMinCosts[i].Time, dicMinCosts[i].Cost.ToString() });
+				this.lvSearchResult1.Items.Add(lvItem);
+			}
+		}
+
+		// 폼 로드 이벤트
 		private void MainForm_Load(object sender, EventArgs e)
 		{
 			clientSocket = new ClientSocket();
-            foreach (KeyValuePair<string, Airplane> temp in clientSocket.airplaneList)
-            {
-                cbStart.Items.Add(temp.Value.DepartApt);
-            }
-            cbArrive.Enabled = false;
-            cbDest.Enabled = false;
-            cbDepart.Enabled = false;
-            gbRecommend.Text = "추천 항공편";
-            gbRecommend.Visible = false;
-            Dictionary<int, Airplane> dicMinCosts = new Dictionary<int, Airplane>();
-            foreach (KeyValuePair<string, Airplane> temp in MainForm.clientSocket.airplaneList)
-            {
-                putValueInMinCost(temp.Value, dicMinCosts);
-            }
-            for(int i =0; i < 3; i++)
-            {
-                ListViewItem lvItem = new ListViewItem(new string[6] { dicMinCosts[i].ID, dicMinCosts[i].DepartApt, dicMinCosts[i].DestApt, dicMinCosts[i].Date, dicMinCosts[i].Time, dicMinCosts[i].Cost.ToString() });
-                this.lvSearchResult1.Items.Add(lvItem);
-            }
-            // timer관련 함수
-            TimerMQ.Start();
-            this.SetStyle(ControlStyles.DoubleBuffer, true);
-            this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
-            this.SetStyle(ControlStyles.UserPaint, true);
-        }
+
+			foreach (KeyValuePair<string, Airplane> temp in clientSocket.airplaneList)
+			{
+				cbStart.Items.Add(temp.Value.DepartApt);
+			}
+
+			cbArrive.Enabled = false;
+			cbDest.Enabled = false;
+			cbDepart.Enabled = false;
+			gbRecommend.Text = "추천 항공편";
+			gbRecommend.Visible = false;
+			
+			// timer관련 함수
+			TimerMQ.Start();
+			this.SetStyle(ControlStyles.DoubleBuffer, true);
+			this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+			this.SetStyle(ControlStyles.UserPaint, true);
+		}
+
         private void putValueInMinCost(Airplane target, Dictionary<int, Airplane> targetDic)
-        {
-            if(targetDic.Count < 3)
-            {
-                for(int i = 0; i < 3; i++)
-                {
-                    if(!targetDic.ContainsKey(i))
-                    {
-                        targetDic.Add(i, target);
-                        return;
-                    }
-                }
-            }
-            for(int i = 0; i < 3; i++)
-            {
-                if (targetDic[i].Cost > target.Cost)
-                {
-                    targetDic[i] = target;
-                    return;
-                }
-            }
-        }
+		{
+			if (targetDic.Count < 3)
+			{
+				for (int i = 0; i < 3; i++)
+				{
+					if (!targetDic.ContainsKey(i))
+					{
+						targetDic.Add(i, target);
+						return;
+					}
+				}
+			}
+			for (int i = 0; i < 3; i++)
+			{
+				if (targetDic[i].Cost > target.Cost)
+				{
+					for (int j = i + 1; j < 3; j++)
+					{
+						targetDic[j] = targetDic[j - 1];
+					}
+					targetDic[i] = target;
+					break;
+				}
+			}
+		}
         /* 11.29 수정*/
 		private void btnBooking_Click(object sender, EventArgs e)
 		{
@@ -148,7 +189,7 @@ namespace HashTagUI
         /* 11.29 수정*/
         private void label3_Click(object sender, EventArgs e)
         {
-            Form f = new RegisterForm(this);
+            Form f = new RegisterForm();
             f.ShowDialog();
         }
         /* 11.29 J 수정*/
@@ -299,5 +340,23 @@ namespace HashTagUI
             Form searchResult = new BookingAirplaneSeatForm(currentUser, name);
             searchResult.ShowDialog();
         }
-    }
+
+		bool isPasswordCorrect = false;
+		public void ShowModifyInfoForm() { isPasswordCorrect = true; }
+
+		// 임제희 12/8 추가
+		// 개인정보 수정하기 버튼을 클릭할 경우 실행되는 이벤트
+		// 비밀번호 확인 창을 띄워 확인한 뒤, 맞으면 개인정보 수정하기 창을 띄운다.
+		private void btnModifyInfo_Click(object sender, EventArgs e)
+		{
+			CheckPassword checkPassword = new CheckPassword(this);
+			checkPassword.ShowDialog();
+
+			if(isPasswordCorrect)
+			{
+				ModifyInfoForm modifyInfoForm = new ModifyInfoForm(this);
+				modifyInfoForm.ShowDialog();
+			}
+		}
+	}
 }

@@ -26,7 +26,7 @@ namespace HashTagUI
             //label2.Visible = false;
             label2.Text = "이용하실 비행기를 선택해주세요";
 
-            foreach (KeyValuePair<string, Airplane> temp in MainForm.server.airplaneList)
+            foreach (KeyValuePair<string, Airplane> temp in MainForm.clientSocket.airplaneList)
             {
                 if (temp.Value.DepartApt.Equals(mainForm.cbStart.SelectedItem.ToString()) && temp.Value.DestApt.Equals(mainForm.cbDest.SelectedItem.ToString()) && temp.Value.Date.Equals(mainForm.cbDepart.SelectedItem.ToString()))
                 {
@@ -35,7 +35,7 @@ namespace HashTagUI
                 }
             }
             
-            foreach (KeyValuePair<string, Airplane> temp in MainForm.server.airplaneList)
+            foreach (KeyValuePair<string, Airplane> temp in MainForm.clientSocket.airplaneList)
             {
                 if (temp.Value.DestApt.Equals(mainForm.cbStart.SelectedItem.ToString()) && temp.Value.DepartApt.Equals(mainForm.cbDest.SelectedItem.ToString()) && temp.Value.Date.Equals(mainForm.cbArrive.SelectedItem.ToString()))
                 {
@@ -61,7 +61,7 @@ namespace HashTagUI
             }
             else
             {
-                label2.Text = "총 비용은 " + (int)(MainForm.server.airplaneList[lvSearchResult.SelectedItems[0].SubItems[0].Text].Cost + MainForm.server.airplaneList[lvSearchResult1.SelectedItems[0].SubItems[0].Text].Cost) + "입니다";
+                label2.Text = "총 비용은 " + (int)(MainForm.clientSocket.airplaneList[lvSearchResult.SelectedItems[0].SubItems[0].Text].Cost + MainForm.clientSocket.airplaneList[lvSearchResult1.SelectedItems[0].SubItems[0].Text].Cost) + "입니다";
             }
         }
 
@@ -78,7 +78,7 @@ namespace HashTagUI
             }
             else
             {
-                label2.Text = "총 비용은 " + (int)(MainForm.server.airplaneList[lvSearchResult.SelectedItems[0].SubItems[0].Text].Cost + MainForm.server.airplaneList[lvSearchResult1.SelectedItems[0].SubItems[0].Text].Cost) + "입니다";
+                label2.Text = "총 비용은 " + (int)(MainForm.clientSocket.airplaneList[lvSearchResult.SelectedItems[0].SubItems[0].Text].Cost + MainForm.clientSocket.airplaneList[lvSearchResult1.SelectedItems[0].SubItems[0].Text].Cost) + "입니다";
             }
         }
 
@@ -90,23 +90,23 @@ namespace HashTagUI
             DialogResult result = MessageBox.Show(text, caption, button);
             if (result == System.Windows.Forms.DialogResult.OK)
             {
-                if (MainForm.server.airplaneList[lvSearchResult.SelectedItems[0].SubItems[0].Text].LeftSeats >= int.Parse(mainForm.comboBox1.SelectedItem.ToString()) && MainForm.server.airplaneList[lvSearchResult1.SelectedItems[0].SubItems[0].Text].LeftSeats >= int.Parse(mainForm.comboBox1.SelectedItem.ToString()))
+                if (MainForm.clientSocket.airplaneList[lvSearchResult.SelectedItems[0].SubItems[0].Text].LeftSeats >= int.Parse(mainForm.comboBox1.SelectedItem.ToString()) && MainForm.clientSocket.airplaneList[lvSearchResult1.SelectedItems[0].SubItems[0].Text].LeftSeats >= int.Parse(mainForm.comboBox1.SelectedItem.ToString()))
                 {
                     MessageBox.Show("예약완료");
                     mainForm.currentUser.addToBook(lvSearchResult.SelectedItems[0].SubItems[0].Text, int.Parse(mainForm.comboBox1.SelectedItem.ToString()));
                     mainForm.currentUser.addToBook(lvSearchResult1.SelectedItems[0].SubItems[0].Text, int.Parse(mainForm.comboBox1.SelectedItem.ToString()));
-                    MainForm.server.airplaneList[lvSearchResult.SelectedItems[0].SubItems[0].Text].LeftSeats -= int.Parse(mainForm.comboBox1.SelectedItem.ToString());
-                    MainForm.server.airplaneList[lvSearchResult1.SelectedItems[0].SubItems[0].Text].LeftSeats -= int.Parse(mainForm.comboBox1.SelectedItem.ToString());
+                    MainForm.clientSocket.airplaneList[lvSearchResult.SelectedItems[0].SubItems[0].Text].LeftSeats -= int.Parse(mainForm.comboBox1.SelectedItem.ToString());
+                    MainForm.clientSocket.airplaneList[lvSearchResult1.SelectedItems[0].SubItems[0].Text].LeftSeats -= int.Parse(mainForm.comboBox1.SelectedItem.ToString());
         
                 }
-                else if (MainForm.server.airplaneList[lvSearchResult.SelectedItems[0].SubItems[0].Text].LeftSeats < int.Parse(mainForm.comboBox1.SelectedItem.ToString()))
+                else if (MainForm.clientSocket.airplaneList[lvSearchResult.SelectedItems[0].SubItems[0].Text].LeftSeats < int.Parse(mainForm.comboBox1.SelectedItem.ToString()))
                 {
                     MessageBoxButtons button1 = MessageBoxButtons.OKCancel;
                     String text1 = "출발 비행기의 좌석이 부족합니다, 알림서비스를 요청하시겠습니까?";
                     String caption1 = "알림서비스 요청여부";
                     DialogResult result1 = MessageBox.Show(text1, caption1, button1);
                 }
-                else if (MainForm.server.airplaneList[lvSearchResult1.SelectedItems[0].SubItems[0].Text].LeftSeats < int.Parse(mainForm.comboBox1.SelectedItem.ToString()))
+                else if (MainForm.clientSocket.airplaneList[lvSearchResult1.SelectedItems[0].SubItems[0].Text].LeftSeats < int.Parse(mainForm.comboBox1.SelectedItem.ToString()))
                 {
                     MessageBoxButtons button1 = MessageBoxButtons.OKCancel;
                     String text1 = "도착 비행기의 좌석이 부족합니다, 알림서비스를 요청하시겠습니까?";

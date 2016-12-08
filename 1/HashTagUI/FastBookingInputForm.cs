@@ -45,7 +45,7 @@ namespace HashTagUI
         }
         private void FastBookingInputForm_Load(object sender, EventArgs e)
         {
-            foreach (KeyValuePair<string, Airplane> temp in MainForm.server.airplaneList)
+            foreach (KeyValuePair<string, Airplane> temp in MainForm.clientSocket.airplaneList)
             {
                 string departName = temp.Value.DepartApt;
                 string country = findCountryByAirport(departName);
@@ -68,7 +68,7 @@ namespace HashTagUI
                         return targetPair.Key;
                 }
             }
-            foreach (KeyValuePair<string, Dictionary<string, List<string>>> targetPair in MainForm.server.airplaneDest)
+            foreach (KeyValuePair<string, Dictionary<string, List<string>>> targetPair in MainForm.clientSocket.airplaneDest)
             {
                 foreach (KeyValuePair<string, List<string>> valuePair in targetPair.Value)
                 {
@@ -144,7 +144,7 @@ namespace HashTagUI
             int cnt = 0;
             string country = findCountryByAirport(startApt);
             
-            foreach (KeyValuePair<string, Airplane> temp in MainForm.server.airplaneList)
+            foreach (KeyValuePair<string, Airplane> temp in MainForm.clientSocket.airplaneList)
             {
                 if (temp.Value.DepartApt.Equals(startApt))
                 {
@@ -182,7 +182,7 @@ namespace HashTagUI
             int cnt = 0;
             string country = findCountryByAirport(startApt);
 
-            foreach (KeyValuePair<string, Airplane> temp in MainForm.server.airplaneList)
+            foreach (KeyValuePair<string, Airplane> temp in MainForm.clientSocket.airplaneList)
             {
                 if (temp.Value.DepartApt.Equals(startApt))
                 {
