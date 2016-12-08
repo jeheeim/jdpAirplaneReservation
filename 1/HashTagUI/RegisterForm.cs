@@ -12,12 +12,16 @@ namespace HashTagUI
 {
     public partial class RegisterForm : Form
     {
+		Server server;
         bool idCheck = false;
         bool pwCheck = false;
-        public static string prePath = System.IO.Directory.GetParent(Application.StartupPath).ToString();
-        public RegisterForm()
+        public static string prePath = Directory.GetParent(Application.StartupPath).ToString();
+
+        public RegisterForm(Server server)
         {
             InitializeComponent();
+
+			this.server = server;
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -89,16 +93,18 @@ namespace HashTagUI
             }
             else
             {
-                MessageBox.Show("회원가입이 완료되었습니다");
-                Account temp=new Account(tbID.Text,tbPW.Text,tbUserName.Text,tbEmail.Text,false);
-                MainForm.server.userInfo.Add(tbID.Text, temp);//StreamWriter sw = File.AppendText(path)
-                //System.IO.StreamWriter file = new System.IO.StreamWriter(@"C:\Users\정현오\Documents\My Web Sites\a.txt");
-                System.IO.StreamWriter file = File.AppendText(Server.prePath + "\\Data\\account.txt");
-                String a = tbID.Text + "," + tbPW.Text + "," + tbUserName.Text + "," + tbEmail.Text + ",0"  ;
-                file.WriteLine(a);
-                file.Flush();
-            }
-        }
+                Account temp = new Account(tbID.Text,tbPW.Text,tbUserName.Text,tbEmail.Text);
+
+				if (server.RegiserUser(temp))
+				{
+					MessageBox.Show("등록 성공했습니다!");
+				}
+                else
+				{
+					MessageBox.Show("등록 실패!");
+				}
+			}
+		}
 
         private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
         {

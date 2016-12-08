@@ -134,7 +134,7 @@ namespace HashTagUI
 
             // Read the file and display it line by line.
             //@"C:\Users\jay\Documents\account.txt"
-            System.IO.StreamReader file = new System.IO.StreamReader(Server.prePath + "\\Data\\account.txt");
+            StreamReader file = new StreamReader(Server.prePath + "\\Data\\account.txt");
             while ((line = file.ReadLine()) != null)
             {
                 string[] accountArr = line.Split(',');
@@ -143,7 +143,7 @@ namespace HashTagUI
                 name = accountArr[2];
                 email = accountArr[3];
                 admin = accountArr[4];
-                Account temp = new Account(id, pw, name, email, (admin == "1")?true:false);
+                Account temp = new Account(id, pw, name, email);
                 dic_userInfo.Add(id, temp);
             }
 
@@ -204,5 +204,23 @@ namespace HashTagUI
 			addToDestionationDic(continent, newAp.Country);
 		}
 
+		public bool RegiserUser(Account newUser)
+		{
+			try
+			{
+				userInfo.Add(newUser.id, newUser);
+				StreamWriter file = File.AppendText(prePath + "\\Data\\account.txt");
+				file.WriteLine(newUser.ToString());
+				file.Flush();
+			}
+			catch(Exception e)
+			{
+				MessageBox.Show(e.ToString());
+
+				return false;
+			}
+
+			return true;
+		}
     }
 }

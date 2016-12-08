@@ -19,9 +19,15 @@ namespace HashTagUI
         private Account acc_currnetUser;
         public Account currentUser { get { return acc_currnetUser; } set { acc_currnetUser = value; } }
 		public static Server server;
+
 		public MainForm()
 		{
 			InitializeComponent();
+
+			for(int i=0;i<lvSearchResult1.Columns.Count;i++)
+			{
+				lvSearchResult1.Columns[i].Width = lvSearchResult1.Width / lvSearchResult1.Columns.Count;
+			}
 		}
         /* 11.29 수정*/
 		private void btnLogin_Click(object sender, EventArgs e)
