@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using System.IO;
 
@@ -12,16 +6,18 @@ namespace HashTagUI
 {
     public partial class RegisterForm : Form
     {
-		Server server;
         bool idCheck = false;
         bool pwCheck = false;
-        public static string prePath = Directory.GetParent(Application.StartupPath).ToString();
 
-        public RegisterForm(Server server)
+		public static string prePath = Directory.GetParent(Application.StartupPath).ToString();
+
+		MainForm mainForm;
+
+		public RegisterForm(MainForm mainForm)
         {
             InitializeComponent();
 
-			this.server = server;
+			this.mainForm = mainForm;
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -95,7 +91,7 @@ namespace HashTagUI
             {
                 Account temp = new Account(tbID.Text,tbPW.Text,tbUserName.Text,tbEmail.Text);
 
-				if (server.RegiserUser(temp))
+				if (MainForm.server.RegiserUser(temp))
 				{
 					MessageBox.Show("등록 성공했습니다!");
 				}
