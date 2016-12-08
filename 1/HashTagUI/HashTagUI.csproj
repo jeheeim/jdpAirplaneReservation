@@ -112,7 +112,7 @@
       <DependentUpon>RegisterForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Seat.cs" />
-    <Compile Include="Server.cs" />
+    <Compile Include="ClientSocket.cs" />
     <EmbeddedResource Include="BookingAirplaneSeatForm.resx">
       <DependentUpon>BookingAirplaneSeatForm.cs</DependentUpon>
       <SubType>Designer</SubType>

@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using HashTagUI;
 
 namespace HashTagUI
 {
@@ -18,17 +13,23 @@ namespace HashTagUI
         public static readonly Point GroupBoxOutOfRange = new Point(200, 300);
         private Account acc_currnetUser;
         public Account currentUser { get { return acc_currnetUser; } set { acc_currnetUser = value; } }
-		public static Server server;
+		public static ClientSocket clientSocket;
+
 		public MainForm()
 		{
 			InitializeComponent();
+
+			for(int i=0;i<lvSearchResult1.Columns.Count;i++)
+			{
+				lvSearchResult1.Columns[i].Width = lvSearchResult1.Width / lvSearchResult1.Columns.Count;
+			}
 		}
         /* 11.29 수정*/
 		private void btnLogin_Click(object sender, EventArgs e)
 		{
             if (currentUser == null)
             {
-                currentUser = server.login(textBox1.Text, textBox2.Text);
+                currentUser = clientSocket.login(textBox1.Text, textBox2.Text);
                 if (currentUser != null)
                 {
                     textBox1.Visible = false;
@@ -74,8 +75,8 @@ namespace HashTagUI
         /* 11.29 수정*/
 		private void MainForm_Load(object sender, EventArgs e)
 		{
-            server = new Server();
-            foreach (KeyValuePair<string, Airplane> temp in server.airplaneList)
+			clientSocket = new ClientSocket();
+            foreach (KeyValuePair<string, Airplane> temp in clientSocket.airplaneList)
             {
                 cbStart.Items.Add(temp.Value.DepartApt);
             }
@@ -85,7 +86,7 @@ namespace HashTagUI
             gbRecommend.Text = "추천 항공편";
             gbRecommend.Visible = false;
             Dictionary<int, Airplane> dicMinCosts = new Dictionary<int, Airplane>();
-            foreach (KeyValuePair<string, Airplane> temp in MainForm.server.airplaneList)
+            foreach (KeyValuePair<string, Airplane> temp in MainForm.clientSocket.airplaneList)
             {
                 putValueInMinCost(temp.Value, dicMinCosts);
             }
@@ -147,7 +148,7 @@ namespace HashTagUI
         /* 11.29 수정*/
         private void label3_Click(object sender, EventArgs e)
         {
-            Form f = new RegisterForm();
+            Form f = new RegisterForm(this);
             f.ShowDialog();
         }
         /* 11.29 J 수정*/
@@ -191,7 +192,7 @@ namespace HashTagUI
             {
                 cbDest.Enabled = true;
                 cbDest.Items.Clear();
-                foreach (KeyValuePair<string, Airplane> temp in server.airplaneList)
+                foreach (KeyValuePair<string, Airplane> temp in clientSocket.airplaneList)
                 {
                     if(temp.Value.DepartApt.Equals(cbStart.SelectedItem.ToString()))
                     {
@@ -212,7 +213,7 @@ namespace HashTagUI
             {
                 cbDepart.Enabled = true;
                 cbDepart.Items.Clear();
-                foreach (KeyValuePair<string, Airplane> temp in server.airplaneList)
+                foreach (KeyValuePair<string, Airplane> temp in clientSocket.airplaneList)
                 {
                     if (temp.Value.DepartApt.Equals(cbStart.SelectedItem.ToString()) && temp.Value.DestApt.Equals(cbDest.SelectedItem.ToString()))
                     {
@@ -234,7 +235,7 @@ namespace HashTagUI
             {
                 cbArrive.Enabled = true;
                 cbArrive.Items.Clear();
-                foreach (KeyValuePair<string, Airplane> temp in server.airplaneList)
+                foreach (KeyValuePair<string, Airplane> temp in clientSocket.airplaneList)
                 {
                     if (temp.Value.DestApt.Equals(cbStart.SelectedItem.ToString()) && temp.Value.DepartApt.Equals(cbDest.SelectedItem.ToString()) && !temp.Value.Date.Equals(cbDepart.SelectedItem.ToString()))
                     {

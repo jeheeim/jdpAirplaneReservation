@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
 namespace HashTagUI
 {
     
-	public class Server
+	public class ClientSocket
 	{
         private Dictionary<string, Dictionary<string, List<string>>> dic_airplaneSchedules;
         private Dictionary<string, Account> dic_userInfo;
@@ -30,7 +29,7 @@ namespace HashTagUI
         public static readonly string exePath = Application.StartupPath;
         public static readonly string prePath = System.IO.Directory.GetParent(Application.StartupPath).ToString();
 
-		public Server()
+		public ClientSocket()
 		{
             /*week = new Day[7];
 			for (int i = 0; i < week.Length; i++)
@@ -134,16 +133,17 @@ namespace HashTagUI
 
             // Read the file and display it line by line.
             //@"C:\Users\jay\Documents\account.txt"
-            System.IO.StreamReader file = new System.IO.StreamReader(Server.prePath + "\\Data\\account.txt");
+            StreamReader file = new StreamReader(ClientSocket.prePath + "\\Data\\account.txt");
             while ((line = file.ReadLine()) != null)
             {
+
                 string[] accountArr = line.Split(',');
                 id = accountArr[0];
                 pw = accountArr[1];
                 name = accountArr[2];
                 email = accountArr[3];
                 admin = accountArr[4];
-                Account temp = new Account(id, pw, name, email, (admin == "1")?true:false);
+                Account temp = new Account(id, pw, name, email);
                 dic_userInfo.Add(id, temp);
             }
 
@@ -204,5 +204,23 @@ namespace HashTagUI
 			addToDestionationDic(continent, newAp.Country);
 		}
 
+		public bool RegiserUser(Account newUser)
+		{
+			try
+			{
+				userInfo.Add(newUser.id, newUser);
+				StreamWriter file = File.AppendText(prePath + "\\Data\\account.txt");
+				file.WriteLine(newUser.ToString());
+				file.Flush();
+			}
+			catch(Exception e)
+			{
+				MessageBox.Show(e.ToString());
+
+				return false;
+			}
+
+			return true;
+		}
     }
 }

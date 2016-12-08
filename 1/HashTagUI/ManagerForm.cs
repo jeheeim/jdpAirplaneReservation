@@ -11,10 +11,10 @@ namespace HashTagUI
 {
 	public partial class ManagerForm : Form
 	{
-		Server server;
+		ClientSocket server;
 		MainForm mainForm;
 
-		public ManagerForm(Server server, MainForm mainForm)
+		public ManagerForm(ClientSocket server, MainForm mainForm)
 		{
 			InitializeComponent();
 
