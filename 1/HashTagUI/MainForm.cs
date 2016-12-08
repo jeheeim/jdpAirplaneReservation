@@ -12,20 +12,18 @@ namespace HashTagUI
 {
 	public partial class MainForm : Form
 	{
+        //6, 1
         public static readonly Size MainFormSize = new Size(265, 265);
         public static readonly Point GroupBoxLoc = new Point(6, 1);
         public static readonly Point GroupBoxOutOfRange = new Point(200, 300);
         private Account acc_currnetUser;
         public Account currentUser { get { return acc_currnetUser; } set { acc_currnetUser = value; } }
 		public static Server server;
-
 		public MainForm()
 		{
 			InitializeComponent();
 		}
-
-		// 로그인 / 로그아웃 버튼을 클릭했을때.
-		// 현재 사용자의 유뮤를 바탕으로 결정한다.
+        /* 11.29 수정*/
 		private void btnLogin_Click(object sender, EventArgs e)
 		{
             if (currentUser == null)
@@ -39,12 +37,14 @@ namespace HashTagUI
                     textBox2.Text = "";
                     btnFindId.Visible = false;
                     btnFindPw.Visible = false;
+                    lblLoginText.Location = new Point(539, 27);
                     lblLoginText.Text = currentUser.name + "님 환영합니다.";
+                    lblLoginText.Visible = true;
                     label2.Visible = false;
                     label3.Visible = false;
                     btnLoginout.Text = "로그아웃";
-                    label11.Visible = true;
-                    label11.Text = currentUser.id + "님을 위한 추천 항공편";
+                    gbRecommend.Text = currentUser.id + "님을 위한 추천 항공편";
+                    gbRecommend.Visible = true;
                     MessageBox.Show("로그인 성공");
                 }
                 else
@@ -67,7 +67,8 @@ namespace HashTagUI
                 textBox2.Visible = true;
                 label2.Visible = true;
                 label3.Visible = true;
-                label11.Visible = false;
+                gbRecommend.Text = "추천 항공편";
+                gbRecommend.Visible = false;
             }
 		}
         /* 11.29 수정*/
@@ -81,8 +82,45 @@ namespace HashTagUI
             cbArrive.Enabled = false;
             cbDest.Enabled = false;
             cbDepart.Enabled = false;
-            label11.Visible = false;
-            
+            gbRecommend.Text = "추천 항공편";
+            gbRecommend.Visible = false;
+            Dictionary<int, Airplane> dicMinCosts = new Dictionary<int, Airplane>();
+            foreach (KeyValuePair<string, Airplane> temp in MainForm.server.airplaneList)
+            {
+                putValueInMinCost(temp.Value, dicMinCosts);
+            }
+            for(int i =0; i < 3; i++)
+            {
+                ListViewItem lvItem = new ListViewItem(new string[6] { dicMinCosts[i].ID, dicMinCosts[i].DepartApt, dicMinCosts[i].DestApt, dicMinCosts[i].Date, dicMinCosts[i].Time, dicMinCosts[i].Cost.ToString() });
+                this.lvSearchResult1.Items.Add(lvItem);
+            }
+            // timer관련 함수
+            TimerMQ.Start();
+            this.SetStyle(ControlStyles.DoubleBuffer, true);
+            this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+            this.SetStyle(ControlStyles.UserPaint, true);
+        }
+        private void putValueInMinCost(Airplane target, Dictionary<int, Airplane> targetDic)
+        {
+            if(targetDic.Count < 3)
+            {
+                for(int i = 0; i < 3; i++)
+                {
+                    if(!targetDic.ContainsKey(i))
+                    {
+                        targetDic.Add(i, target);
+                        return;
+                    }
+                }
+            }
+            for(int i = 0; i < 3; i++)
+            {
+                if (targetDic[i].Cost > target.Cost)
+                {
+                    targetDic[i] = target;
+                    return;
+                }
+            }
         }
         /* 11.29 수정*/
 		private void btnBooking_Click(object sender, EventArgs e)
@@ -152,6 +190,7 @@ namespace HashTagUI
             else
             {
                 cbDest.Enabled = true;
+                cbDest.Items.Clear();
                 foreach (KeyValuePair<string, Airplane> temp in server.airplaneList)
                 {
                     if(temp.Value.DepartApt.Equals(cbStart.SelectedItem.ToString()))
@@ -172,6 +211,7 @@ namespace HashTagUI
             else
             {
                 cbDepart.Enabled = true;
+                cbDepart.Items.Clear();
                 foreach (KeyValuePair<string, Airplane> temp in server.airplaneList)
                 {
                     if (temp.Value.DepartApt.Equals(cbStart.SelectedItem.ToString()) && temp.Value.DestApt.Equals(cbDest.SelectedItem.ToString()))
@@ -193,6 +233,7 @@ namespace HashTagUI
             else
             {
                 cbArrive.Enabled = true;
+                cbArrive.Items.Clear();
                 foreach (KeyValuePair<string, Airplane> temp in server.airplaneList)
                 {
                     if (temp.Value.DestApt.Equals(cbStart.SelectedItem.ToString()) && temp.Value.DepartApt.Equals(cbDest.SelectedItem.ToString()) && !temp.Value.Date.Equals(cbDepart.SelectedItem.ToString()))
@@ -222,5 +263,40 @@ namespace HashTagUI
                 e.Handled = true;
             }
         }
-	}
+
+        private void TimerMQ_Tick(object sender, EventArgs e)
+        {
+            this.Invalidate();
+            lblMarqRec.Left += 5;
+            if(lblMarqRec.Left >= this.Width)
+            {
+                lblMarqRec.Left = lblMarqRec.Width * -1;
+            }
+            Graphics gra = this.CreateGraphics();
+            gra.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
+        }
+
+        private void lblMarqRec_MouseHover(object sender, EventArgs e)
+        {
+            TimerMQ.Stop();
+        }
+
+        private void lblMarqRec_MouseLeave(object sender, EventArgs e)
+        {
+            TimerMQ.Start();
+        }
+
+        private void cbStart_MouseClick(object sender, MouseEventArgs e)
+        {
+            FastBookingInputForm fbi = new FastBookingInputForm(this, 0);
+            fbi.ShowDialog();
+        }
+
+        private void lvSearchResult1_DoubleClick(object sender, EventArgs e)
+        {
+            string name = this.lvSearchResult1.SelectedItems[0].SubItems[0].Text;
+            Form searchResult = new BookingAirplaneSeatForm(currentUser, name);
+            searchResult.ShowDialog();
+        }
+    }
 }

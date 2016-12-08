@@ -144,3 +144,4 @@ C:\Users\jay\Documents\GitHub\jdpAirplaneReservation\1\HashTagUI\obj\x86\Debug\H
 C:\Users\jay\Documents\GitHub\jdpAirplaneReservation\1\HashTagUI\obj\x86\Debug\HashTagUI.FindPwForm.resources
 C:\Users\jay\Documents\GitHub\jdpAirplaneReservation\1\HashTagUI\obj\x86\Debug\HashTagUI.ManagerForm.resources
 C:\Users\jay\Documents\GitHub\jdpAirplaneReservation\1\HashTagUI\obj\x86\Debug\HashTagUI.RegisterForm.resources
+C:\Users\jay\Documents\GitHub\jdpAirplaneReservation\1\HashTagUI\obj\x86\Debug\HashTagUI.FastBookingInputForm.resources
