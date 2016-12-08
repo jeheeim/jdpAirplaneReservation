@@ -41,6 +41,8 @@ namespace HashTagUI
 
         private void button1_Click(object sender, EventArgs e)
         {
+            //서버에서 아이디 중복 체크하기
+            /*
             if (MainForm.clientSocket.userInfo.ContainsKey(tbID.Text))
             {
                 MessageBox.Show("중복됩니다");
@@ -49,7 +51,7 @@ namespace HashTagUI
             {
                 MessageBox.Show("사용가능합니다");
                 idCheck = true;
-            }
+            }*/
         }
 
         private void RegisterForm_Load(object sender, EventArgs e)
@@ -100,13 +102,16 @@ namespace HashTagUI
 				if (cbCountries.SelectedItem != null) { temp.Interest = cbCountries.Text;}
 				else { temp.Interest = ""; }
 
-				MainForm.clientSocket.userInfo.Add(tbID.Text, temp);
-
-				StreamWriter file = File.AppendText(ClientSocket.prePath + "\\Data\\account.txt");
-                file.WriteLine(temp.ToString());
-                file.Flush();
-
-				MessageBox.Show("회원가입이 완료되었습니다");
+				if(MainForm.clientSocket.RegisterUser(temp))
+				{
+					MessageBox.Show("회원가입이 완료되었습니다");
+				}
+				else
+				{
+					MessageBox.Show("회원가입에 실패했습니다");
+				}
+				
+                this.Close();
 			}
 		}
 

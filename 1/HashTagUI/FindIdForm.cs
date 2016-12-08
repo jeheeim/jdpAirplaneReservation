@@ -32,6 +32,8 @@ namespace HashTagUI
             }
             else
             {
+				//id 전달하여 서버에 해당 account가 존재하는지 확인해야함
+				/*
                 foreach (KeyValuePair<String, Account> temp in MainForm.clientSocket.userInfo)
                 {
                     if (temp.Value.name.Equals(textBox1.Text) && temp.Value.email.Equals(textBox2.Text))
@@ -40,7 +42,18 @@ namespace HashTagUI
                         isexist = true;
                         break;
                     }
-                }
+                }*/
+
+				string id = MainForm.clientSocket.GetInfo(textBox1.Text, textBox2.Text);
+
+				if(id == null)
+				{
+					MessageBox.Show("실패!");
+				}
+				else
+				{
+					MessageBox.Show("id는 " + id + "입니다");
+				}
             }
             if (!isexist)
             {

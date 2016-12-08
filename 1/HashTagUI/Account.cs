@@ -31,12 +31,13 @@ namespace HashTagUI
 
         //bookedAirplane -> 구분자 ',' // bookedSeats -> 구분자 ',' : Seats단위 '|' : Airplane단위
 		// isadmin 생성자 패러미터에서 삭제. 예약된 좌석 비행기 관련 내용 패러미터에서 삭제
-        public Account(string id, string pw, string name, string email)
+        public Account(string id, string pw, string name, string email, string interest = "")
 		{
 			str_id = id;
 			str_pw = pw;
 			str_name = name;
             str_email = email;
+            this.interest = interest;
 
             dic_bookedSeats = new Dictionary<string, List<string>>();
 		}

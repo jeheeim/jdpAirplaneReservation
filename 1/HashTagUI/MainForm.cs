@@ -6,7 +6,7 @@ using System.Windows.Forms;
 namespace HashTagUI
 {
 	public partial class MainForm : Form
-	{
+    {
         //6, 1
         public static readonly Size MainFormSize = new Size(265, 265);
         public static readonly Point GroupBoxLoc = new Point(6, 1);
@@ -18,15 +18,11 @@ namespace HashTagUI
 		public MainForm()
 		{
 			InitializeComponent();
-
-			for(int i=0;i<lvSearchResult1.Columns.Count;i++)
-			{
-				lvSearchResult1.Columns[i].Width = lvSearchResult1.Width / lvSearchResult1.Columns.Count;
-			}
 		}
+        
         /* 11.29 수정*/
-		// 로그인 함수
-		private void btnLogin_Click(object sender, EventArgs e)
+        // 로그인 함수
+        private void btnLogin_Click(object sender, EventArgs e)
 		{
             if (currentUser == null)
             {
@@ -119,8 +115,9 @@ namespace HashTagUI
 		private void MainForm_Load(object sender, EventArgs e)
 		{
 			clientSocket = new ClientSocket();
+			Dictionary<string, Airplane> airplaneList = clientSocket.GetAirplaneList();
 
-			foreach (KeyValuePair<string, Airplane> temp in clientSocket.airplaneList)
+			foreach (KeyValuePair<string, Airplane> temp in airplaneList)
 			{
 				cbStart.Items.Add(temp.Value.DepartApt);
 			}
@@ -137,7 +134,6 @@ namespace HashTagUI
 			this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
 			this.SetStyle(ControlStyles.UserPaint, true);
 		}
-
         private void putValueInMinCost(Airplane target, Dictionary<int, Airplane> targetDic)
 		{
 			if (targetDic.Count < 3)
