@@ -1,0 +1,2 @@
+id,pw,name,email,airplane_id,seat_info,interest
+testlogin,testlogin,admin,1234,1234,1234,NULL
