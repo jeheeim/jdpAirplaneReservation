@@ -42,6 +42,7 @@
 			this.btnOK = new System.Windows.Forms.Button();
 			this.btnCancel = new System.Windows.Forms.Button();
 			this.cboxInterest = new System.Windows.Forms.ComboBox();
+			this.btnDelete = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// label1
@@ -136,7 +137,7 @@
 			// 
 			// btnOK
 			// 
-			this.btnOK.Location = new System.Drawing.Point(84, 379);
+			this.btnOK.Location = new System.Drawing.Point(67, 379);
 			this.btnOK.Name = "btnOK";
 			this.btnOK.Size = new System.Drawing.Size(75, 23);
 			this.btnOK.TabIndex = 12;
@@ -146,7 +147,7 @@
 			// 
 			// btnCancel
 			// 
-			this.btnCancel.Location = new System.Drawing.Point(225, 379);
+			this.btnCancel.Location = new System.Drawing.Point(229, 379);
 			this.btnCancel.Name = "btnCancel";
 			this.btnCancel.Size = new System.Drawing.Size(75, 23);
 			this.btnCancel.TabIndex = 13;
@@ -164,11 +165,22 @@
 			this.cboxInterest.Sorted = true;
 			this.cboxInterest.TabIndex = 11;
 			// 
+			// btnDelete
+			// 
+			this.btnDelete.Location = new System.Drawing.Point(148, 379);
+			this.btnDelete.Name = "btnDelete";
+			this.btnDelete.Size = new System.Drawing.Size(75, 23);
+			this.btnDelete.TabIndex = 14;
+			this.btnDelete.Text = "탈퇴";
+			this.btnDelete.UseVisualStyleBackColor = true;
+			this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+			// 
 			// ModifyInfoForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(388, 435);
+			this.Controls.Add(this.btnDelete);
 			this.Controls.Add(this.cboxInterest);
 			this.Controls.Add(this.btnCancel);
 			this.Controls.Add(this.btnOK);
@@ -207,5 +219,6 @@
 		private System.Windows.Forms.Button btnOK;
 		private System.Windows.Forms.Button btnCancel;
 		private System.Windows.Forms.ComboBox cboxInterest;
+		private System.Windows.Forms.Button btnDelete;
 	}
 }

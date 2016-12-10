@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows.Forms;
 
 namespace HashTagUI
 {
@@ -31,7 +32,7 @@ namespace HashTagUI
 
         //bookedAirplane -> 구분자 ',' // bookedSeats -> 구분자 ',' : Seats단위 '|' : Airplane단위
 		// isadmin 생성자 패러미터에서 삭제. 예약된 좌석 비행기 관련 내용 패러미터에서 삭제
-        public Account(string id, string pw, string name, string email, string interest = "")
+        public Account(string id, string pw, string name, string email, string interest = "NULL", string airplane = "NULL", string seats = "NULL")
 		{
 			str_id = id;
 			str_pw = pw;
@@ -40,6 +41,8 @@ namespace HashTagUI
             this.interest = interest;
 
             dic_bookedSeats = new Dictionary<string, List<string>>();
+            if (airplane != "NULL")
+                addToBook(airplane, seats);
 		}
 
 		// 파일에서 한줄로 쭉 읽어들일때 쓸 생성자. 한줄단위로 읽어들이기 때문에 스트링 하나로 하는게 편해서.
@@ -64,6 +67,20 @@ namespace HashTagUI
 			dic_bookedSeats = new Dictionary<string, List<string>>();
 		}
 
+        public void addToBook(string airplaneID, string seatNum)
+        {
+            string[] airplanes = airplaneID.Split(',');
+            string[] seats = seatNum.Split('|');
+            for (int i = 0; i < airplanes.Length; i++)
+            {
+                List<string> newSeats = new List<string>();
+                dic_bookedSeats.Add(airplaneID, newSeats);
+                for (int j = 0; j < seats[i].Split(',').Length; j++)
+                {
+                    dic_bookedSeats[airplaneID].Add(seats[i].Split(',')[j]);
+                }
+            }
+        }
 		// 좌석을 직접 지정하는 방식으로 예약한 경우
 		// dic_bookedSeats에 항공편ID와 좌석번호 리스트를 저장한다.
 		// 항공편명이 없다면 미리 항공편ID와 리스트 객체를 더해주도
@@ -85,7 +102,8 @@ namespace HashTagUI
 		// 좌석을 지정하지않고 예약한 경우
 		// dic_bookedSeats 객체에 항공편ID과 아무런 값이 없는 문자열 리스트 객체를 더한다.
 		public void addToBook(string airplaneID, int seatSize)
-		{
+        {
+            List<string> toTrueSeats = new List<string>();
 			if (!dic_bookedSeats.ContainsKey(airplaneID))
 			{
 				List<string> newlist = new List<string>();
@@ -95,19 +113,52 @@ namespace HashTagUI
 			{
 				if (!targetSeat.Value)
 				{
-					dic_bookedSeats[airplaneID].Add(targetSeat.Key);
 					seatSize--;
-					MainForm.clientSocket.airplaneList[airplaneID].Seats[targetSeat.Key] = true;
+                    toTrueSeats.Add(targetSeat.Key);
 				}
 				if (seatSize == 0)
 					break;
-			}
+            } 
+            string value = MainForm.clientSocket.Reservation(id, airplaneID, ChangeInDBForm(toTrueSeats));
+            if (value == "T")
+            {
+                MessageBox.Show("예약에 성공했습니다!");
+            }
+            else
+            {
+                changeToFalseInSheet(value, airplaneID);
+                MessageBox.Show("예약에 실패했습니다! 다시 시도하세요!");
+            }
+            foreach(string key in toTrueSeats)
+            {
+                dic_bookedSeats[airplaneID].Add(key);
+                 MainForm.clientSocket.airplaneList[airplaneID].Seats[key] = true;
+            }
+            
 		}
-
+        private void changeToFalseInSheet(string seats,string airplaneID)
+        {
+            string[] seatsCom = seats.Split(',');
+            for (int i = 0; i < seatsCom.Length; i++)
+            {
+                MainForm.clientSocket.airplaneList[airplaneID].Seats[seatsCom[i]] = false;
+            }
+        }
+        private string ChangeInDBForm(List<string> targetList)
+        {
+            string tot = "";
+            for (int i = 0; i < targetList.Count; i++)
+            {
+                tot += targetList[i];
+                if (targetList.Count - 1 != i)
+                    tot += ",";
+            }
+            return tot;
+        }
 		// 고객등록할때 저장하는 방식
 		public override string ToString()
 		{
-			string result = str_id + ',' + str_pw + ',' + str_name + ',' + str_email + ',' + interest;
+			string result = str_id + '$' + str_pw + '$' + str_name + '$' + str_email + '$' + interest;
 
 			return result;
 		}

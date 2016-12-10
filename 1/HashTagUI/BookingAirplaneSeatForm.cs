@@ -17,6 +17,7 @@ namespace HashTagUI
 		int bookingSeatCnt = 0;
 		int totCost = 0;
 		List<string> clickedSeats = new List<string>();
+        List<string> alarmSeats = new List<string>();
 
 		public BookingAirplaneSeatForm(Account currentUser, string nowAirplane)
 		{
@@ -43,6 +44,19 @@ namespace HashTagUI
 			clickedSeats.Add(seatNum);
 			bookingSeatCnt++;
 		}
+        private void btnAlarmSeat_Click(object sender, EventArgs e)
+        {
+            Button btncast = sender as Button;
+            string seatNum = btncast.Text;
+            if (alarmSeats.Contains(seatNum))
+            {
+                alarmSeats.Remove(seatNum);
+                btncast.BackColor = SystemColors.ControlDark;
+                return;
+            }
+            btncast.BackColor = SystemColors.ControlDarkDark;
+            alarmSeats.Add(seatNum);
+        }
 		private void btnReserveSeat_Click(object sender, EventArgs e)
 		{
 			/*
@@ -53,24 +67,63 @@ namespace HashTagUI
 				seatClass = "Business";
 			else
 				seatClass = "Economy";*/
+            if(alarmSeats.Count > 0)
+            {
+                DialogResult result1 = MessageBox.Show("선택하신 좌석중에 이미 예약된 좌석이 있습니다.\n알람 서비스를 신청하시겠습니까?", "예약하기", MessageBoxButtons.OKCancel);
+                if (result1 == DialogResult.OK)
+                {
+                    if (MainForm.clientSocket.AlarmSeats(currentUser.id, nowAirplane.ID, ChangeInDBForm(alarmSeats)))
+                    {
+                        MessageBox.Show("알람 신청에 성공했습니다!");
+                    }
+                    else
+                    {
+                        MessageBox.Show("알람 신청에 실패했습니다!");
+                    }
 
+                    this.Close();
+                }
+            }
+            if (clickedSeats.Count < 0)
+                return;
 			DialogResult result = MessageBox.Show("정말로 예매하시겠습니까?", "예약하기", MessageBoxButtons.OKCancel);
 
 			if (result == DialogResult.OK)
 			{
-				if(MainForm.clientSocket.Reservation(currentUser, clickedSeats))
+                string value = MainForm.clientSocket.Reservation(currentUser.id, nowAirplane.ID, ChangeInDBForm(clickedSeats));
+                if (value == "T")
 				{
-					MessageBox.Show("예약에 성공했습니다!");
+                    MessageBox.Show("예약에 성공했습니다!");
+                    currentUser.addToBook(nowAirplane.ID, clickedSeats);
 				}
 				else
 				{
-					MessageBox.Show("예약에 실패했습니다!");
+                    changeToFalseInSheet(value);
+					MessageBox.Show("예약에 실패했습니다! 다시 시도하세요!");
 				}
 
 				this.Close();
 			}
 		}
-
+        private void changeToFalseInSheet(string seats)
+        {
+            string[] seatsCom = seats.Split(',');
+            for(int i = 0; i < seatsCom.Length; i++)
+            {
+                nowAirplane.Seats[seatsCom[i]] = false;
+            }
+        }
+        private string ChangeInDBForm(List<string> targetList)
+        {
+            string tot = "";
+            for(int i = 0; i < targetList.Count; i++)
+            {
+                tot += targetList[i];
+                if (targetList.Count-1 != i)
+                    tot += ",";
+            }
+            return tot;
+        }
 		private void BookingAirplaneSeatForm_Load(object sender, EventArgs e)
 		{
 			Dictionary<string, bool> seats = nowAirplane.Seats;
@@ -102,14 +155,17 @@ namespace HashTagUI
 					FlatStyle = System.Windows.Forms.FlatStyle.Flat,
 					Font = new System.Drawing.Font("굴림", 8F)
 				};
-				if (!targetSeat.Value)
-				{
-					seatButton.BackColor = System.Drawing.SystemColors.ActiveCaption;
-					seatButton.Click += new System.EventHandler(this.btnSeat_Click);
-				}
-				else
-					seatButton.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-				preSeat = nowSeat;
+                if (!targetSeat.Value)
+                {
+                    seatButton.BackColor = System.Drawing.SystemColors.ActiveCaption;
+                    seatButton.Click += new System.EventHandler(this.btnSeat_Click);
+                }
+                else
+                {
+                    seatButton.BackColor = System.Drawing.SystemColors.ControlDark;
+                    seatButton.Click += new System.EventHandler(this.btnAlarmSeat_Click);
+                }
+                preSeat = nowSeat;
 				loc.X += 30;
 				thisTable.Controls.Add(seatButton);
 			}

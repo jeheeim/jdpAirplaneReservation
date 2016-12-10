@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using System.Net.Sockets;
+using System.Threading;
+using System.Text;
 
 namespace HashTagUI
 {
@@ -48,10 +51,12 @@ namespace HashTagUI
             catch (SocketException se)
             {
                 MessageBox.Show(se.Message, "Error");
+                Application.Exit();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error");
+                Application.Exit();
             }
         }
 
@@ -72,10 +77,10 @@ namespace HashTagUI
 
 		public int getLeftSeats(Airplane target)
 		{
-			int cnt = target.LeftSeats;
-
+            int cnt = target.LeftSeats;
 			return cnt;
 		}
+
 
         #region 생성자 관련
 
@@ -103,7 +108,6 @@ namespace HashTagUI
                 addToDestionationDic(splitResult[1], splitResult[2]);
             }
 		}
-
 		public void addToAirplaneSearchDic(string key, string valuekey, string newApId, Dictionary<string, Dictionary<string, List<string>>> targetDic)
 		{
 			if (targetDic.ContainsKey(key))
@@ -199,31 +203,39 @@ namespace HashTagUI
 
 		#region 밖에서 사용할 함수
 
-		/* 서버로 보내는 명령어 양식
-		 * 각 요소들은 $로 구분하고 마지막은 !로 끝낸다.
-		 * 예약 : RES$(account id)$(airplane id, airplane id)$seats......!
-		 * 가입 : NACC$(account.ToString())!
-		 * 취소 : CANS$(account id)$(airplane id)$(좌석번호)!
-		 * 변경 : MODA$(account.ToString())!
-		 * AirplaneList 받아오기 : LOAD!
-		 * AirplaneUpdate : UPD$(airplane id)$기타!
-		 * 로그인 : LOGIN$(account id)$(account pw)!
-		 * ID 찾기 : FINDID$(name)$(email)!
-		 * PW 찾기 : FINDPW$(id)$(이름)$(email)!
-		 */
+        /* 서버로 보내는 명령어 양식
+       * 각 요소들은 $로 구분하고 마지막은 !로 끝낸다.
+       * 예약 : RES$(account id)$(airplane id, airplane id)$seats......!
+       * 가입 : NACC$(account.ToString())!
+       * 취소 : CANS$(account id)$(airplane id)$(좌석번호)!
+       * 변경 : MODA$(account.ToString())!
+       * 탈퇴 : DELACC$(account.ToString())!
+       * AirplaneList 받아오기 : LOAD!
+       * AirplaneUpdate : UPD$(airplane id)$기타!
+       * 로그인 : LOGIN$(account id)$(account pw)!
+       * ID 찾기 : FINDID$(name)$(email)!
+       * PW 찾기 : FINDPW$(id)$(이름)$(email)!
+       */
 
 		#region true or false
 
 		// 예약
-		public bool Reservation(Account account, List<string> seatToReserve)
+		public string Reservation(string acc_id,string air_id, string seatToReserve)
 		{
-			string message = "RES$" + account.ToString() + "!";
+            string message = "RES$" + acc_id + "$" + air_id + "$" + seatToReserve  + "!";
 
 			string returnMessage = sendAndReceive(message);
-
-			if (returnMessage == "T") { return true;}
-			else { return false; }
+            return returnMessage;
 		}
+        public bool AlarmSeats(string acc_id, string air_id, string seatToReserve)
+        {
+            string message = "ALAS$" + acc_id + "$" + air_id + "$" + seatToReserve + "!";
+
+            string returnMessage = sendAndReceive(message);
+
+            if (returnMessage == "T") { return true; }
+            else { return false; }
+        }
 
 		// 가입
 		public bool RegisterUser(Account newUser)
@@ -269,7 +281,39 @@ namespace HashTagUI
 			if(returnMessage == "T") { return true; }
 			else { return false;}
 		}
+        public bool IDMultipleCheck(string id)
+        {
+            string message = "IDCHK$" + id + "!";
+
+            string returnMessage = sendAndReceive(message);
+
+            if (returnMessage == "T")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        
+        public bool DeleteAccount(Account account)
+        {
+            string message = "DELACC$" + account.ToString() + "!";
+
+            string returnMessage = sendAndReceive(message);
+
+            if (returnMessage == "T")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
 		#endregion
+
 
 		#region 특정한 리턴값이 있는 메소드
 
@@ -321,7 +365,7 @@ namespace HashTagUI
 		// 패스워드 찾기
 		public string GetInfo(string id, string name, string email)
 		{
-			string message = "FINDID$" + id + "$" + name + "$" + email + "!";
+			string message = "FINDPW$" + id + "$" + name + "$" + email + "!";
 
 			string returnMessage = sendAndReceive(message);
 
@@ -334,6 +378,7 @@ namespace HashTagUI
 				return returnMessage;
 			}
 		}
+
 
 		#endregion
 		#endregion

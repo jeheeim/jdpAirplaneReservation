@@ -90,28 +90,29 @@ namespace HashTagUI
             DialogResult result = MessageBox.Show(text, caption, button);
             if (result == System.Windows.Forms.DialogResult.OK)
             {
-                if (MainForm.clientSocket.airplaneList[lvSearchResult.SelectedItems[0].SubItems[0].Text].LeftSeats >= int.Parse(mainForm.comboBox1.SelectedItem.ToString()) && MainForm.clientSocket.airplaneList[lvSearchResult1.SelectedItems[0].SubItems[0].Text].LeftSeats >= int.Parse(mainForm.comboBox1.SelectedItem.ToString()))
+                if (MainForm.clientSocket.airplaneList[lvSearchResult.SelectedItems[0].SubItems[0].Text].LeftSeats >= int.Parse(mainForm.cbNumPpl.SelectedItem.ToString()) && MainForm.clientSocket.airplaneList[lvSearchResult1.SelectedItems[0].SubItems[0].Text].LeftSeats >= int.Parse(mainForm.cbNumPpl.SelectedItem.ToString()))
                 {
-                    MessageBox.Show("예약완료");
-                    mainForm.currentUser.addToBook(lvSearchResult.SelectedItems[0].SubItems[0].Text, int.Parse(mainForm.comboBox1.SelectedItem.ToString()));
-                    mainForm.currentUser.addToBook(lvSearchResult1.SelectedItems[0].SubItems[0].Text, int.Parse(mainForm.comboBox1.SelectedItem.ToString()));
-                    MainForm.clientSocket.airplaneList[lvSearchResult.SelectedItems[0].SubItems[0].Text].LeftSeats -= int.Parse(mainForm.comboBox1.SelectedItem.ToString());
-                    MainForm.clientSocket.airplaneList[lvSearchResult1.SelectedItems[0].SubItems[0].Text].LeftSeats -= int.Parse(mainForm.comboBox1.SelectedItem.ToString());
-        
+                    mainForm.currentUser.addToBook(lvSearchResult.SelectedItems[0].SubItems[0].Text, int.Parse(mainForm.cbNumPpl.SelectedItem.ToString()));
+                    mainForm.currentUser.addToBook(lvSearchResult1.SelectedItems[0].SubItems[0].Text, int.Parse(mainForm.cbNumPpl.SelectedItem.ToString()));
+                    MainForm.clientSocket.airplaneList[lvSearchResult.SelectedItems[0].SubItems[0].Text].LeftSeats -= int.Parse(mainForm.cbNumPpl.SelectedItem.ToString());
+                    MainForm.clientSocket.airplaneList[lvSearchResult1.SelectedItems[0].SubItems[0].Text].LeftSeats -= int.Parse(mainForm.cbNumPpl.SelectedItem.ToString());
+                    this.Close();
                 }
-                else if (MainForm.clientSocket.airplaneList[lvSearchResult.SelectedItems[0].SubItems[0].Text].LeftSeats < int.Parse(mainForm.comboBox1.SelectedItem.ToString()))
+                else if (MainForm.clientSocket.airplaneList[lvSearchResult.SelectedItems[0].SubItems[0].Text].LeftSeats < int.Parse(mainForm.cbNumPpl.SelectedItem.ToString()))
                 {
-                    MessageBoxButtons button1 = MessageBoxButtons.OKCancel;
-                    String text1 = "출발 비행기의 좌석이 부족합니다, 알림서비스를 요청하시겠습니까?";
-                    String caption1 = "알림서비스 요청여부";
-                    DialogResult result1 = MessageBox.Show(text1, caption1, button1);
-                }
-                else if (MainForm.clientSocket.airplaneList[lvSearchResult1.SelectedItems[0].SubItems[0].Text].LeftSeats < int.Parse(mainForm.comboBox1.SelectedItem.ToString()))
-                {
-                    MessageBoxButtons button1 = MessageBoxButtons.OKCancel;
+                    MessageBox.Show("좌석이 부족합니다! 다시 시도하세요!");
+                    /*MessageBoxButtons button1 = MessageBoxButtons.OKCancel;
                     String text1 = "도착 비행기의 좌석이 부족합니다, 알림서비스를 요청하시겠습니까?";
                     String caption1 = "알림서비스 요청여부";
-                    DialogResult result1 = MessageBox.Show(text1, caption1, button1);
+                    DialogResult result1 = MessageBox.Show(text1, caption1, button1);*/
+                }
+                else if (MainForm.clientSocket.airplaneList[lvSearchResult1.SelectedItems[0].SubItems[0].Text].LeftSeats < int.Parse(mainForm.cbNumPpl.SelectedItem.ToString()))
+                {
+                    MessageBox.Show("좌석이 부족합니다! 다시 시도하세요!");
+                    /*MessageBoxButtons button1 = MessageBoxButtons.OKCancel;
+                    String text1 = "도착 비행기의 좌석이 부족합니다, 알림서비스를 요청하시겠습니까?";
+                    String caption1 = "알림서비스 요청여부";
+                    DialogResult result1 = MessageBox.Show(text1, caption1, button1);*/
                 }
                 //mainForm.currentUser.addToBook(nowAirplane.ID, clickedSeats);
             }

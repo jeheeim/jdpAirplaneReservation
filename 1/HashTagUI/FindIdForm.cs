@@ -48,16 +48,13 @@ namespace HashTagUI
 
 				if(id == null)
 				{
-					MessageBox.Show("실패!");
+                    MessageBox.Show("id가 존재하지 않습니다");
 				}
 				else
 				{
 					MessageBox.Show("id는 " + id + "입니다");
+                    this.Close();
 				}
-            }
-            if (!isexist)
-            {
-                MessageBox.Show("id가 존재하지 않습니다");
             }
         }
     }

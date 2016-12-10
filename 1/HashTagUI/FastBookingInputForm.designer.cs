@@ -32,10 +32,9 @@
             // 
             // FastBookingInputForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(475, 507);
-            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.ClientSize = new System.Drawing.Size(356, 439);
             this.Name = "FastBookingInputForm";
             this.Text = "FastBookingInputForm";
             this.Load += new System.EventHandler(this.FastBookingInputForm_Load);
