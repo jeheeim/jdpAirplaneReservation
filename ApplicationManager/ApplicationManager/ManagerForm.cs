@@ -1,61 +1,103 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace ApplicationManager
 {
 	public partial class ManagerForm : Form
 	{
-		Server server;
-
-		public ManagerForm()
+		ClientSocket clientSocket;
+		LoginForm loginForm;
+		
+		public ManagerForm(LoginForm loginForm)
 		{
 			InitializeComponent();
 
-			server = new Server();
+			this.loginForm = loginForm;
+			clientSocket = loginForm.clientSocket;
 
-			// 서버에 있는 리스트를 전부 받아옴
-			foreach (KeyValuePair<string, Airplane> kv in server.airplaneList)
+			InitiateListbox();
+		}
+
+		void InitiateListbox()
+		{
+			listBox1.Items.Clear();
+
+			clientSocket.addAirplaneList();
+
+			//서버에 있는 리스트를 전부 받아옴
+			foreach (KeyValuePair<string, Airplane> kv in clientSocket.airplaneList)
 			{
 				listBox1.Items.Add(kv.Value);
 			}
 		}
 
+		// 리스트박스 클릭시
 		private void listBox1_ItemClicked(object sender, EventArgs e)
 		{
-			tboxAirplaneID.Text = server.airplaneList[listBox1.SelectedItem.ToString()].ID;
-			tboxDepartApt.Text = server.airplaneList[listBox1.SelectedItem.ToString()].DepartApt;
+			string item = listBox1.SelectedItem.ToString();
+			Airplane airplane = clientSocket.airplaneList[item];
 
-			string[] split = server.airplaneList[listBox1.SelectedItem.ToString()].Date.Split('.');
-			int hour = int.Parse(server.airplaneList[listBox1.SelectedItem.ToString()].Time);
+			tboxAirplaneID.Text = airplane.ID;
+			tboxDepartApt.Text = airplane.DepartApt;
 
-			DateTime departDateTime = new DateTime(2016, int.Parse(split[0]), int.Parse(split[1]));
-			departDateTime = departDateTime.AddHours(hour);
+			string[] monthAndDate = airplane.Date.Split('.');
+			string[] hour = airplane.Time.Split(':');
 
+			DateTime departDateTime = new DateTime(2016, int.Parse(monthAndDate[0]), int.Parse(monthAndDate[1]));
+			departDateTime = departDateTime.AddHours(int.Parse(hour[0]));
+			departDateTime = departDateTime.AddMinutes(int.Parse(hour[1]));
 
 			dtpDepartDate.Value = departDateTime;
 			dtpDepartTime.Value = departDateTime;
 
-			tboxDestCountry.Text = server.airplaneList[listBox1.SelectedItem.ToString()].Country;
-			tboxDestApt.Text = server.airplaneList[listBox1.SelectedItem.ToString()].DestApt;
-			tboxNumOfSeat.Text = server.airplaneList[listBox1.SelectedItem.ToString()].LeftSeats.ToString();
-			tboxCost.Text = server.airplaneList[listBox1.SelectedItem.ToString()].Cost.ToString();
+			tboxDestCountry.Text = airplane.Country;
+			tboxDestApt.Text = airplane.DestApt;
+			tboxNumOfSeat.Text = airplane.LeftSeats.ToString();
+			tboxCost.Text = airplane.Cost.ToString();
 		}
 
+		#region 버튼 이벤트
+
+		// 리스트박스 초기화 메소드로 바꿀것
+		// 추가 버튼
 		private void btnAdd_Click(object sender, EventArgs e)
 		{
 			Airplane newAirplane = ConversionIntoAirplane();
 
-			server.addToAirplaneList(tboxContinent.Text, newAirplane);
-			listBox1.Items.Add(newAirplane);
-
+			if(clientSocket.AddAirplane(newAirplane)) { listBox1.Items.Add(newAirplane); }
+			else { MessageBox.Show("추가 실패!"); }
 		}
 
+		private void btnModify_Click(object sender, EventArgs e)
+		{
+			Airplane newAirplane = ConversionIntoAirplane();
+
+			if (clientSocket.ModifyAirplaneInfo(newAirplane)) { listBox1.Items.Add(newAirplane); }
+			else { MessageBox.Show("수정 실패!"); }
+		}
+
+		private void btnDelete_Click(object sender, EventArgs e)
+		{
+			DialogResult dr = MessageBox.Show("삭제하시겠습니까?", "알림", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+
+			if (dr == DialogResult.OK)
+			{
+				Airplane newAirplane = ConversionIntoAirplane();
+
+				if (clientSocket.DeleteAirplane(newAirplane)) { listBox1.Items.Add(newAirplane); }
+				else { MessageBox.Show("삭제 실패!"); }
+			}
+		}
+
+		private void btnCancel_Click(object sender, EventArgs e)
+		{
+			Close();
+		}
+
+		#endregion
+
+		// Airplane 객체 만들기
 		private Airplane ConversionIntoAirplane()
 		{
 			string id = tboxAirplaneID.Text;
@@ -72,43 +114,9 @@ namespace ApplicationManager
 			return newAirplane;
 		}
 
-		private void btnModify_Click(object sender, EventArgs e)
+		private void ManagerForm_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			Airplane newAp = ConversionIntoAirplane();
-
-			server.airplaneList[newAp.ID].Cost = newAp.Cost;
-			server.airplaneList[newAp.ID].Country = newAp.Country;
-			server.airplaneList[newAp.ID].Date = newAp.Date;
-			server.airplaneList[newAp.ID].DepartApt = newAp.DepartApt;
-			server.airplaneList[newAp.ID].DestApt = newAp.DestApt;
-			server.airplaneList[newAp.ID].LeftSeats = newAp.LeftSeats;
-			server.airplaneList[newAp.ID].Time = newAp.Time;
-
-			listBox1.Items.Clear();
-
-			// 서버에 있는 리스트를 전부 받아옴
-			foreach (KeyValuePair<string, Airplane> kv in server.airplaneList)
-			{
-				listBox1.Items.Add(kv.Value);
-			}
-		}
-
-		private void btnCancel_Click(object sender, EventArgs e)
-		{
-			this.Close();
-		}
-
-		private void btnDelete_Click(object sender, EventArgs e)
-		{
-			DialogResult dr = MessageBox.Show("삭제하시겠습니까?", "알림", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
-
-			if (dr == DialogResult.OK)
-			{
-				server.airplaneList.Remove(listBox1.SelectedItem.ToString());
-				listBox1.Items.Remove(listBox1.SelectedItem);
-
-				MessageBox.Show("정상적으로 삭제되었습니다.");
-			}
+			loginForm.Close();
 		}
 	}
 }

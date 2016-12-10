@@ -49,8 +49,6 @@
 			this.tboxNumOfSeat = new System.Windows.Forms.TextBox();
 			this.lblCost = new System.Windows.Forms.Label();
 			this.tboxCost = new System.Windows.Forms.TextBox();
-			this.lblContinent = new System.Windows.Forms.Label();
-			this.tboxContinent = new System.Windows.Forms.TextBox();
 			this.btnDelete = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
@@ -85,7 +83,7 @@
 			// lblDepartApt
 			// 
 			this.lblDepartApt.AutoSize = true;
-			this.lblDepartApt.Location = new System.Drawing.Point(175, 104);
+			this.lblDepartApt.Location = new System.Drawing.Point(175, 108);
 			this.lblDepartApt.Name = "lblDepartApt";
 			this.lblDepartApt.Size = new System.Drawing.Size(67, 15);
 			this.lblDepartApt.TabIndex = 4;
@@ -94,7 +92,7 @@
 			// lblDepartTime
 			// 
 			this.lblDepartTime.AutoSize = true;
-			this.lblDepartTime.Location = new System.Drawing.Point(175, 170);
+			this.lblDepartTime.Location = new System.Drawing.Point(175, 182);
 			this.lblDepartTime.Name = "lblDepartTime";
 			this.lblDepartTime.Size = new System.Drawing.Size(67, 15);
 			this.lblDepartTime.TabIndex = 5;
@@ -103,7 +101,7 @@
 			// lblDepartDate
 			// 
 			this.lblDepartDate.AutoSize = true;
-			this.lblDepartDate.Location = new System.Drawing.Point(175, 139);
+			this.lblDepartDate.Location = new System.Drawing.Point(175, 147);
 			this.lblDepartDate.Name = "lblDepartDate";
 			this.lblDepartDate.Size = new System.Drawing.Size(52, 15);
 			this.lblDepartDate.TabIndex = 6;
@@ -112,7 +110,7 @@
 			// lblDestApt
 			// 
 			this.lblDestApt.AutoSize = true;
-			this.lblDestApt.Location = new System.Drawing.Point(175, 259);
+			this.lblDestApt.Location = new System.Drawing.Point(175, 248);
 			this.lblDestApt.Name = "lblDestApt";
 			this.lblDestApt.Size = new System.Drawing.Size(67, 15);
 			this.lblDestApt.TabIndex = 7;
@@ -157,21 +155,21 @@
 			// 
 			// tboxDepartApt
 			// 
-			this.tboxDepartApt.Location = new System.Drawing.Point(268, 101);
+			this.tboxDepartApt.Location = new System.Drawing.Point(268, 105);
 			this.tboxDepartApt.Name = "tboxDepartApt";
 			this.tboxDepartApt.Size = new System.Drawing.Size(216, 25);
 			this.tboxDepartApt.TabIndex = 13;
 			// 
 			// tboxDestApt
 			// 
-			this.tboxDestApt.Location = new System.Drawing.Point(268, 256);
+			this.tboxDestApt.Location = new System.Drawing.Point(268, 245);
 			this.tboxDestApt.Name = "tboxDestApt";
 			this.tboxDestApt.Size = new System.Drawing.Size(216, 25);
 			this.tboxDestApt.TabIndex = 16;
 			// 
 			// dtpDepartDate
 			// 
-			this.dtpDepartDate.Location = new System.Drawing.Point(268, 132);
+			this.dtpDepartDate.Location = new System.Drawing.Point(268, 140);
 			this.dtpDepartDate.Name = "dtpDepartDate";
 			this.dtpDepartDate.Size = new System.Drawing.Size(216, 25);
 			this.dtpDepartDate.TabIndex = 18;
@@ -179,7 +177,7 @@
 			// dtpDepartTime
 			// 
 			this.dtpDepartTime.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-			this.dtpDepartTime.Location = new System.Drawing.Point(268, 163);
+			this.dtpDepartTime.Location = new System.Drawing.Point(268, 175);
 			this.dtpDepartTime.Name = "dtpDepartTime";
 			this.dtpDepartTime.Size = new System.Drawing.Size(216, 25);
 			this.dtpDepartTime.TabIndex = 19;
@@ -187,7 +185,7 @@
 			// lblDestCountry
 			// 
 			this.lblDestCountry.AutoSize = true;
-			this.lblDestCountry.Location = new System.Drawing.Point(175, 228);
+			this.lblDestCountry.Location = new System.Drawing.Point(175, 213);
 			this.lblDestCountry.Name = "lblDestCountry";
 			this.lblDestCountry.Size = new System.Drawing.Size(67, 15);
 			this.lblDestCountry.TabIndex = 20;
@@ -195,7 +193,7 @@
 			// 
 			// tboxDestCountry
 			// 
-			this.tboxDestCountry.Location = new System.Drawing.Point(268, 225);
+			this.tboxDestCountry.Location = new System.Drawing.Point(268, 210);
 			this.tboxDestCountry.Name = "tboxDestCountry";
 			this.tboxDestCountry.Size = new System.Drawing.Size(216, 25);
 			this.tboxDestCountry.TabIndex = 21;
@@ -203,7 +201,7 @@
 			// lblNumOfSeat
 			// 
 			this.lblNumOfSeat.AutoSize = true;
-			this.lblNumOfSeat.Location = new System.Drawing.Point(175, 290);
+			this.lblNumOfSeat.Location = new System.Drawing.Point(175, 283);
 			this.lblNumOfSeat.Name = "lblNumOfSeat";
 			this.lblNumOfSeat.Size = new System.Drawing.Size(52, 15);
 			this.lblNumOfSeat.TabIndex = 22;
@@ -211,7 +209,7 @@
 			// 
 			// tboxNumOfSeat
 			// 
-			this.tboxNumOfSeat.Location = new System.Drawing.Point(268, 287);
+			this.tboxNumOfSeat.Location = new System.Drawing.Point(268, 280);
 			this.tboxNumOfSeat.Name = "tboxNumOfSeat";
 			this.tboxNumOfSeat.Size = new System.Drawing.Size(216, 25);
 			this.tboxNumOfSeat.TabIndex = 23;
@@ -219,7 +217,7 @@
 			// lblCost
 			// 
 			this.lblCost.AutoSize = true;
-			this.lblCost.Location = new System.Drawing.Point(175, 321);
+			this.lblCost.Location = new System.Drawing.Point(175, 317);
 			this.lblCost.Name = "lblCost";
 			this.lblCost.Size = new System.Drawing.Size(87, 15);
 			this.lblCost.TabIndex = 24;
@@ -227,26 +225,10 @@
 			// 
 			// tboxCost
 			// 
-			this.tboxCost.Location = new System.Drawing.Point(268, 318);
+			this.tboxCost.Location = new System.Drawing.Point(268, 314);
 			this.tboxCost.Name = "tboxCost";
 			this.tboxCost.Size = new System.Drawing.Size(216, 25);
 			this.tboxCost.TabIndex = 25;
-			// 
-			// lblContinent
-			// 
-			this.lblContinent.AutoSize = true;
-			this.lblContinent.Location = new System.Drawing.Point(175, 197);
-			this.lblContinent.Name = "lblContinent";
-			this.lblContinent.Size = new System.Drawing.Size(87, 15);
-			this.lblContinent.TabIndex = 26;
-			this.lblContinent.Text = "도착지 대륙";
-			// 
-			// tboxContinent
-			// 
-			this.tboxContinent.Location = new System.Drawing.Point(268, 194);
-			this.tboxContinent.Name = "tboxContinent";
-			this.tboxContinent.Size = new System.Drawing.Size(216, 25);
-			this.tboxContinent.TabIndex = 27;
 			// 
 			// btnDelete
 			// 
@@ -264,8 +246,6 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(500, 404);
 			this.Controls.Add(this.btnDelete);
-			this.Controls.Add(this.tboxContinent);
-			this.Controls.Add(this.lblContinent);
 			this.Controls.Add(this.tboxCost);
 			this.Controls.Add(this.lblCost);
 			this.Controls.Add(this.tboxNumOfSeat);
@@ -289,6 +269,7 @@
 			this.Controls.Add(this.label1);
 			this.Name = "ManagerForm";
 			this.Text = "ManagerForm";
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ManagerForm_FormClosing);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -317,8 +298,6 @@
 		private System.Windows.Forms.TextBox tboxNumOfSeat;
 		private System.Windows.Forms.Label lblCost;
 		private System.Windows.Forms.TextBox tboxCost;
-		private System.Windows.Forms.Label lblContinent;
-		private System.Windows.Forms.TextBox tboxContinent;
 		private System.Windows.Forms.Button btnDelete;
 	}
 }

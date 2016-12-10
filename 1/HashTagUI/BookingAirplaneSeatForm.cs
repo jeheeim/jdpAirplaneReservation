@@ -84,7 +84,7 @@ namespace HashTagUI
                     this.Close();
                 }
             }
-            if (clickedSeats.Count < 0)
+            if (clickedSeats.Count <= 0)
                 return;
 			DialogResult result = MessageBox.Show("정말로 예매하시겠습니까?", "예약하기", MessageBoxButtons.OKCancel);
 

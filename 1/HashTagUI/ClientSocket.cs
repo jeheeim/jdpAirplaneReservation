@@ -283,7 +283,7 @@ namespace HashTagUI
 		}
         public bool IDMultipleCheck(string id)
         {
-            string message = "IDCHK$" + id + "!";
+            string message = "CHKID$" + id + "!";
 
             string returnMessage = sendAndReceive(message);
 
@@ -297,9 +297,9 @@ namespace HashTagUI
             }
         }
         
-        public bool DeleteAccount(Account account)
+        public bool DeleteAccount(string account)
         {
-            string message = "DELACC$" + account.ToString() + "!";
+            string message = "DELACC$" + account + "!";
 
             string returnMessage = sendAndReceive(message);
 
@@ -339,7 +339,40 @@ namespace HashTagUI
 			}
 			else
 			{
-				Account newAccount = new Account(returnMessage);
+                string accInfo = returnMessage.Split('$')[0];
+                string reservedInfo = returnMessage.Split('$')[1];
+                Account newAccount = new Account(accInfo);
+                if (reservedInfo != "")
+                {
+                    string[] reserveInfos = reservedInfo.Split('%');
+                    string alertmsg = "";
+                    string airName = "";
+                    string seats = "";
+                    for(int i = 0; i < reserveInfos.Length; i++)
+                    {
+                        string[] airSeats = reservedInfo.Split(';');
+                        airName += airSeats[0] + ",";
+                        alertmsg += airSeats[0] + "의 ";
+                        bool valid = false;
+                        for(int j = 1; j < airSeats.Length-1; j++)
+                        {
+                            valid = true;
+                            seats += airSeats[j] + ",";
+                            alertmsg += airSeats[j] + ",";
+                        }
+                        seats = seats.Substring(0, seats.Length - 1);
+                        alertmsg = alertmsg.Substring(0, seats.Length - 1) + "좌석";
+                        if (valid)
+                            seats += "|";
+                    }
+                    DialogResult dr = MessageBox.Show(alertmsg + "에 여분이 있습니다! 지금 바로 예약하시겠습니까?", "예약하기", MessageBoxButtons.OKCancel);
+                    if (dr == DialogResult.OK)
+                    {
+                        Reservation(newAccount.id, airName, seats);
+                        newAccount.addToBook(airName, seats);
+                    }
+
+                }
 
 				return newAccount;
 			}

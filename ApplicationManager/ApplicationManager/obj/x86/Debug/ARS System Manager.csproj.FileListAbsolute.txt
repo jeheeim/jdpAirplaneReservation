@@ -1,0 +1,9 @@
+C:\Users\jay\Documents\GitHub\jdpAirplaneReservation\ApplicationManager\ApplicationManager\obj\x86\Debug\ApplicationManager.LoginForm.resources
+C:\Users\jay\Documents\GitHub\jdpAirplaneReservation\ApplicationManager\ApplicationManager\obj\x86\Debug\ApplicationManager.Properties.Resources.resources
+C:\Users\jay\Documents\GitHub\jdpAirplaneReservation\ApplicationManager\ApplicationManager\obj\x86\Debug\ARS System Manager.csproj.GenerateResource.Cache
+C:\Users\jay\Documents\GitHub\jdpAirplaneReservation\ApplicationManager\ApplicationManager\obj\x86\Debug\ApplicationManager.ManagerForm.resources
+C:\Users\jay\Documents\GitHub\jdpAirplaneReservation\ApplicationManager\ApplicationManager\bin\Debug\ARS System Manager.exe
+C:\Users\jay\Documents\GitHub\jdpAirplaneReservation\ApplicationManager\ApplicationManager\bin\Debug\ARS System Manager.pdb
+C:\Users\jay\Documents\GitHub\jdpAirplaneReservation\ApplicationManager\ApplicationManager\obj\x86\Debug\ARS System Manager.exe
+C:\Users\jay\Documents\GitHub\jdpAirplaneReservation\ApplicationManager\ApplicationManager\obj\x86\Debug\ARS System Manager.pdb
+C:\Users\jay\Documents\GitHub\jdpAirplaneReservation\ApplicationManager\ApplicationManager\obj\x86\Debug\ARS System Manager.csprojResolveAssemblyReference.cache

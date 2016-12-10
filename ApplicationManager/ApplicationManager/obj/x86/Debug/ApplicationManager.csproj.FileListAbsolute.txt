@@ -5,3 +5,4 @@ C:\Users\jay\Documents\GitHub\jdpAirplaneReservation\ApplicationManager\Applicat
 C:\Users\jay\Documents\GitHub\jdpAirplaneReservation\ApplicationManager\ApplicationManager\obj\x86\Debug\ApplicationManager.exe
 C:\Users\jay\Documents\GitHub\jdpAirplaneReservation\ApplicationManager\ApplicationManager\obj\x86\Debug\ApplicationManager.pdb
 C:\Users\jay\Documents\GitHub\jdpAirplaneReservation\ApplicationManager\ApplicationManager\obj\x86\Debug\ApplicationManager.csprojResolveAssemblyReference.cache
+C:\Users\jay\Documents\GitHub\jdpAirplaneReservation\ApplicationManager\ApplicationManager\obj\x86\Debug\ApplicationManager.LoginForm.resources
