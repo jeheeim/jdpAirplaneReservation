@@ -46,13 +46,14 @@ namespace HashTagUI
             cbCountry.Items.Clear();
             cbDest.Items.Clear();
             this.lvSearchResult.Items.Clear();
+            
             foreach (KeyValuePair<string, List<string>> targetPair in MainForm.clientSocket.Destinations)
             {
-                this.cbRegion.Items.Add(targetPair.Key);/*
+                this.cbRegion.Items.Add(targetPair.Key);
                 for (int i = 0; i < targetPair.Value.Count; i++)
                 {
                     this.cbCountry.Items.Add(targetPair.Value[i]);
-                }*/
+                }
             }
             foreach (KeyValuePair<string, Dictionary<string, List<string>>> targetPair in MainForm.clientSocket.airplaneSchedules)
             {

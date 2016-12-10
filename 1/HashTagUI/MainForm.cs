@@ -6,7 +6,7 @@ using System.Windows.Forms;
 namespace HashTagUI
 {
 	public partial class MainForm : Form
-	{
+    {
         //6, 1
         public static readonly Size MainFormSize = new Size(265, 265);
         public static readonly Point GroupBoxLoc = new Point(6, 1);
@@ -18,15 +18,11 @@ namespace HashTagUI
 		public MainForm()
 		{
 			InitializeComponent();
-
-			for(int i=0;i<lvSearchResult1.Columns.Count;i++)
-			{
-				lvSearchResult1.Columns[i].Width = lvSearchResult1.Width / lvSearchResult1.Columns.Count;
-			}
 		}
+        
         /* 11.29 수정*/
-		// 로그인 함수
-		private void btnLogin_Click(object sender, EventArgs e)
+        // 로그인 함수
+        private void btnLogin_Click(object sender, EventArgs e)
 		{
             if (currentUser == null)
             {
@@ -91,7 +87,7 @@ namespace HashTagUI
 			this.lvSearchResult1.Items.Clear();
 			if (currentUser != null)
 				userInterest = currentUser.Interest;
-			if (userInterest == "")
+			if (userInterest == "NULL")
 			{
 				foreach (KeyValuePair<string, Airplane> temp in MainForm.clientSocket.airplaneList)
 				{
@@ -100,18 +96,25 @@ namespace HashTagUI
 			}
 			else
 			{
-				foreach (KeyValuePair<string, List<string>> targetValue in clientSocket.airplaneDest[userInterest])
-				{
-					foreach (string targetKey in targetValue.Value)
-					{
-						putValueInMinCost(clientSocket.airplaneList[targetKey], dicMinCosts);
-					}
-				}
+                if (clientSocket.airplaneDest.ContainsKey(userInterest))
+                {
+                    foreach (KeyValuePair<string, List<string>> targetValue in clientSocket.airplaneDest[userInterest])
+                    {
+                        foreach (string targetKey in targetValue.Value)
+                        {
+                            putValueInMinCost(clientSocket.airplaneList[targetKey], dicMinCosts);
+                        }
+                    }
+                }
 			}
 			for (int i = 0; i < 3; i++)
 			{
-				ListViewItem lvItem = new ListViewItem(new string[6] { dicMinCosts[i].ID, dicMinCosts[i].DepartApt, dicMinCosts[i].DestApt, dicMinCosts[i].Date, dicMinCosts[i].Time, dicMinCosts[i].Cost.ToString() });
-				this.lvSearchResult1.Items.Add(lvItem);
+                ListViewItem lvItem;
+                if (dicMinCosts.ContainsKey(i))
+                {
+                    lvItem = new ListViewItem(new string[6] { dicMinCosts[i].ID, dicMinCosts[i].DepartApt, dicMinCosts[i].DestApt, dicMinCosts[i].Date, dicMinCosts[i].Time, dicMinCosts[i].Cost.ToString() });
+                    this.lvSearchResult1.Items.Add(lvItem);
+                }
 			}
 		}
 
@@ -137,7 +140,6 @@ namespace HashTagUI
 			this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
 			this.SetStyle(ControlStyles.UserPaint, true);
 		}
-
         private void putValueInMinCost(Airplane target, Dictionary<int, Airplane> targetDic)
 		{
 			if (targetDic.Count < 3)
@@ -207,7 +209,7 @@ namespace HashTagUI
         /* 11.29 수정*/
         private void button1_Click(object sender, EventArgs e)
         {
-            if (cbArrive.SelectedIndex != -1 && comboBox1.SelectedIndex!=-1 && currentUser!=null)
+            if (cbArrive.SelectedIndex != -1 && cbNumPpl.SelectedIndex!=-1 && currentUser!=null)
             {
                 Form f = new FastBookingSearchForm(this);
                 f.ShowDialog();
@@ -293,7 +295,7 @@ namespace HashTagUI
                 }
                 for (int i = 1; i <= maxSeat; i++)
                 {
-                    comboBox1.Items.Add(i);
+                    cbNumPpl.Items.Add(i);
                 }
             }
         }

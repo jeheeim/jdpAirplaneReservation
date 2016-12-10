@@ -46,7 +46,7 @@ namespace HashTagUI
 			{
 				if (tboxPassword.Text == tboxPasswordConfirm.Text)
 				{
-					Account temp = new Account(tboxID.Text, tboxPassword.Text, tboxName.Text, tboxEmail.Text);
+					Account temp = new Account(tboxID.Text, tboxPassword.Text, tboxName.Text, tboxEmail.Text,((cboxInterest.Text=="")?"NULL":cboxInterest.Text));
 
 					if (cboxInterest.SelectedItem != null)
 					{
@@ -55,7 +55,14 @@ namespace HashTagUI
 
 					if(MainForm.clientSocket.ModifyInfo(temp))
 					{
+                        mainForm.currentUser.pw = temp.pw;
+                        mainForm.currentUser.name = temp.name;
+                        mainForm.currentUser.email = temp.email;
+                        mainForm.currentUser.Interest = temp.Interest;
+
 						MessageBox.Show("개인정보 수정을 성공했습니다!");
+
+						this.Close();
 					}
 					else
 					{
@@ -70,6 +77,21 @@ namespace HashTagUI
 			else
 			{
 				MessageBox.Show("빈 내용이 있습니다!");
+			}
+		}
+
+		private void btnDelete_Click(object sender, EventArgs e)
+		{
+			if (MessageBox.Show("탈퇴하시겠습니까?", "경고", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.Yes)
+			{
+				if (MainForm.clientSocket.DeleteAccount(mainForm.currentUser))
+				{
+					MessageBox.Show("삭제되었습니다");
+				}
+				else
+				{
+					MessageBox.Show("실패했습니다. 다시 시도해주세요.");
+				}
 			}
 		}
 

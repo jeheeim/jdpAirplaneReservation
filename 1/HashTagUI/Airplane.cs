@@ -58,6 +58,38 @@ namespace HashTagUI
             }
 		}
 
+		// id, 국가, 도착도시, 출발공항, 도착공항, 날짜, 시간, 가격, 좌석정보
+		public Airplane(string info)
+		{
+			string[] strArr = info.Split(' ');
+
+			str_id = strArr[0];
+			str_destCountry = strArr[1];
+			str_departApt = strArr[2];
+			str_destApt = strArr[3];
+			str_departDate = strArr[4];
+			str_departTime = strArr[5];
+			n_cost = int.Parse(strArr[6]);
+
+			string[] splitSeats = strArr[7].Split(',');
+
+			for (int i = 0; i < splitSeats.Length; i++)
+			{
+				string nowSeat = splitSeats[i];
+
+				if (nowSeat[0] == 'R')
+				{
+					dic_seats.Add(splitSeats[i].Substring(1), true);
+				}
+				else
+				{
+					dic_seats.Add(splitSeats[i], false);
+					n_leftSeats++;
+				}
+			}
+		}
+
+
 		public override string ToString()
 		{
 			return str_id;

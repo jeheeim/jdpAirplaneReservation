@@ -31,12 +31,22 @@ namespace HashTagUI
                 MessageBox.Show("취소할 좌석을 선택해 주세요!");
                 return;
             }
-			MessageBox.Show("취소 되었습니다!");
-            string seatNum = this.lvTicketInfo.SelectedItems[0].SubItems[3].Text;
-            string apName = this.lvTicketInfo.SelectedItems[0].SubItems[0].Text;
-            MainForm.clientSocket.airplaneList[apName].Seats[seatNum] = false;
-            currentUser.BookedSeats[apName].Remove(seatNum);
-            this.lvTicketInfo.Items.Remove(this.lvTicketInfo.SelectedItems[0]);
+			//MessageBox.Show("취소 되었습니다!");
+			string seatNum = this.lvTicketInfo.SelectedItems[0].SubItems[3].Text;
+			string apName = this.lvTicketInfo.SelectedItems[0].SubItems[0].Text;
+			//         MainForm.clientSocket.airplaneList[apName].Seats[seatNum] = false;
+			//         currentUser.BookedSeats[apName].Remove(seatNum);
+			//         this.lvTicketInfo.Items.Remove(this.lvTicketInfo.SelectedItems[0]);
+
+			if(MainForm.clientSocket.CancelTicket(currentUser, apName, seatNum))
+			{
+				MessageBox.Show("성공");
+			}
+			else
+			{
+				MessageBox.Show("실패");
+			}
+
 		}
 
         private void CheckTicketForm_Load(object sender, EventArgs e)
