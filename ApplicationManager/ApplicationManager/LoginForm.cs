@@ -14,6 +14,7 @@ namespace ApplicationManager
 			InitializeComponent();
 
 			clientSocket = new ClientSocket();
+
 		}
 
 		#region 버튼 이벤트

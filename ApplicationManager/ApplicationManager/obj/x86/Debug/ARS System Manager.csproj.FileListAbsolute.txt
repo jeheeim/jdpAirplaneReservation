@@ -6,4 +6,3 @@ C:\Users\jay\Documents\GitHub\jdpAirplaneReservation\ApplicationManager\Applicat
 C:\Users\jay\Documents\GitHub\jdpAirplaneReservation\ApplicationManager\ApplicationManager\bin\Debug\ARS System Manager.pdb
 C:\Users\jay\Documents\GitHub\jdpAirplaneReservation\ApplicationManager\ApplicationManager\obj\x86\Debug\ARS System Manager.exe
 C:\Users\jay\Documents\GitHub\jdpAirplaneReservation\ApplicationManager\ApplicationManager\obj\x86\Debug\ARS System Manager.pdb
-C:\Users\jay\Documents\GitHub\jdpAirplaneReservation\ApplicationManager\ApplicationManager\obj\x86\Debug\ARS System Manager.csprojResolveAssemblyReference.cache

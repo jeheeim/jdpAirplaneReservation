@@ -46,10 +46,13 @@
 			this.lblDestCountry = new System.Windows.Forms.Label();
 			this.tboxDestCountry = new System.Windows.Forms.TextBox();
 			this.lblNumOfSeat = new System.Windows.Forms.Label();
-			this.tboxNumOfSeat = new System.Windows.Forms.TextBox();
 			this.lblCost = new System.Windows.Forms.Label();
 			this.tboxCost = new System.Windows.Forms.TextBox();
 			this.btnDelete = new System.Windows.Forms.Button();
+			this.rbtn30 = new System.Windows.Forms.RadioButton();
+			this.rbtn50 = new System.Windows.Forms.RadioButton();
+			this.tboxRegion = new System.Windows.Forms.TextBox();
+			this.lblRegion = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// label1
@@ -74,7 +77,7 @@
 			// lblAirplaneID
 			// 
 			this.lblAirplaneID.AutoSize = true;
-			this.lblAirplaneID.Location = new System.Drawing.Point(175, 73);
+			this.lblAirplaneID.Location = new System.Drawing.Point(179, 61);
 			this.lblAirplaneID.Name = "lblAirplaneID";
 			this.lblAirplaneID.Size = new System.Drawing.Size(87, 15);
 			this.lblAirplaneID.TabIndex = 3;
@@ -83,7 +86,7 @@
 			// lblDepartApt
 			// 
 			this.lblDepartApt.AutoSize = true;
-			this.lblDepartApt.Location = new System.Drawing.Point(175, 108);
+			this.lblDepartApt.Location = new System.Drawing.Point(179, 92);
 			this.lblDepartApt.Name = "lblDepartApt";
 			this.lblDepartApt.Size = new System.Drawing.Size(67, 15);
 			this.lblDepartApt.TabIndex = 4;
@@ -92,7 +95,7 @@
 			// lblDepartTime
 			// 
 			this.lblDepartTime.AutoSize = true;
-			this.lblDepartTime.Location = new System.Drawing.Point(175, 182);
+			this.lblDepartTime.Location = new System.Drawing.Point(179, 158);
 			this.lblDepartTime.Name = "lblDepartTime";
 			this.lblDepartTime.Size = new System.Drawing.Size(67, 15);
 			this.lblDepartTime.TabIndex = 5;
@@ -101,7 +104,7 @@
 			// lblDepartDate
 			// 
 			this.lblDepartDate.AutoSize = true;
-			this.lblDepartDate.Location = new System.Drawing.Point(175, 147);
+			this.lblDepartDate.Location = new System.Drawing.Point(179, 127);
 			this.lblDepartDate.Name = "lblDepartDate";
 			this.lblDepartDate.Size = new System.Drawing.Size(52, 15);
 			this.lblDepartDate.TabIndex = 6;
@@ -110,7 +113,7 @@
 			// lblDestApt
 			// 
 			this.lblDestApt.AutoSize = true;
-			this.lblDestApt.Location = new System.Drawing.Point(175, 248);
+			this.lblDestApt.Location = new System.Drawing.Point(179, 247);
 			this.lblDestApt.Name = "lblDestApt";
 			this.lblDestApt.Size = new System.Drawing.Size(67, 15);
 			this.lblDestApt.TabIndex = 7;
@@ -118,7 +121,7 @@
 			// 
 			// btnModify
 			// 
-			this.btnModify.Location = new System.Drawing.Point(166, 358);
+			this.btnModify.Location = new System.Drawing.Point(170, 340);
 			this.btnModify.Name = "btnModify";
 			this.btnModify.Size = new System.Drawing.Size(75, 23);
 			this.btnModify.TabIndex = 9;
@@ -128,7 +131,7 @@
 			// 
 			// btnAdd
 			// 
-			this.btnAdd.Location = new System.Drawing.Point(247, 358);
+			this.btnAdd.Location = new System.Drawing.Point(251, 340);
 			this.btnAdd.Name = "btnAdd";
 			this.btnAdd.Size = new System.Drawing.Size(75, 23);
 			this.btnAdd.TabIndex = 10;
@@ -138,7 +141,7 @@
 			// 
 			// btnCancel
 			// 
-			this.btnCancel.Location = new System.Drawing.Point(409, 358);
+			this.btnCancel.Location = new System.Drawing.Point(413, 340);
 			this.btnCancel.Name = "btnCancel";
 			this.btnCancel.Size = new System.Drawing.Size(75, 23);
 			this.btnCancel.TabIndex = 11;
@@ -148,28 +151,28 @@
 			// 
 			// tboxAirplaneID
 			// 
-			this.tboxAirplaneID.Location = new System.Drawing.Point(268, 70);
+			this.tboxAirplaneID.Location = new System.Drawing.Point(272, 58);
 			this.tboxAirplaneID.Name = "tboxAirplaneID";
 			this.tboxAirplaneID.Size = new System.Drawing.Size(216, 25);
 			this.tboxAirplaneID.TabIndex = 12;
 			// 
 			// tboxDepartApt
 			// 
-			this.tboxDepartApt.Location = new System.Drawing.Point(268, 105);
+			this.tboxDepartApt.Location = new System.Drawing.Point(272, 89);
 			this.tboxDepartApt.Name = "tboxDepartApt";
 			this.tboxDepartApt.Size = new System.Drawing.Size(216, 25);
 			this.tboxDepartApt.TabIndex = 13;
 			// 
 			// tboxDestApt
 			// 
-			this.tboxDestApt.Location = new System.Drawing.Point(268, 245);
+			this.tboxDestApt.Location = new System.Drawing.Point(272, 244);
 			this.tboxDestApt.Name = "tboxDestApt";
 			this.tboxDestApt.Size = new System.Drawing.Size(216, 25);
 			this.tboxDestApt.TabIndex = 16;
 			// 
 			// dtpDepartDate
 			// 
-			this.dtpDepartDate.Location = new System.Drawing.Point(268, 140);
+			this.dtpDepartDate.Location = new System.Drawing.Point(272, 120);
 			this.dtpDepartDate.Name = "dtpDepartDate";
 			this.dtpDepartDate.Size = new System.Drawing.Size(216, 25);
 			this.dtpDepartDate.TabIndex = 18;
@@ -177,7 +180,7 @@
 			// dtpDepartTime
 			// 
 			this.dtpDepartTime.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-			this.dtpDepartTime.Location = new System.Drawing.Point(268, 175);
+			this.dtpDepartTime.Location = new System.Drawing.Point(272, 151);
 			this.dtpDepartTime.Name = "dtpDepartTime";
 			this.dtpDepartTime.Size = new System.Drawing.Size(216, 25);
 			this.dtpDepartTime.TabIndex = 19;
@@ -185,7 +188,7 @@
 			// lblDestCountry
 			// 
 			this.lblDestCountry.AutoSize = true;
-			this.lblDestCountry.Location = new System.Drawing.Point(175, 213);
+			this.lblDestCountry.Location = new System.Drawing.Point(179, 216);
 			this.lblDestCountry.Name = "lblDestCountry";
 			this.lblDestCountry.Size = new System.Drawing.Size(67, 15);
 			this.lblDestCountry.TabIndex = 20;
@@ -193,7 +196,7 @@
 			// 
 			// tboxDestCountry
 			// 
-			this.tboxDestCountry.Location = new System.Drawing.Point(268, 210);
+			this.tboxDestCountry.Location = new System.Drawing.Point(272, 213);
 			this.tboxDestCountry.Name = "tboxDestCountry";
 			this.tboxDestCountry.Size = new System.Drawing.Size(216, 25);
 			this.tboxDestCountry.TabIndex = 21;
@@ -201,23 +204,16 @@
 			// lblNumOfSeat
 			// 
 			this.lblNumOfSeat.AutoSize = true;
-			this.lblNumOfSeat.Location = new System.Drawing.Point(175, 283);
+			this.lblNumOfSeat.Location = new System.Drawing.Point(179, 275);
 			this.lblNumOfSeat.Name = "lblNumOfSeat";
 			this.lblNumOfSeat.Size = new System.Drawing.Size(52, 15);
 			this.lblNumOfSeat.TabIndex = 22;
 			this.lblNumOfSeat.Text = "좌석수";
 			// 
-			// tboxNumOfSeat
-			// 
-			this.tboxNumOfSeat.Location = new System.Drawing.Point(268, 280);
-			this.tboxNumOfSeat.Name = "tboxNumOfSeat";
-			this.tboxNumOfSeat.Size = new System.Drawing.Size(216, 25);
-			this.tboxNumOfSeat.TabIndex = 23;
-			// 
 			// lblCost
 			// 
 			this.lblCost.AutoSize = true;
-			this.lblCost.Location = new System.Drawing.Point(175, 317);
+			this.lblCost.Location = new System.Drawing.Point(179, 303);
 			this.lblCost.Name = "lblCost";
 			this.lblCost.Size = new System.Drawing.Size(87, 15);
 			this.lblCost.TabIndex = 24;
@@ -225,14 +221,14 @@
 			// 
 			// tboxCost
 			// 
-			this.tboxCost.Location = new System.Drawing.Point(268, 314);
+			this.tboxCost.Location = new System.Drawing.Point(272, 300);
 			this.tboxCost.Name = "tboxCost";
 			this.tboxCost.Size = new System.Drawing.Size(216, 25);
 			this.tboxCost.TabIndex = 25;
 			// 
 			// btnDelete
 			// 
-			this.btnDelete.Location = new System.Drawing.Point(328, 358);
+			this.btnDelete.Location = new System.Drawing.Point(332, 340);
 			this.btnDelete.Name = "btnDelete";
 			this.btnDelete.Size = new System.Drawing.Size(75, 23);
 			this.btnDelete.TabIndex = 28;
@@ -240,15 +236,56 @@
 			this.btnDelete.UseVisualStyleBackColor = true;
 			this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
 			// 
+			// rbtn30
+			// 
+			this.rbtn30.AutoSize = true;
+			this.rbtn30.Location = new System.Drawing.Point(300, 273);
+			this.rbtn30.Name = "rbtn30";
+			this.rbtn30.Size = new System.Drawing.Size(59, 19);
+			this.rbtn30.TabIndex = 29;
+			this.rbtn30.TabStop = true;
+			this.rbtn30.Text = "30석";
+			this.rbtn30.UseVisualStyleBackColor = true;
+			// 
+			// rbtn50
+			// 
+			this.rbtn50.AutoSize = true;
+			this.rbtn50.Location = new System.Drawing.Point(400, 273);
+			this.rbtn50.Name = "rbtn50";
+			this.rbtn50.Size = new System.Drawing.Size(59, 19);
+			this.rbtn50.TabIndex = 30;
+			this.rbtn50.TabStop = true;
+			this.rbtn50.Text = "50석";
+			this.rbtn50.UseVisualStyleBackColor = true;
+			// 
+			// tboxRegion
+			// 
+			this.tboxRegion.Location = new System.Drawing.Point(272, 182);
+			this.tboxRegion.Name = "tboxRegion";
+			this.tboxRegion.Size = new System.Drawing.Size(216, 25);
+			this.tboxRegion.TabIndex = 31;
+			// 
+			// lblRegion
+			// 
+			this.lblRegion.AutoSize = true;
+			this.lblRegion.Location = new System.Drawing.Point(179, 185);
+			this.lblRegion.Name = "lblRegion";
+			this.lblRegion.Size = new System.Drawing.Size(37, 15);
+			this.lblRegion.TabIndex = 32;
+			this.lblRegion.Text = "대륙";
+			// 
 			// ManagerForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(500, 404);
+			this.ClientSize = new System.Drawing.Size(500, 380);
+			this.Controls.Add(this.lblRegion);
+			this.Controls.Add(this.tboxRegion);
+			this.Controls.Add(this.rbtn50);
+			this.Controls.Add(this.rbtn30);
 			this.Controls.Add(this.btnDelete);
 			this.Controls.Add(this.tboxCost);
 			this.Controls.Add(this.lblCost);
-			this.Controls.Add(this.tboxNumOfSeat);
 			this.Controls.Add(this.lblNumOfSeat);
 			this.Controls.Add(this.tboxDestCountry);
 			this.Controls.Add(this.lblDestCountry);
@@ -295,9 +332,12 @@
 		private System.Windows.Forms.Label lblDestCountry;
 		private System.Windows.Forms.TextBox tboxDestCountry;
 		private System.Windows.Forms.Label lblNumOfSeat;
-		private System.Windows.Forms.TextBox tboxNumOfSeat;
 		private System.Windows.Forms.Label lblCost;
 		private System.Windows.Forms.TextBox tboxCost;
 		private System.Windows.Forms.Button btnDelete;
+		private System.Windows.Forms.RadioButton rbtn30;
+		private System.Windows.Forms.RadioButton rbtn50;
+		private System.Windows.Forms.TextBox tboxRegion;
+		private System.Windows.Forms.Label lblRegion;
 	}
 }

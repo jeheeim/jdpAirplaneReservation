@@ -16,18 +16,19 @@ namespace ApplicationManager
 		private Dictionary<string, List<string>> dic_Destinations;
 		public static TcpClient clientTcpSocket = new TcpClient();
 
-		//Date, Time
+		/* Date, Time
+		 * ID, All lists
+		 * 대륙, 국가
+		 * 국가, 목적지 공항
+		 */
+
 		public Dictionary<string, Dictionary<string, List<string>>> airplaneSchedules { get { return dic_airplaneSchedules; } }
-		//All Lists/ id
 		public Dictionary<string, Airplane> airplaneList { get { return dic_airplaneList; } }
-		// 대륙, 국가
 		public Dictionary<string, List<string>> Destinations { get { return dic_Destinations; } }
-		// 국가, 목적지 공항
 		public Dictionary<string, Dictionary<string, List<string>>> airplaneDest { get { return dic_airplaneDest; } }
 
 		public ClientSocket()
 		{
-			//dic_userInfo = new Dictionary<String, Account>();
 			dic_airplaneList = new Dictionary<string, Airplane>();
 			dic_Destinations = new Dictionary<string, List<string>>();
 			dic_airplaneDest = new Dictionary<string, Dictionary<string, List<string>>>();
@@ -35,6 +36,8 @@ namespace ApplicationManager
 
 			InitSocket();
 		}
+
+		// 소켓 초기화
 		private void InitSocket()
 		{
 			try
@@ -61,7 +64,7 @@ namespace ApplicationManager
 			byte[] sbuffer = Encoding.Unicode.GetBytes(message);
 			stream.Write(sbuffer, 0, sbuffer.Length);
 			stream.Flush();
-			byte[] rbuffer = new byte[65023];
+			byte[] rbuffer = new byte[1000000];
 			stream.Read(rbuffer, 0, rbuffer.Length);
 			string msg = Encoding.Unicode.GetString(rbuffer).Split('\0')[0];
 
@@ -86,8 +89,9 @@ namespace ApplicationManager
 				string[] splitResult = line.Split(' ');
 				if (splitResult.Length < 9)
 					continue;
+
 				//airplane_id,region,country,d_airport,a_airport,date,time,cost,seat_info
-				Airplane newAp = new Airplane(splitResult[0], splitResult[2], splitResult[3], splitResult[4], splitResult[5], splitResult[6], Convert.ToInt32(splitResult[7]), splitResult[8]);
+				Airplane newAp = new Airplane(splitResult[0], splitResult[1], splitResult[2], splitResult[3], splitResult[4], splitResult[5], splitResult[6], Convert.ToInt32(splitResult[7]), splitResult[8]);
 
 
 				airplaneList.Add(splitResult[0], newAp);
@@ -195,10 +199,17 @@ namespace ApplicationManager
 
 		#region 매니저폼 전용함수
 
+		/* 각 전송메시지의 명령어 및 구조
+		 * 로그인		: LOGINADMIN$(관리자ID)$(관리자PW)!
+		 * 비행기 추가	: ADDAIR$(Airplane.FullData())!
+		 * 비행기 삭제	: DELAIR$(Airplane.ID)$(dic_Destinations[Airplane.ID])!
+		 * 비행기 수정	: MODAIR$(Airplane.FullData())$(dic_Destinations[Airplane.ID])!
+		 */
+
 		// 로그인
 		public bool Login(string id, string password)
 		{
-			string message = "LOGIN$" + id + "$" + password + "!";
+			string message = "LOGINADMIN$" + id + "$" + password + "!";
 			string returnMessage = sendAndReceive(message);
 
 			if (returnMessage != "F") { return true; }
@@ -208,19 +219,30 @@ namespace ApplicationManager
 		// 비행기 추가
 		public bool AddAirplane(Airplane newAirplane)
 		{
-			if (CommunicateWithServer("NEWAIR", newAirplane))
+			if (airplaneList.ContainsKey(newAirplane.ID)){ return false; }
+			else
 			{
-				airplaneList.Add(newAirplane.ID, newAirplane);
+				string message = "ADDAIR$" + newAirplane.FullData() + "!";
+				
+				string returnMessage = sendAndReceive(message);
 
-				return true;
+				if (returnMessage == "T")
+				{
+					airplaneList.Add(newAirplane.ID, newAirplane);
+
+					return true;
+				}
+				else { return false; }
 			}
-			else { return false; }
 		}
 
 		// 항공편 삭제
 		public bool DeleteAirplane(Airplane airplaneDeleted)
 		{
-			if (CommunicateWithServer("DELAIR", airplaneDeleted))
+			string message = "DELAIR$" + airplaneDeleted.ID + "!";
+			string returnMessage = sendAndReceive(message);
+
+			if (returnMessage == "T")
 			{
 				airplaneList.Remove(airplaneDeleted.ID);
 
@@ -232,22 +254,15 @@ namespace ApplicationManager
 		// 비행기 정보 수정
 		public bool ModifyAirplaneInfo(Airplane airplane)
 		{
-			if (CommunicateWithServer("MODAIR", airplane))
+			string message = "MODAIR$" + airplane.FullData() + "!";
+			string returnMessage = sendAndReceive(message);
+
+			if (returnMessage == "T")
 			{
 				airplaneList[airplane.ID].ModifyInfo(airplane);
 
 				return true;
 			}
-			else { return false; }
-		}
-
-		// 추가, 수정, 삭제시 주고받을 내용
-		bool CommunicateWithServer(string command, Airplane airplane)
-		{
-			string message = command + "$" + airplane.ToString() + "!";
-			string returnMessage = sendAndReceive(message);
-
-			if (returnMessage == "T") { return true; }
 			else { return false; }
 		}
 

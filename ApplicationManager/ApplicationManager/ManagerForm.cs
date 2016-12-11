@@ -8,7 +8,10 @@ namespace ApplicationManager
 	{
 		ClientSocket clientSocket;
 		LoginForm loginForm;
-		
+
+		string seat30 = "";
+		string seat50 = "";
+
 		public ManagerForm(LoginForm loginForm)
 		{
 			InitializeComponent();
@@ -17,6 +20,24 @@ namespace ApplicationManager
 			clientSocket = loginForm.clientSocket;
 
 			InitiateListbox();
+
+			seat30 = InitiateSeats(3);
+			seat50 = InitiateSeats(5);
+		}
+
+		string InitiateSeats(int num)
+		{
+			string result = "";
+			for (int i = 0; i < num; i++)
+			{
+				for (int j = 1; j <= 10; j++)
+				{
+					result += (char)((int)'A' + i) + j.ToString() + ',';
+				}
+			}
+			result = result.Substring(0, result.LastIndexOf(','));
+			
+			return result;
 		}
 
 		void InitiateListbox()
@@ -35,13 +56,14 @@ namespace ApplicationManager
 		// 리스트박스 클릭시
 		private void listBox1_ItemClicked(object sender, EventArgs e)
 		{
-			string item = listBox1.SelectedItem.ToString();
+			string item = ((Airplane)listBox1.SelectedItem).ID;
 			Airplane airplane = clientSocket.airplaneList[item];
 
 			tboxAirplaneID.Text = airplane.ID;
+			tboxRegion.Text = airplane.Continent;
 			tboxDepartApt.Text = airplane.DepartApt;
 
-			string[] monthAndDate = airplane.Date.Split('.');
+			string[] monthAndDate = airplane.Date.Split('/');
 			string[] hour = airplane.Time.Split(':');
 
 			DateTime departDateTime = new DateTime(2016, int.Parse(monthAndDate[0]), int.Parse(monthAndDate[1]));
@@ -53,7 +75,16 @@ namespace ApplicationManager
 
 			tboxDestCountry.Text = airplane.Country;
 			tboxDestApt.Text = airplane.DestApt;
-			tboxNumOfSeat.Text = airplane.LeftSeats.ToString();
+
+			if(airplane.LeftSeats == 30)
+			{
+				rbtn30.PerformClick();
+			}
+			else
+			{
+				rbtn50.PerformClick();
+			}
+
 			tboxCost.Text = airplane.Cost.ToString();
 		}
 
@@ -65,7 +96,7 @@ namespace ApplicationManager
 		{
 			Airplane newAirplane = ConversionIntoAirplane();
 
-			if(clientSocket.AddAirplane(newAirplane)) { listBox1.Items.Add(newAirplane); }
+			if (clientSocket.AddAirplane(newAirplane)) { listBox1.Items.Add(newAirplane); }
 			else { MessageBox.Show("추가 실패!"); }
 		}
 
@@ -102,14 +133,29 @@ namespace ApplicationManager
 		{
 			string id = tboxAirplaneID.Text;
 			string departApt = tboxDepartApt.Text;
-			string departDate = dtpDepartDate.Value.Month.ToString() + '.' + dtpDepartDate.Value.Day.ToString();
-			string departTime = dtpDepartTime.Value.Hour.ToString();
+			string departDate = dtpDepartDate.Value.Month.ToString() + '/' + dtpDepartDate.Value.Day.ToString();
+			string departTime = dtpDepartTime.Value.Hour.ToString() + ":" + dtpDepartTime.Value.Minute.ToString();
+			string region = tboxRegion.Text;
 			string destCountry = tboxDestCountry.Text;
 			string destApt = tboxDestApt.Text;
-			string numOfSeats = tboxNumOfSeat.Text;
+			string seats;
+
+			if(rbtn30.Checked == true)
+			{
+				seats = seat30;
+			}
+			else if(rbtn50.Checked == true)
+			{
+				seats = seat50;
+			}
+			else
+			{
+				seats = seat50;
+			}
+
 			int cost = int.Parse(tboxCost.Text);
 
-			Airplane newAirplane = new Airplane(id, destCountry, departApt, destApt, departDate, departTime, cost, numOfSeats);
+			Airplane newAirplane = new Airplane(id, region, destCountry, departApt, destApt, departDate, departTime, cost, seats);
 
 			return newAirplane;
 		}
