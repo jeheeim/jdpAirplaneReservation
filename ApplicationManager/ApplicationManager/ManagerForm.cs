@@ -104,7 +104,12 @@ namespace ApplicationManager
 		{
 			Airplane newAirplane = ConversionIntoAirplane();
 
-			if (clientSocket.ModifyAirplaneInfo(newAirplane)) { listBox1.Items.Add(newAirplane); }
+			if (clientSocket.ModifyAirplaneInfo(newAirplane))
+			{
+				// 기존의 것을 삭제하고 새로운 것으로 더함
+				listBox1.Items.Remove(listBox1.SelectedItem);
+				listBox1.Items.Add(newAirplane);
+			}
 			else { MessageBox.Show("수정 실패!"); }
 		}
 
@@ -116,7 +121,10 @@ namespace ApplicationManager
 			{
 				Airplane newAirplane = ConversionIntoAirplane();
 
-				if (clientSocket.DeleteAirplane(newAirplane)) { listBox1.Items.Add(newAirplane); }
+				if (clientSocket.DeleteAirplane(newAirplane))
+				{
+					listBox1.Items.Remove(listBox1.SelectedItem);
+				}
 				else { MessageBox.Show("삭제 실패!"); }
 			}
 		}

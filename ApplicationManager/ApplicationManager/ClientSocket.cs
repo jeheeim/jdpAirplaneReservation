@@ -212,18 +212,18 @@ namespace ApplicationManager
 			string message = "LOGINADMIN$" + id + "$" + password + "!";
 			string returnMessage = sendAndReceive(message);
 
-			if (returnMessage != "F") { return true; }
-			else { return false; }
+			if (returnMessage == "T") { return true; }
+			else{ return false; }
 		}
 
 		// 비행기 추가
 		public bool AddAirplane(Airplane newAirplane)
 		{
-			if (airplaneList.ContainsKey(newAirplane.ID)){ return false; }
+			if (airplaneList.ContainsKey(newAirplane.ID)) { return false; }
 			else
 			{
 				string message = "ADDAIR$" + newAirplane.FullData() + "!";
-				
+
 				string returnMessage = sendAndReceive(message);
 
 				if (returnMessage == "T")
