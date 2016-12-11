@@ -32,7 +32,7 @@ namespace ApplicationManager
 			{
 				for (int j = 1; j <= 10; j++)
 				{
-					result += (char)((int)'A' + i) + j.ToString() + ',';
+					result += (char)('A' + i) + j.ToString() + ',';
 				}
 			}
 			result = result.Substring(0, result.LastIndexOf(','));
