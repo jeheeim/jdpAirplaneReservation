@@ -17,14 +17,14 @@ namespace HashTagUI
         string str_pw;
         string str_name;
         string str_email;
-		string str_interest;
+		string interest;
 
 		// 프로퍼티
 		public string id { get { return str_id; } }
         public string pw { get { return str_pw; } set { str_pw = value; } }
         public string name { get { return str_name; } set { str_name = value; } }
         public string email { get { return str_email; } set { str_email = value; } }
-        public string Interest { get { return str_interest; } set { str_interest = value; } }
+		public string Interest { get { return interest; } set { interest = value; } }
 
 		// 예약된 좌석
 		private Dictionary<string, List<string>> dic_bookedSeats;
@@ -38,27 +38,34 @@ namespace HashTagUI
 			str_pw = pw;
 			str_name = name;
             str_email = email;
-            this.str_interest = interest;
+            this.interest = interest;
 
             dic_bookedSeats = new Dictionary<string, List<string>>();
             if (airplane != "NULL")
                 addToBook(airplane, seats);
 		}
 
-        // 파일에서 한줄로 쭉 읽어들일때 쓸 생성자. 한줄단위로 읽어들이기 때문에 스트링 하나로 하는게 편해서. 
-        public Account(string accountInfo)
-        {
-            string[] info = accountInfo.Split(' ');
-            dic_bookedSeats = new Dictionary<string, List<string>>();
+		// 파일에서 한줄로 쭉 읽어들일때 쓸 생성자. 한줄단위로 읽어들이기 때문에 스트링 하나로 하는게 편해서.
+		public Account(string accountInfo)
+		{
+			string[] info = accountInfo.Split(',');
 
-            str_id = info[0];
-            str_pw = info[1];
-            str_name = info[2];
-            str_email = info[3];
-            str_interest = info[4];
-            if (info.Length > 5)
-                addToBook(info[5], info[6]);
-        }
+			str_id = info[0];
+			str_pw = info[1];
+			str_name = info[2];
+			str_email = info[3];
+			
+			if(info.Length == 5)
+			{
+				interest = info[4];
+			}
+			else
+			{
+				interest = "";
+			}
+
+			dic_bookedSeats = new Dictionary<string, List<string>>();
+		}
 
         public void addToBook(string airplaneID, string seatNum)
         {
@@ -71,7 +78,6 @@ namespace HashTagUI
                 for (int j = 0; j < seats[i].Split(',').Length; j++)
                 {
                     dic_bookedSeats[airplaneID].Add(seats[i].Split(',')[j]);
-                    MainForm.clientSocket.airplaneList[airplanes[i]].Seats[seats[i].Split(',')[j]] = true;
                 }
             }
         }
@@ -152,7 +158,7 @@ namespace HashTagUI
 		// 고객등록할때 저장하는 방식
 		public override string ToString()
 		{
-            string result = str_id + '$' + str_pw + '$' + str_name + '$' + str_email + '$' + str_interest;
+			string result = str_id + '$' + str_pw + '$' + str_name + '$' + str_email + '$' + interest;
 
 			return result;
 		}

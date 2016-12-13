@@ -14,3 +14,11 @@ C:\Users\6119\Desktop\Projects\TcpExample\TcpExample\obj\x86\Debug\TcpServerExam
 C:\Users\6119\Desktop\Projects\TcpExample\TcpExample\obj\x86\Debug\TcpServerExample.MainForm.resources
 C:\Users\6119\Desktop\Projects\TcpExample\TcpExample\obj\x86\Debug\TcpServerExample.Properties.Resources.resources
 C:\Users\6119\Desktop\Projects\TcpExample\TcpExample\obj\x86\Debug\TcpServerExample.csproj.GenerateResource.Cache
+C:\Users\정현오\Documents\주디프 최신본\TcpExample\TcpExample\obj\x86\Debug\TcpExample.exe
+C:\Users\정현오\Documents\주디프 최신본\TcpExample\TcpExample\obj\x86\Debug\TcpExample.pdb
+C:\Users\정현오\Documents\주디프 최신본\TcpExample\TcpExample\bin\Debug\TcpExample.exe
+C:\Users\정현오\Documents\주디프 최신본\TcpExample\TcpExample\bin\Debug\TcpExample.pdb
+C:\Users\정현오\Documents\주디프 최신본\TcpExample\TcpExample\obj\x86\Debug\TcpServerExample.csprojResolveAssemblyReference.cache
+C:\Users\정현오\Documents\주디프 최신본\TcpExample\TcpExample\obj\x86\Debug\TcpServerExample.MainForm.resources
+C:\Users\정현오\Documents\주디프 최신본\TcpExample\TcpExample\obj\x86\Debug\TcpServerExample.Properties.Resources.resources
+C:\Users\정현오\Documents\주디프 최신본\TcpExample\TcpExample\obj\x86\Debug\TcpServerExample.csproj.GenerateResource.Cache

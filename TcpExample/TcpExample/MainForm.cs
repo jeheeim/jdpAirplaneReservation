@@ -15,10 +15,10 @@ namespace TcpServerExample
 {
     public partial class MainForm : Form
     {
-
         TcpListener server = null;
         TcpClient client = null;
         static int counter = 0;
+        handleClient h_client = new handleClient();
 
         public MainForm()
         {
@@ -45,7 +45,7 @@ namespace TcpServerExample
                     client = server.AcceptTcpClient();
                     DisplayText(">> Accept connection from client");
 
-                    handleClient h_client = new handleClient();
+                    
                     h_client.OnReceived += new handleClient.MessageDisplayHandler(DisplayText);
                     h_client.OnCalculated += new handleClient.CalculateClientCounter(CalculateCounter);
                     h_client.startClient(client, counter);
@@ -92,6 +92,11 @@ namespace TcpServerExample
                 server.Stop();
                 server = null;
             }
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            h_client.makeAccountInfo();
         }
     }
 }

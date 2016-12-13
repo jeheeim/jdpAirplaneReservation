@@ -20,25 +20,6 @@ namespace HashTagUI
 			InitializeComponent();
 		}
         
-        public void ToLogOut()
-        {
-            currentUser = null;
-            btnLoginout.Text = "로그인";
-            lblLoginText.Visible = false;
-
-            label2.Visible = true;
-            label3.Visible = true;
-            btnFindId.Visible = true;
-            btnFindPw.Visible = true;
-            textBox1.Visible = true;
-            textBox2.Visible = true;
-            label2.Visible = true;
-            label3.Visible = true;
-            gbRecommend.Text = "추천 항공편";
-            gbRecommend.Visible = false;
-            btnModifyInfo.Visible = false;
-            btnModifyInfo.Enabled = false;
-        }
         /* 11.29 수정*/
         // 로그인 함수
         private void btnLogin_Click(object sender, EventArgs e)

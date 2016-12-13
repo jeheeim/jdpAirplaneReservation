@@ -84,11 +84,9 @@ namespace HashTagUI
 		{
 			if (MessageBox.Show("탈퇴하시겠습니까?", "경고", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.Yes)
 			{
-				if (MainForm.clientSocket.DeleteAccount(mainForm.currentUser.id))
+				if (MainForm.clientSocket.DeleteAccount(mainForm.currentUser))
 				{
 					MessageBox.Show("삭제되었습니다");
-                    mainForm.ToLogOut();
-                    this.Close();
 				}
 				else
 				{

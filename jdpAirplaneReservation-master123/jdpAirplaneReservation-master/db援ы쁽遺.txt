@@ -1,0 +1,398 @@
+-------------------------------------------------------------------
+login
+-------------------------------------------------------------------
+public Account login(String insertID, String insertPW)
+        {
+            var id=""; var pw = ""; var name = ""; var email = ""; var airplane_id = ""; var seat_info = ""; bool admin = false;
+            int count = 0;
+            try
+            {
+        
+                String strConn = "Server=localhost;Database=airplane;Uid=root;Pwd=1234;";
+                MySqlConnection conn = new MySqlConnection(strConn);
+                conn.Open();
+                String sql = "select * from account where id='" + insertID + "' and pw='" + insertPW +"'";
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                
+                MySqlDataReader rd = cmd.ExecuteReader();//new MySqlCommand(sql, conn).ExecuteReader;
+       
+                    while (rd.Read())
+                    {
+                        count = count + 1;
+                    //ac = new Account(rd.GetString(1), rd.GetString(2), rd.GetString(3), rd.GetString(4), rd.GetBoolean(7), rd.GetString(5), rd.GetString(6));
+                    id = rd.GetString(0); pw = rd.GetString(1); name = rd.GetString(2); email = rd.GetString(3); admin = rd.GetBoolean(6); airplane_id = rd.GetString(4); seat_info = rd.GetString(5);
+                }
+                
+	            rd.Close();
+                conn.Close();
+     
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.StackTrace);
+             }
+            if (count == 1)
+            {
+                ac = new Account(id, pw, name, email, admin, airplane_id, seat_info);
+                return ac;
+            }
+            else {
+                return null;
+            }
+            
+        }
+-------------------------------------------------------------------
+join
+-------------------------------------------------------------------
+	MessageBox.Show("회원가입이 완료되었습니다");
+                Account temp = new Account(tbID.Text, tbPW.Text, tbUserName.Text, tbEmail.Text, false);
+                try
+                {
+                    String strConn = "server = localhost; user id = root; password = 1234; database = airplane";
+                    MySqlConnection conn = new MySqlConnection(strConn);
+                     String ab = null;
+                    String sql = "INSERT INTO account (id, pw, name, email,airplane_id,seat_info) " +
+                           "VALUES ('" + tb.Text + "','" + tbPW.Text + "','" + tbUserName.Text + "','" + tbEmail.Text + "','"+ab+ "','" + ab + "')";
+                    conn.Open();
+
+                    MySqlCommand cmd = new MySqlCommand(sql, conn);
+
+                    cmd.ExecuteNonQuery();
+	
+                    conn.Close();
+                 }
+                catch (Exception e1)
+                {
+                 Console.WriteLine(e1.StackTrace);
+                 }
+                
+                MainForm.server.userInfo.Add(tbID.Text, temp);//StreamWriter sw = File.AppendText(path)
+                //System.IO.StreamWriter file = new System.IO.StreamWriter(@"C:\Users\정현오\Documents\My Web Sites\a.txt");
+                
+            }
+
+-------------------------------------------------------------------
+airplane list
+-------------------------------------------------------------------
+public void addAirplaneList()
+		{
+            var a_id = ""; var rs = ""; var ct = ""; var d_a = ""; var a_a = ""; var dt = ""; var tm = ""; var co = ""; var s_i = "";
+            
+            try
+            {
+
+                String strConn = "Server=localhost;Database=airplane;Uid=root;Pwd=1234;";
+                MySqlConnection conn = new MySqlConnection(strConn);
+                conn.Open();
+                String sql = "select * from airplane";
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+
+                MySqlDataReader rd = cmd.ExecuteReader();//new MySqlCommand(sql, conn).ExecuteReader;
+
+                while (rd.Read())
+                {
+                    //airplane_id,region,country,d_airport,a_airport,date,time,cost,seat_info
+
+                    a_id = rd.GetString(0); rs = rd.GetString(1); ct = rd.GetString(2); d_a = rd.GetString(3); a_a = rd.GetString(4);
+                    dt = rd.GetString(5); tm = rd.GetString(6); co = rd.GetString(7); s_i = rd.GetString(8);
+                    newAp = new Airplane(a_id,ct, d_a, a_a, dt, tm, Convert.ToInt32(co), s_i);
+                    
+                    airplaneList.Add(a_id, newAp);
+                    //date , time
+                    addToAirplaneSearchDic(dt, tm, a_id, dic_airplaneSchedules);
+                    //country, a_airport
+                    addToAirplaneSearchDic(ct, a_a, a_id, dic_airplaneDest);
+                    //region, country
+                    addToDestionationDic(rs, ct);
+                }
+
+                rd.Close();
+                conn.Close();
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.StackTrace);
+            }
+        }
+-------------------------------------------------------------------
+airplane to DB
+-------------------------------------------------------------------
+ public void DBAirplaneUpdate(string id)
+        {
+            Airplane UpdateApt = dic_airplaneList[id];
+            string db_id, db_region, db_country, db_departApt, db_arriveApt, db_date, db_time, db_seat;
+            db_id = UpdateApt.ID;
+            db_country = UpdateApt.Country;
+            foreach (KeyValuePair<string, List<string>> targetValue in dic_Destinations)
+            {
+                bool valid = false;
+                for (int i = 0; i < targetValue.Value.Count; i++)
+                {
+                    if (targetValue.Value[i] == db_country)
+                    {
+                        db_region = targetValue.Key;
+                        valid = true;
+                        break;
+                    }
+                }
+                if (valid)
+                    break;
+            }
+            db_departApt = UpdateApt.DepartApt;
+            db_arriveApt = UpdateApt.DestApt;
+            db_date = UpdateApt.Date;
+            db_time = UpdateApt.Time;
+            db_seat = UpdateApt.getSeatArrayInStringFormat();
+
+            // db연결후 구현부
+            try
+            {
+
+                String strConn = "Server=localhost;Database=airplane;Uid=root;Pwd=1234;";
+                MySqlConnection conn = new MySqlConnection(strConn);
+                conn.Open();
+                String sql = "UPDATE airplane SET seat_info='" + db_seat + "' WHERE id='" + db_id + "'";
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                cmd.ExecuteNonQuery();
+                conn.Close();
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.StackTrace);
+            }
+        }
+-------------------------------------------------------------------
+account to DB
+-------------------------------------------------------------------
+
+        //  Account객체 서버에 업데이트
+        public void DBAccountUpdate(string id)
+        {
+            Account updateUser = dic_userInfo[id];
+            string db_id, db_pw, db_name, db_email, db_airplaneId, db_seatInfo;
+            db_id = updateUser.id;
+            db_pw = updateUser.pw;
+            db_name = updateUser.name;
+            db_email = updateUser.email;
+            db_airplaneId = "";
+            db_seatInfo = "";
+            Dictionary<string, List<string>> reserveInfo = updateUser.BookedSeats;
+            foreach (KeyValuePair<string, List<string>> target in reserveInfo)
+            {
+                db_airplaneId += target.Key + ",";
+                for (int i = 0; i < target.Value.Count; i++)
+                {
+                    db_seatInfo += target.Value[i] + ",";
+                }
+                db_seatInfo += "|";
+            }
+            db_seatInfo = db_seatInfo.Substring(0, db_seatInfo.Length - 1);
+            db_airplaneId = db_airplaneId.Substring(0, db_airplaneId.Length - 1);
+
+            //db연결후 구현부
+            try
+            {
+
+                String strConn = "Server=localhost;Database=airplane;Uid=root;Pwd=1234;";
+                MySqlConnection conn = new MySqlConnection(strConn);
+                conn.Open();
+                String sql = "UPDATE account SET seat_info='" + db_seatInfo + "' and airplane_id='" + db_airplaneId + "' WHERE id='" + db_id + "'";
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                cmd.ExecuteNonQuery();
+                conn.Close();
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.StackTrace);
+            }
+-------------------------------------------------------------------------
+manager_airplane_add
+-------------------------------------------------------------------------
+                
+                try
+                {
+                    String strConn = "server = localhost; user id = root; password = 1234; database = airplane";
+                    MySqlConnection conn = new MySqlConnection(strConn);
+                    
+                    String sql = "INSERT INTO airplane (airplane_id, resion, country, d_airprot, a_airport, date, time, cost, seat_info) " +
+                           // 텍스트박스 이름에따라 "VALUES ('" + tbID.Text + "','" + tbPW.Text + "','" + tbUserName.Text + "','" + tbEmail.Text + "','"+ab+ "','" + ab + "','0')";
+                    conn.Open();
+
+                    MySqlCommand cmd = new MySqlCommand(sql, conn);
+
+                    cmd.ExecuteNonQuery();
+	
+                    conn.Close();
+                 }
+                catch (Exception e1)
+                {
+                 Console.WriteLine(e1.StackTrace);
+                 }
+                
+            }
+
+-------------------------------------------------------------------------
+manager_airplane_delete
+-------------------------------------------------------------------------
+
+                try
+                {
+                    String strConn = "server = localhost; user id = root; password = 1234; database = airplane";
+                    MySqlConnection conn = new MySqlConnection(strConn);
+                    
+                    String sql = "DELETE FROM airplane WHERE airplane_id"
+                    
+                    conn.Open();
+
+                    MySqlCommand cmd = new MySqlCommand(sql, conn);
+
+                    cmd.ExecuteNonQuery();
+	
+                    conn.Close();
+                 }
+                catch (Exception e1)
+                {
+                 Console.WriteLine(e1.StackTrace);
+                 }
+                
+            }
+
+-------------------------------------------------------------------------
+manager_airplane_update
+-------------------------------------------------------------------------
+
+	    try
+            {
+
+                String strConn = "Server=localhost;Database=airplane;Uid=root;Pwd=1234;";
+                MySqlConnection conn = new MySqlConnection(strConn);
+                conn.Open();
+                String sql = "UPDATE airplane SET time='" + 시간 + "' and date='" + 날짜 + "' and cost='" + 비용 + "' and seat_info='" + 좌석 + "' WHERE airplane_id='" + 편명 + "'";
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                cmd.ExecuteNonQuery();
+                conn.Close();
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.StackTrace);
+            }
+
+-------------------------------------------------------------------------
+find_id
+-------------------------------------------------------------------------
+private void button1_Click(object sender, EventArgs e)
+        {
+            bool isexist = false;
+            var id = "";
+            if (textBox1.Text.Equals(""))
+            {
+                MessageBox.Show("이름을 입력해주세요");
+            }
+            else if (textBox2.Text.Equals(""))
+            {
+                MessageBox.Show("Email을 입력해주세요");
+            }
+            else
+            {
+
+                try
+                {
+
+                    String strConn = "Server=localhost;Database=airplane;Uid=root;Pwd=1234;";
+                    MySqlConnection conn = new MySqlConnection(strConn);
+                    conn.Open();
+                    String sql = "select * from account where name='" + textBox1.Text + "' and email='" + textBox2.Text + "'";
+                    MySqlCommand cmd = new MySqlCommand(sql, conn);
+
+                    MySqlDataReader rd = cmd.ExecuteReader();//new MySqlCommand(sql, conn).ExecuteReader;
+
+                    while (rd.Read())
+                    {
+
+                        id = rd.GetString(0);
+                        isexist = true;
+                    }
+
+                    rd.Close();
+                    conn.Close();
+
+                }
+                catch (Exception e1)
+                {
+                    Console.WriteLine(e1.StackTrace);
+                }
+                if (isexist == true)
+                {
+                    MessageBox.Show("id는 " + id + "입니다");
+                }
+                else
+                {
+                    MessageBox.Show("id가 존재하지 않습니다");
+                }
+            }
+        }
+
+-------------------------------------------------------------------------
+find_pw
+-------------------------------------------------------------------------
+private void button1_Click(object sender, EventArgs e)
+        {
+            bool isexist = false;
+            if (textBox1.Text.Equals(""))
+            {
+                MessageBox.Show("id를 입력해주세요");
+            }
+            else if (textBox2.Text.Equals(""))
+            {
+                MessageBox.Show("이름을 입력해주세요");
+            }
+            else if (textBox2.Text.Equals(""))
+            {
+                MessageBox.Show("Email을 입력해주세요");
+            }
+            else
+            {
+                var pw = "";
+
+                try
+                {
+
+                    String strConn = "Server=localhost;Database=airplane;Uid=root;Pwd=1234;";
+                    MySqlConnection conn = new MySqlConnection(strConn);
+                    conn.Open();
+                    String sql = "select * from account where id='" + textBox1.Text + "' and name='" + textBox2.Text + "' and email='" + textBox3.Text + "'";
+                    MySqlCommand cmd = new MySqlCommand(sql, conn);
+
+                    MySqlDataReader rd = cmd.ExecuteReader();//new MySqlCommand(sql, conn).ExecuteReader;
+
+                    while (rd.Read())
+                    {
+
+                        pw = rd.GetString(1);
+                        isexist = true;
+                    }
+                    rd.Close();
+                    conn.Close();
+
+                }
+                catch (Exception e1)
+                {
+                    Console.WriteLine(e1.StackTrace);
+                    
+                }
+
+                if(isexist==true)
+                {
+                   MessageBox.Show("PassWord는 " + pw + "입니다");
+                }
+                else
+                {
+                   MessageBox.Show("입력한 정보가 올바르지 않습니다.");
+                }
+
+            }
+        }
